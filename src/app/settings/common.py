@@ -65,6 +65,7 @@ LOGIN_REDIRECT_URL: str = "/admin/"
 
 MIDDLEWARE: List[str] = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -114,7 +115,7 @@ STATICFILES_FINDERS: List[str] = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE: str = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE: str = "whitenoise.django.GzipManifestStaticFilesStorage"
 
 
 # Logging
