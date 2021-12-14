@@ -57,6 +57,9 @@ DJANGO_APPS: List[str] = [
 THIRD_PARTY_APPS: List[str] = [
     "material",
     "material.admin",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "drf_yasg",
 ]
 YOUR_PROJECT_APPS: List[str] = [
     "demo.apps.DemoConfig",
