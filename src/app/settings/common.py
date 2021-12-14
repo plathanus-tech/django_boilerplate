@@ -115,7 +115,7 @@ STATICFILES_FINDERS: List[str] = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE: str = "whitenoise.django.GzipManifestStaticFilesStorage"
+STATICFILES_STORAGE: str = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Logging
