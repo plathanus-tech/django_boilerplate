@@ -21,9 +21,9 @@ if os.path.exists(env_file) and "pytest" not in sys.argv:
 
 # Security
 SECRET_KEY: str = env("DJANGO_SECRET_KEY")
-DEBUG: bool = env("DJANGO_DEBUG")
+DEBUG: bool = env("DJANGO_DEBUG", default=False)
 ALLOWED_HOSTS: List[str] = env.list("DJANGO_ALLOWED_HOSTS", default=[])
-CORS_ORIGIN_ALLOW_ALL: bool = env("DJANGO_CORS_ORIGIN_ALLOW_ALL")
+CORS_ORIGIN_ALLOW_ALL: bool = env("DJANGO_CORS_ORIGIN_ALLOW_ALL", default=False)
 if not CORS_ORIGIN_ALLOW_ALL:
     CORS_ORIGIN_WHITELIST: List[str] = env.list(
         "DJANGO_CORS_ORIGIN_WHITELIST", default=[]
@@ -93,7 +93,9 @@ WSGI_APPLICATION: str = "app.wsgi.application"
 
 
 # Database
-DATABASES: Dict[str, str] = {"default": env.db()}
+DATABASES: Dict[str, str] = {
+    "default": env.db(default="sqlite:////tmp/my-tmp-sqlite.db")
+}
 DEFAULT_AUTO_FIELD: str = "django.db.models.BigAutoField"
 
 
