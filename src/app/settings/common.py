@@ -2,7 +2,7 @@ import os
 import sys
 import environ
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 # Build paths from src directory
 BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
@@ -16,7 +16,7 @@ env: environ.Env = environ.Env(
 env_file: str = os.path.join(os.path.join(os.path.dirname(__file__), ".env"))
 if os.path.exists(env_file) and "pytest" not in sys.argv:
     print("Loading environment variables from file")
-    environ.Env.read_env(str(env_file))
+    env.read_env(str(env_file), overwrite=True)
 
 
 # Security
@@ -60,6 +60,7 @@ THIRD_PARTY_APPS: List[str] = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
+    "corsheaders",
 ]
 YOUR_PROJECT_APPS: List[str] = [
     "demo.apps.DemoConfig",
@@ -68,6 +69,7 @@ LOGIN_REDIRECT_URL: str = "/admin/"
 
 MIDDLEWARE: List[str] = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -118,7 +120,7 @@ STATICFILES_FINDERS: List[str] = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE: str = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE: str = "whitenoise.storage.CompressedStaticFilesStorage"
 
 
 # Logging
@@ -169,3 +171,13 @@ MATERIAL_ADMIN_SITE: Dict[str, Any] = {
         "site": "contact_mail",
     },
 }
+
+DEFAULT_QUEUE_NAME: Optional[str] = env("DEFAULT_QUEUE_NAME", default="default")
+CELERY_ACKS_LATE: Optional[bool] = env("CELERY_ACKS_LATE", default=False)
+CELERY_TRACK_STARTED: Optional[bool] = env("CELERY_TRACK_STARTED", default=False)
+CELERY_WORKER_PREFETCH_MULTIPLIER: Optional[int] = env("CELERY_WORKER_PREFETCH_MULTIPLIER", default=1)
+CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env("CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15)
+CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env("CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3)
+CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
+BROKER_URL: str = env("BROKER_URL")
+BROKER_TRANSPORT: str = env("BROKER_TRANSPORT")
