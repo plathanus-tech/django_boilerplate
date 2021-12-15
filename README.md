@@ -33,3 +33,5 @@ These are the python libs:
 [Pytest-Django - Pytest Extension](https://pytest-django.readthedocs.io/en/latest/)
 
 [Pytest-Mock - Mocking for Pytest](https://pypi.org/project/pytest-mock/)
+
+[Celery - Distributed Queue](https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html#django-first-steps)
