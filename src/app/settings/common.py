@@ -2,7 +2,7 @@ import os
 import sys
 import environ
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 # Build paths from src directory
 BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
@@ -171,3 +171,13 @@ MATERIAL_ADMIN_SITE: Dict[str, Any] = {
         "site": "contact_mail",
     },
 }
+
+DEFAULT_QUEUE_NAME: Optional[str] = env("DEFAULT_QUEUE_NAME", default="default")
+CELERY_ACKS_LATE: Optional[bool] = env("CELERY_ACKS_LATE", default=False)
+CELERY_TRACK_STARTED: Optional[bool] = env("CELERY_TRACK_STARTED", default=False)
+CELERY_WORKER_PREFETCH_MULTIPLIER: Optional[int] = env("CELERY_WORKER_PREFETCH_MULTIPLIER", default=1)
+CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env("CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15)
+CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env("CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3)
+CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
+BROKER_URL: str = env("BROKER_URL")
+BROKER_TRANSPORT: str = env("BROKER_TRANSPORT")
