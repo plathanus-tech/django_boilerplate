@@ -16,7 +16,7 @@ env: environ.Env = environ.Env(
 env_file: str = os.path.join(os.path.join(os.path.dirname(__file__), ".env"))
 if os.path.exists(env_file) and "pytest" not in sys.argv:
     print("Loading environment variables from file")
-    environ.Env.read_env(str(env_file))
+    env.read_env(str(env_file), overwrite=True)
 
 
 # Security
@@ -120,7 +120,7 @@ STATICFILES_FINDERS: List[str] = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE: str = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE: str = "whitenoise.storage.CompressedStaticFilesStorage"
 
 
 # Logging
