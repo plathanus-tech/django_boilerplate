@@ -60,6 +60,7 @@ THIRD_PARTY_APPS: List[str] = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
+    "corsheaders",
 ]
 YOUR_PROJECT_APPS: List[str] = [
     "demo.apps.DemoConfig",
@@ -68,6 +69,7 @@ LOGIN_REDIRECT_URL: str = "/admin/"
 
 MIDDLEWARE: List[str] = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

@@ -18,6 +18,8 @@
 
     [WhiteNoise - Static Files](https://whitenoise.evans.io/)
 
+[Django CORS Headers](https://pypi.org/project/django-cors-headers/)
+
 ### Python Libs
 
     These are the python libs:
