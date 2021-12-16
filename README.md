@@ -35,3 +35,5 @@ These are the python libs:
 [Pytest-Mock - Mocking for Pytest](https://pypi.org/project/pytest-mock/)
 
 [Celery - Distributed Queue](https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html#django-first-steps)
+
+[Coverage - Test Coverage Report](https://coverage.readthedocs.io/en/6.2/)
