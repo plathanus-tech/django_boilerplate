@@ -24,7 +24,7 @@ urlpatterns = [
     path("docs/", schema_view.with_ui(), name="swagger"),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG:  # pragma: no cover
     import debug_toolbar
 
     urlpatterns += [
