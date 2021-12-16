@@ -1,6 +1,6 @@
 virtual-env:
-	(. dev/bin/activate)
-	pip install -r requirements_dev.txt
+	(. dev/bin/activate);\
+		pip install -r requirements_dev.txt;
 
 
 runserver:
