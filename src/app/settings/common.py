@@ -44,6 +44,7 @@ AUTH_PASSWORD_VALIDATORS: List[Dict[str, str]] = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+AUTH_USER_MODEL = "users.User"
 
 
 # Application definition
@@ -63,7 +64,7 @@ THIRD_PARTY_APPS: List[str] = [
     "corsheaders",
 ]
 YOUR_PROJECT_APPS: List[str] = [
-    "demo.apps.DemoConfig",
+    "users",
 ]
 LOGIN_REDIRECT_URL: str = "/admin/"
 
@@ -175,9 +176,15 @@ MATERIAL_ADMIN_SITE: Dict[str, Any] = {
 DEFAULT_QUEUE_NAME: Optional[str] = env("DEFAULT_QUEUE_NAME", default="default")
 CELERY_ACKS_LATE: Optional[bool] = env("CELERY_ACKS_LATE", default=False)
 CELERY_TRACK_STARTED: Optional[bool] = env("CELERY_TRACK_STARTED", default=False)
-CELERY_WORKER_PREFETCH_MULTIPLIER: Optional[int] = env("CELERY_WORKER_PREFETCH_MULTIPLIER", default=1)
-CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env("CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15)
-CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env("CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3)
+CELERY_WORKER_PREFETCH_MULTIPLIER: Optional[int] = env(
+    "CELERY_WORKER_PREFETCH_MULTIPLIER", default=1
+)
+CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env(
+    "CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15
+)
+CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env(
+    "CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3
+)
 CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
 BROKER_URL: str = env("BROKER_URL")
 BROKER_TRANSPORT: str = env("BROKER_TRANSPORT")
