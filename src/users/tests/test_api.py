@@ -1,5 +1,6 @@
 from django.test.client import Client as TestClient
 from users.models import User
+from typing import Dict
 from . import helpers
 
 
@@ -11,7 +12,7 @@ def test_bad_payload_returns_400_bad_request(db, client: TestClient):
 def test_bad_credentials_returns_401_unauthorized(
     db,
     client: TestClient,
-    base_auth_payload: dict,
+    base_auth_payload: Dict[str, str],
 ):
     base_auth_payload["email"] = "Jimmy@gmail.com"
     base_auth_payload["password"] = "123456"
@@ -23,7 +24,7 @@ def test_bad_credentials_returns_401_unauthorized(
 def test_staff_user_can_login(
     db,
     client: TestClient,
-    base_auth_payload: dict,
+    base_auth_payload: Dict[str, str],
     user_email: str,
     user_password: str,
     staff_user: User,
@@ -38,7 +39,7 @@ def test_staff_user_can_login(
 def test_non_staff_user_can_login(
     db,
     client: TestClient,
-    base_auth_payload: dict,
+    base_auth_payload: Dict[str, str],
     user_email: str,
     user_password: str,
     non_staff_user: User,
@@ -53,7 +54,7 @@ def test_non_staff_user_can_login(
 def test_superuser_user_can_login(
     db,
     client: TestClient,
-    base_auth_payload: dict,
+    base_auth_payload: Dict[str, str],
     user_email: str,
     user_password: str,
     superuser_user: User,
