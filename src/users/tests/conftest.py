@@ -1,4 +1,5 @@
 import pytest
+from typing import Dict, Generator
 from users.models import User
 
 
@@ -29,7 +30,7 @@ def staff_user(
     user_password: str,
     user_first_name: str,
     user_last_name: str,
-) -> User:
+) -> Generator[User, None, None]:
     user = User.objects.create_staffuser(
         email=user_email,
         password=user_password,
@@ -42,7 +43,7 @@ def staff_user(
 
 
 @pytest.fixture
-def user(staff_user: User) -> User:
+def user(staff_user: User) -> Generator[User, None, None]:
     """Shortcut for staff_user"""
     yield staff_user
 
@@ -54,7 +55,7 @@ def non_staff_user(
     user_password: str,
     user_first_name: str,
     user_last_name: str,
-) -> User:
+) -> Generator[User, None, None]:
     user = User.objects.create_user(
         email=user_email,
         password=user_password,
@@ -73,7 +74,7 @@ def superuser_user(
     user_password: str,
     user_first_name: str,
     user_last_name: str,
-) -> User:
+) -> Generator[User, None, None]:
     user = User.objects.create_superuser(
         email=user_email,
         password=user_password,
@@ -87,8 +88,8 @@ def superuser_user(
 
 
 @pytest.fixture
-def base_auth_payload() -> dict:
+def base_auth_payload() -> Dict[str, str]:
     return {
-        "email": None,
-        "password": None,
+        "email": "",
+        "password": "",
     }
