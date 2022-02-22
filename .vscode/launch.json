@@ -8,23 +8,16 @@
       "name": "Pytest",
       "type": "python",
       "request": "launch",
-      "module": "pytest"
+      "module": "pdm",
+      "args": ["run", "pytest"]
     },
     {
       "name": "Python: Django",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/src/manage.py",
-      "args": ["runserver", "8080"],
+      "module": "pdm",
+      "args": ["run", "python", "manage.py", "runserver"],
       "django": true,
-      "envFile": "${workspaceFolder}/src/app/settings/.env"
-    },
-    {
-      "name": "Django Migrate",
-      "type": "python",
-      "request": "launch",
-      "program": "${workspaceFolder}/src/manage.py",
-      "args": ["migrate"],
       "envFile": "${workspaceFolder}/src/app/settings/.env"
     }
   ]

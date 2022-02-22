@@ -1,28 +1,20 @@
-virtual-env:
-	(. dev/bin/activate);\
-		pip install -r requirements_dev.txt;
-
-
 runserver:
-	make virtual-env
 	cd src/; \
-		python manage.py collectstatic --noinput; \
-		python manage.py runserver 8080;
+		pdm run python manage.py collectstatic --noinput; \
+		pdm run python manage.py runserver 8080;
 
 
 checks:
-	make -s virtual-env
 	- rm -r .tox
-	tox src/
+	pdm run tox src/
 	make print-finished
 
 
 coverage:
-	make -s virtual-env
 	- rm .coverage
 	- rm -r htmlcov
-	coverage run --source=src/ --rcfile=.coveragerc -m pytest src/
-	coverage html
+	pdm run coverage run --source=src/ --rcfile=.coveragerc -m pytest src/
+	pdm run coverage html
 	google-chrome htmlcov/index.html
 	make print-finished
 
