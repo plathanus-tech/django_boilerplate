@@ -10,15 +10,7 @@ runserver:
 		python manage.py runserver 8080;
 
 
-check:
-	make -s virtual-env
-	mypy src/
-	flake8 src/
-	# Called from root to auto read config file "setup.cfg"
-	make -s print-finished
-
-
-tox:
+checks:
 	make -s virtual-env
 	- rm -r .tox
 	tox src/
