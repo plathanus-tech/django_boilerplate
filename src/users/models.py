@@ -61,6 +61,5 @@ class ProxyUser(User):
     pass
 
     class Meta:
-        app_label = "auth"
         proxy = True
         verbose_name = "user"

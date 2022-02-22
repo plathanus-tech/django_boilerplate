@@ -13,7 +13,9 @@ DAY_SECONDS = MINUTE_SECONDS * HOUR_MINUTES * DAY_HOURS
 
 CELERY_CONFIG = {
     "CELERY_TASK_SERIALIZER": "json",
-    "CELERY_ACCEPT_CONTENT": ["json", ],
+    "CELERY_ACCEPT_CONTENT": [
+        "json",
+    ],
     "CELERY_RESULT_SERIALIZER": "json",
     "CELERY_RESULT_BACKEND": None,
     "CELERY_ENABLE_UTC": True,
@@ -33,9 +35,7 @@ CELERY_CONFIG = {
             },
         },
     },
-    "CELERY_ROUTES": {
-        "module.file.*": {"queue": settings.DEFAULT_QUEUE_NAME}
-    },
+    "CELERY_ROUTES": {"module.file.*": {"queue": settings.DEFAULT_QUEUE_NAME}},
     "BROKER_URL": settings.BROKER_URL,
-    "BROKER_TRANSPORT": settings.BROKER_TRANSPORT
+    "BROKER_TRANSPORT": settings.BROKER_TRANSPORT,
 }
