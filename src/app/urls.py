@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg import openapi
@@ -19,7 +20,7 @@ schema_view = get_schema_view(
 )
 
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     path("admin/", admin.site.urls),
     path("", include("rest_framework.urls", namespace="rest_framework")),
     path("", include("users.urls")),
@@ -30,7 +31,7 @@ urlpatterns = [
     path(
         "api/token/refresh/", DecoratedTokenRefreshView.as_view(), name="token_refresh"
     ),
-]
+)
 
 if settings.DEBUG:  # pragma: no cover
     import debug_toolbar

@@ -1,0 +1,14 @@
+{% extends "admin/change_form.html" %}
+
+{% block object-tools %}
+
+{% comment %}
+<li>
+    {% url opts|admin_urlname:'history' original.pk|admin_urlquote as   history_url %}
+    <a href="{% add_preserved_filters history_url %}" class="historylink">
+{% translate "History" %}</a>
+</li>
+
+{% if has_absolute_url %}<li><a href="{{ absolute_url }}" class="viewsitelink">{% translate "View on site" %}</a></li>{% endif %} -->
+{% endcomment %}
+{% endblock %}

@@ -39,3 +39,9 @@ CELERY_CONFIG = {
     "BROKER_URL": settings.BROKER_URL,
     "BROKER_TRANSPORT": settings.BROKER_TRANSPORT,
 }
+
+app.autodiscover_tasks(
+    packages=[
+        "module.file",
+    ]
+)
