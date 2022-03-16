@@ -1,0 +1,31 @@
+FROM python:3.9
+
+# set work directory
+WORKDIR /usr/src/app
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV HOME=/project
+
+RUN apt update -y
+RUN apt install -y netcat
+
+RUN pip install -U pip setuptools wheel
+RUN pip install pdm
+
+COPY pyproject.toml pdm.lock manage.py entrypoint.prod.sh ${HOME}/
+COPY src/ ${HOME}
+
+WORKDIR ${HOME}
+RUN sed -i 's/\r$//g'  entrypoint.prod.sh
+RUN chmod +x  entrypoint.prod.sh
+
+RUN pdm install --prod --no-lock --no-editable
+RUN apt install -y gunicorn3
+
+ENV PYTHONPATH=__pypackages__/3.9/lib
+
+RUN mkdir static
+RUN mkdir media
+ENTRYPOINT ["/project/entrypoint.prod.sh"]

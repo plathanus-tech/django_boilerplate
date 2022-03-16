@@ -1,0 +1,17 @@
+**/.env
+.git
+.mypy_cache
+.github
+.coverage
+
+.tox
+tox.ini
+.env.example
+.env.dev
+.env.prod
+
+.gitignore
+.pdm.toml
+**.log
+
+static

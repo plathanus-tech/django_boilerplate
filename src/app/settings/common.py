@@ -9,17 +9,13 @@ from django.utils.translation import gettext_lazy as _
 
 # Build paths from src directory
 BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
+ROOT_DIR: Path = BASE_DIR.parent
 
 env: environ.Env = environ.Env(
     # Key=(type cast, default)
     DJANGO_DEBUG=(bool, False),
     CORS_ORIGIN_ALLOW_ALL=(bool, False),
 )
-
-env_file: str = os.path.join(os.path.join(os.path.dirname(__file__), ".env"))
-if os.path.exists(env_file) and "pytest" not in sys.argv:
-    print("Loading environment variables from file")
-    env.read_env(str(env_file), overwrite=True)
 
 
 # Security
@@ -107,7 +103,14 @@ WSGI_APPLICATION: str = "app.wsgi.application"
 
 # Database
 DATABASES: Dict[str, str] = {
-    "default": env.db(default="sqlite:////tmp/my-tmp-sqlite.db")
+    "default": {
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
+        "NAME": os.environ.get("SQL_DATABASE", "app"),
+        "USER": os.environ.get("SQL_USER", "postgres"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "postgres"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
+    }
 }
 DEFAULT_PK_FIELD: str = env.str("DEFAULT_PK_FIELD", "django.db.models.UUIDField")
 # This is not the Django DEFAULT_AUTO_FIELD, its used on app.base.models
@@ -139,7 +142,7 @@ USE_TZ: bool = True
 
 # Static Files
 STATIC_URL: str = "/static/"
-STATIC_ROOT: str = os.path.join(BASE_DIR, "static")
+STATIC_ROOT: str = os.path.join(ROOT_DIR, "static")
 STATICFILES_DIRS: List[str] = []
 STATICFILES_FINDERS: List[str] = [
     "django.contrib.staticfiles.finders.FileSystemFinder",

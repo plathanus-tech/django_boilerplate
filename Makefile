@@ -28,3 +28,10 @@ sgr0 := $(shell tput sgr0)
 print-finished:
 	@printf '$(blue) Done -$(green)$(bold) :)$(sgr0)'
 	 
+
+build:
+	- sudo rm -r docker
+	docker-compose build
+
+up:
+	docker-compose up

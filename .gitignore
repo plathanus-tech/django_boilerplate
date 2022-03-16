@@ -47,7 +47,7 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-src/static/
+static/
 
 # Scrapy stuff:
 .scrapy
@@ -62,7 +62,7 @@ celerybeat-schedule
 celerybeat.pid
 
 # Environments
-.env
+.env.prod
 venv/
 dev/
 .pdm.toml
@@ -72,3 +72,5 @@ __pypackages__
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+docker/
