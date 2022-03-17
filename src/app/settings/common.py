@@ -56,7 +56,8 @@ THIRD_PARTY_APPS: List[str] = [
     "material.admin",
     "rest_framework",
     "rest_framework.authtoken",
-    "drf_yasg",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
     "corsheaders",
 ]
 YOUR_PROJECT_APPS: List[str] = [
@@ -214,3 +215,13 @@ CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env(
 CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
 BROKER_URL: str = env("BROKER_URL")
 BROKER_TRANSPORT: str = env("BROKER_TRANSPORT")
+
+REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"}
+SPECTACULAR_SETTINGS = {
+    "TITLE": _("BoilerPlate"),
+    "DESCRIPTION": _("The BoilerPlate's API"),
+    "VERSION": "1.0.0",
+    "SWAGGER_UI_DIST": "SIDECAR",
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
+}

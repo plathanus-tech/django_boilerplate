@@ -10,7 +10,7 @@ These are the Django libs built-in
 
 [DRF - Django Rest Framework](https://www.django-rest-framework.org/)
 
-[DRF YASG - Django Rest Framework Yet Another Swagger Generator](https://drf-yasg.readthedocs.io/en/stable/index.html)
+[DRF Spectacular - OpenAPI 3.0 Generator](https://drf-spectacular.readthedocs.io/en/latest/index.html)
 
 [Django Material Admin](https://pypi.org/project/django-material-admin/)
 
