@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from .forms import MyUserCreationForm, MyUserChangeForm
 from .models import ProxyUser
 from rest_framework.authtoken.models import TokenProxy
-from rest_framework.authtoken.admin import TokenAdmin
 
 
 class UserAdmin(DjangoUserAdmin):
@@ -49,10 +48,5 @@ class UserAdmin(DjangoUserAdmin):
         return obj.full_name
 
 
-class MyTokenAdmin(TokenAdmin):
-    icon_name = "https"
-
-
 admin.site.register(ProxyUser, UserAdmin)
 admin.site.unregister(TokenProxy)
-admin.site.register(TokenProxy, MyTokenAdmin)

@@ -45,3 +45,7 @@ class DecoratedTokenRefreshView(TokenRefreshView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+
+
+auth_token_view = DecoratedTokenObtainPairView.as_view()
+refresh_view = DecoratedTokenRefreshView.as_view()
