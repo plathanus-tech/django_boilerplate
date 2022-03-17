@@ -1,0 +1,15 @@
+{% comment %}
+  Here we override the material admin template so it dont show the profile image 
+  in the login page
+{% endcomment %}
+{% load static %}
+
+{% if current_theme %}
+  <style>
+    {% if logout_bg %}
+      .side-bar {background-image: url({{ logout_bg }})
+    {% else %}
+      .side-bar {background-image: url('{% static 'material/admin/images/login-bg-'|add:current_theme|add:'.jpg' %}'); }
+    {% endif %}
+  </style>
+{% endif %}

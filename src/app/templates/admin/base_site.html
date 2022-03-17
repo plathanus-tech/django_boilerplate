@@ -9,6 +9,20 @@
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/custom_admin.css' %}"/>
 {% endblock %}
+
+{% block branding %}
+    <nav class="nav-extended">
+        <div class="nav-wrapper">
+            <h1 id="site-name">     
+                <a href="{% url 'admin:index' %}">
+                    <strong>
+                        {{ site_header }}
+                    </strong>
+                </a>
+            </h1>
+        </div>
+    </nav>
+{% endblock %}
  
 {% block userlinks %}
     <a href="{{ request|switch_i18n:'en' }}">
