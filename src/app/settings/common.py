@@ -11,18 +11,16 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
 ROOT_DIR: Path = BASE_DIR.parent
 
-env: environ.Env = environ.Env(
-    # Key=(type cast, default)
-    DJANGO_DEBUG=(bool, False),
-    CORS_ORIGIN_ALLOW_ALL=(bool, False),
-)
+env: environ.Env = environ.Env()
 
 
 # Security
 SECRET_KEY: str = env("DJANGO_SECRET_KEY")
-DEBUG: bool = env("DJANGO_DEBUG", default=False)
+DEBUG: bool = env("DJANGO_DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS: List[str] = env.list("DJANGO_ALLOWED_HOSTS", default=[])
-CORS_ORIGIN_ALLOW_ALL: bool = env("DJANGO_CORS_ORIGIN_ALLOW_ALL", default=False)
+CORS_ORIGIN_ALLOW_ALL: bool = env(
+    "DJANGO_CORS_ORIGIN_ALLOW_ALL", cast=bool, default=False
+)
 if not CORS_ORIGIN_ALLOW_ALL:
     CORS_ORIGIN_WHITELIST: List[str] = env.list(
         "DJANGO_CORS_ORIGIN_WHITELIST", default=[]
@@ -104,15 +102,17 @@ WSGI_APPLICATION: str = "app.wsgi.application"
 # Database
 DATABASES: Dict[str, str] = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
-        "NAME": os.environ.get("SQL_DATABASE", "app"),
-        "USER": os.environ.get("SQL_USER", "postgres"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "postgres"),
-        "HOST": os.environ.get("SQL_HOST", "localhost"),
-        "PORT": os.environ.get("SQL_PORT", "5432"),
+        "ENGINE": env("SQL_ENGINE", default="django.db.backends.postgresql"),
+        "NAME": env("SQL_DATABASE", default="app"),
+        "USER": env("SQL_USER", default="postgres"),
+        "PASSWORD": env("SQL_PASSWORD", default="postgres"),
+        "HOST": env("SQL_HOST", default="localhost"),
+        "PORT": env("SQL_PORT", default="5432"),
     }
 }
-DEFAULT_PK_FIELD: str = env.str("DEFAULT_PK_FIELD", "django.db.models.UUIDField")
+DEFAULT_PK_FIELD: str = env.str(
+    "DEFAULT_PK_FIELD", default="django.db.models.UUIDField"
+)
 # This is not the Django DEFAULT_AUTO_FIELD, its used on app.base.models
 
 
