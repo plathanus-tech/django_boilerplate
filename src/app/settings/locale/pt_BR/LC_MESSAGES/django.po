@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-09 12:22+0000\n"
+"POT-Creation-Date: 2022-03-17 12:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,18 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app/settings/common.py:119
+#: app/settings/common.py:121
 msgid "Brazilian Portuguese"
-msgstr ""
+msgstr "Português Brasileiro"
 
-#: app/settings/common.py:120
+#: app/settings/common.py:122
 msgid "English"
-msgstr ""
+msgstr "Inglês"
 
-#: app/settings/common.py:177
+#: app/settings/common.py:179
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
-#: app/settings/common.py:178
+#: app/settings/common.py:180
 msgid "BoilerPlate"
-msgstr ""
+msgstr "BoilerPlate"
