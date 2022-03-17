@@ -130,7 +130,7 @@ USE_I18N: bool = True
 # Dates
 USE_L10N: bool = True
 FORMAT_MODULE_PATH: List[str] = [
-    "app.settings.locale.formats",
+    "app.settings.formats",
 ]
 
 
