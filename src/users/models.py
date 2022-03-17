@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
 from django.utils.translation import ugettext_lazy as _
 from app.base.models import BaseModel
 
@@ -60,11 +60,16 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     def get_short_name(self):
         return self.full_name
 
+    class Meta:
+        verbose_name = _("user")
+        verbose_name_plural = _("users")
 
-class ProxyUser(User):
-    pass
+
+class DjangoGroupProxy(Group):
+    """Defining this here allow to group the django model `Group`
+    together in this users app."""
 
     class Meta:
         proxy = True
-        verbose_name = _("user")
-        verbose_name_plural = _("users")
+        verbose_name = _("User Group")
+        verbose_name_plural = _("User Groups")
