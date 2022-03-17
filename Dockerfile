@@ -18,7 +18,7 @@ RUN sed -i 's/\r$//g' /project/entrypoint.sh
 RUN chmod +x /project/entrypoint.sh
 
 # install dependencies and project
-RUN pdm install --prod --no-lock --no-editable
+RUN pdm install --no-lock --no-editable
 
 # retrieve packages from build stage
 ENV PYTHONPATH=/project/__pypackages__/3.8/lib
