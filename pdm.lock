@@ -152,13 +152,14 @@ summary = "Distribution utilities"
 
 [[package]]
 name = "django"
-version = "3.2.10"
-requires_python = ">=3.6"
-summary = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
+version = "4.0"
+requires_python = ">=3.8"
+summary = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 dependencies = [
-    "asgiref<4,>=3.3.2",
-    "pytz",
+    "asgiref<4,>=3.4.1",
+    "backports.zoneinfo; python_version < \"3.9\"",
     "sqlparse>=0.2.2",
+    "tzdata; sys_platform == \"win32\"",
 ]
 
 [[package]]
@@ -187,9 +188,13 @@ requires_python = ">=3.4,<4"
 summary = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
 
 [[package]]
-name = "django-material-admin"
-version = "1.8.5"
-summary = "Material Design For Django Administration"
+name = "django-jazzmin"
+version = "2.5.0"
+requires_python = ">=3.6.2"
+summary = "Drop-in theme for django admin, that utilises AdminLTE 3 & Bootstrap 4 to make yo' admin look jazzy"
+dependencies = [
+    "django>=2.2",
+]
 
 [[package]]
 name = "djangorestframework"
@@ -526,6 +531,12 @@ requires_python = ">=3.6"
 summary = "Backported and Experimental Type Hints for Python 3.6+"
 
 [[package]]
+name = "tzdata"
+version = "2022.1"
+requires_python = ">=2"
+summary = "Provider of IANA time zone data"
+
+[[package]]
 name = "uritemplate"
 version = "4.1.1"
 requires_python = ">=3.6"
@@ -574,7 +585,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "3.1"
-content_hash = "sha256:26751300d74fb9fb53654b5c6da116765a1d9def06aefba948eb8a36cbe1d86e"
+content_hash = "sha256:5cbb1d7ba9fb1506c101bbb432331f6c64ebc7160faf48cf7b14e6c3e77c8f95"
 
 [metadata.files]
 "amqp 5.0.7" = [
@@ -727,9 +738,9 @@ content_hash = "sha256:26751300d74fb9fb53654b5c6da116765a1d9def06aefba948eb8a36c
     {file = "distlib-0.3.4-py2.py3-none-any.whl", hash = "sha256:6564fe0a8f51e734df6333d08b8b94d4ea8ee6b99b5ed50613f731fd4089f34b"},
     {file = "distlib-0.3.4.zip", hash = "sha256:e4b58818180336dc9c529bfb9a0b58728ffc09ad92027a3f30b7cd91e3458579"},
 ]
-"django 3.2.10" = [
-    {file = "Django-3.2.10-py3-none-any.whl", hash = "sha256:df6f5eb3c797b27c096d61494507b7634526d4ce8d7c8ca1e57a4fb19c0738a3"},
-    {file = "Django-3.2.10.tar.gz", hash = "sha256:074e8818b4b40acdc2369e67dcd6555d558329785408dcd25340ee98f1f1d5c4"},
+"django 4.0" = [
+    {file = "Django-4.0-py3-none-any.whl", hash = "sha256:59304646ebc6a77b9b6a59adc67d51ecb03c5e3d63ed1f14c909cdfda84e8010"},
+    {file = "Django-4.0.tar.gz", hash = "sha256:d5a8a14da819a8b9237ee4d8c78dfe056ff6e8a7511987be627192225113ee75"},
 ]
 "django-cors-headers 3.10.1" = [
     {file = "django_cors_headers-3.10.1-py3-none-any.whl", hash = "sha256:1390b5846e9835b0911e2574409788af87cd9154246aafbdc8ec546c93698fe6"},
@@ -743,9 +754,9 @@ content_hash = "sha256:26751300d74fb9fb53654b5c6da116765a1d9def06aefba948eb8a36c
     {file = "django_environ-0.8.1-py2.py3-none-any.whl", hash = "sha256:42593bee519a527602a467c7b682aee1a051c2597f98c45f4f4f44169ecdb6e5"},
     {file = "django-environ-0.8.1.tar.gz", hash = "sha256:6f0bc902b43891656b20486938cba0861dc62892784a44919170719572a534cb"},
 ]
-"django-material-admin 1.8.5" = [
-    {file = "django_material_admin-1.8.5-py3-none-any.whl", hash = "sha256:08cd52c3a88270a2e26b28678bb5ed5e3c912f87d24fab8745410e39e5efcff8"},
-    {file = "django-material-admin-1.8.5.tar.gz", hash = "sha256:4f967078ced36008a7bc05946c5cabe9ccb85d02687cced9bac284b4fa977fc3"},
+"django-jazzmin 2.5.0" = [
+    {file = "django_jazzmin-2.5.0-py3-none-any.whl", hash = "sha256:6b9f9951eee41f60793a0d2f6f3d57213bd5605ddda7a106acb2bcdec4ef124e"},
+    {file = "django-jazzmin-2.5.0.tar.gz", hash = "sha256:2ee5ea548e9d5d6cf6495025d006b063ecae84702304eb90c9c5ef37ba99078a"},
 ]
 "djangorestframework 3.13.0" = [
     {file = "djangorestframework-3.13.0-py3-none-any.whl", hash = "sha256:48e64f08244fa0df9e2b8fbd405edec263d8e1251112a06d0073b546b7c86b9c"},
@@ -1102,6 +1113,10 @@ content_hash = "sha256:26751300d74fb9fb53654b5c6da116765a1d9def06aefba948eb8a36c
 "typing-extensions 4.1.1" = [
     {file = "typing_extensions-4.1.1-py3-none-any.whl", hash = "sha256:21c85e0fe4b9a155d0799430b0ad741cdce7e359660ccbd8b530613e8df88ce2"},
     {file = "typing_extensions-4.1.1.tar.gz", hash = "sha256:1a9462dcc3347a79b1f1c0271fbe79e844580bb598bafa1ed208b94da3cdcd42"},
+]
+"tzdata 2022.1" = [
+    {file = "tzdata-2022.1-py2.py3-none-any.whl", hash = "sha256:238e70234214138ed7b4e8a0fab0e5e13872edab3be586ab8198c407620e2ab9"},
+    {file = "tzdata-2022.1.tar.gz", hash = "sha256:8b536a8ec63dc0751342b3984193a3118f8fca2afe25752bb9b7fffd398552d3"},
 ]
 "uritemplate 4.1.1" = [
     {file = "uritemplate-4.1.1-py2.py3-none-any.whl", hash = "sha256:830c08b8d99bdd312ea4ead05994a38e8936266f84b9a7878232db50b044e02e"},

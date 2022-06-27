@@ -45,6 +45,8 @@ AUTH_USER_MODEL = "users.User"
 
 # Application definition
 DJANGO_APPS: List[str] = [
+    "jazzmin",
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -52,8 +54,6 @@ DJANGO_APPS: List[str] = [
     "django.contrib.staticfiles",
 ]
 THIRD_PARTY_APPS: List[str] = [
-    "material",
-    "material.admin",
     "rest_framework",
     "rest_framework.authtoken",
     "drf_spectacular",
@@ -62,7 +62,6 @@ THIRD_PARTY_APPS: List[str] = [
 ]
 YOUR_PROJECT_APPS: List[str] = [
     "users.apps.UsersConfig",
-    "app.i18n_switcher.apps.I18nSwitcherConfig",
 ]
 LOGIN_REDIRECT_URL: str = "/admin/"
 
@@ -91,7 +90,6 @@ TEMPLATES: List[Dict[str, Any]] = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
-            "libraries": {"locale_switcher": "app.i18n_switcher.switcher"},
         },
     },
 ]
@@ -175,30 +173,25 @@ LOGGING: Dict[str, Any] = {
 }
 
 
-# Material Admin Site
-MATERIAL_ADMIN_SITE: Dict[str, Any] = {
-    "HEADER": _("Admin"),
-    "TITLE": _("BoilerPlate"),
-    "FAVICON": "favicon.png",
-    "MAIN_BG_COLOR": "#007aff",  # Admin site main color, css color should be specified
-    "MAIN_HOVER_COLOR": "#43d1ab",  # Admin site main hover color, css color should be specified
-    "PROFILE_PICTURE": "",  # Admin site profile picture (path to static should be specified)
-    "PROFILE_BG": "",  # Admin site profile background (path to static should be specified)
-    "LOGIN_LOGO": "",  # Admin site logo on login page (path to static should be specified)
-    "LOGOUT_BG": "",  # Admin site background on login/logout pages (path to static should be specified)
-    "SHOW_THEMES": False,
-    "TRAY_REVERSE": True,
-    "NAVBAR_REVERSE": False,
-    "SHOW_COUNTS": True,
-    "APP_ICONS": {
-        # Set icons for applications(lowercase), including 3rd party apps:
-        # {'application_name': 'material_icon_name', ...}
-        "sites": "send",
+JAZZMIN_SETTINGS = {
+    "site_logo_classes": "img-circle",
+    "site_icon": None,
+    "welcome_sign": _("Welcome to the admin!"),
+    "user_avatar": None,
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
+    "icons": {
+        "users": "fas fa-users-cog",
+        "users.user": "fas fa-user",
+        "users.DjangoGroupProxy": "fas fa-users",
     },
-    "MODEL_ICONS": {
-        "site": "contact_mail",
-    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    "show_ui_builder": False,
+    "language_chooser": True,
 }
+
 
 DEFAULT_QUEUE_NAME: Optional[str] = env("DEFAULT_QUEUE_NAME", default="default")
 CELERY_ACKS_LATE: Optional[bool] = env("CELERY_ACKS_LATE", default=False)

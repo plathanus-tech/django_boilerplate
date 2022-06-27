@@ -69,10 +69,9 @@ dependencies = [
     "coreschema==0.0.4",
     "coreapi==2.3.3",
     "coreschema==0.0.4",
-    "django==3.2.10",
+    "Django==4.0",
     "django-cors-headers==3.10.1",
     "django-environ>=0.8.1",
-    "django-material-admin==1.8.5",
     "djangorestframework==3.13.0",
     "djangorestframework-simplejwt==5.0.0",
     "idna==3.3",
@@ -97,6 +96,7 @@ dependencies = [
     "tox>=3.24.5",
     "gunicorn>=20.1.0",
     "drf-spectacular[sidecar]>=0.21.2",
+    "django-jazzmin>=2.5.0",
 ]
 requires-python = ">=3.8"
 license = {text = "MIT"}
