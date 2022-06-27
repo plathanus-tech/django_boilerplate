@@ -111,10 +111,6 @@ DATABASES: Dict[str, str] = {
         "PORT": env("SQL_PORT", default="5432"),
     }
 }
-DEFAULT_PK_FIELD: str = env.str(
-    "DEFAULT_PK_FIELD", default="django.db.models.UUIDField"
-)
-# This is not the Django DEFAULT_AUTO_FIELD, its used on app.base.models
 
 
 # Internationalization
