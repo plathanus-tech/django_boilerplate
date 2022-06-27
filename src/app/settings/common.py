@@ -1,4 +1,7 @@
+# type: ignore
+
 import os
+from datetime import timedelta
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 
@@ -180,7 +183,7 @@ JAZZMIN_SETTINGS = {
     "user_avatar": None,
     "show_sidebar": True,
     "navigation_expanded": True,
-    # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
+    # https://fontawesome.com/v5/search?m=free
     "icons": {
         "users": "fas fa-users-cog",
         "users.user": "fas fa-user",
@@ -209,7 +212,18 @@ CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
 BROKER_URL: str = env("BROKER_URL")
 BROKER_TRANSPORT: str = env("BROKER_TRANSPORT")
 
-REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"}
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ),
+    "EXCEPTION_HANDLER": "app.drf_exc_handler.make_error_message_on_validation_error",
+}
 SPECTACULAR_SETTINGS = {
     "TITLE": _("BoilerPlate"),
     "DESCRIPTION": _("The BoilerPlate's API"),
@@ -217,4 +231,14 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "SIDECAR",
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
+}
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(
+        minutes=env("ACCESS_TOKEN_LIFETIME_MINUTES", cast=int)
+    ),
+    "REFRESH_TOKEN_LIFETIME": timedelta(
+        days=env("REFRESH_TOKEN_LIFETIME_DAYS", cast=int)
+    ),
+    "UPDATE_LAST_LOGIN": True,
+    "ROTATE_REFRESH_TOKENS": True,
 }

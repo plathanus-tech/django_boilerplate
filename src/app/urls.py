@@ -20,6 +20,7 @@ urlpatterns = i18n_patterns(
     path("api/redoc/", redoc_view, name="redoc"),
     path("api/auth/", auth_token_view, name="token_obtain_pair"),
     path("api/auth/refresh/", refresh_view, name="token_refresh"),
+    prefix_default_language=True,
 )
 
 if settings.DEBUG:  # pragma: no cover
