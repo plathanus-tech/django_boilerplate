@@ -24,6 +24,15 @@ _.env_file = ".env.dev"
 collectstatic.cmd = "python manage.py collectstatic --noinput"
 makemigrations.cmd = "python manage.py makemigrations"
 migrate.cmd = "python manage.py migrate"
+server.cmd = "python manage.py runserver"
+createsuperuser.cmd = "python manage.py createsuperuser"
+tests.shell = """\
+coverage run --source=src/ --rcfile=.coveragerc -m pytest tests/ \
+&& \
+coverage html \
+&& \
+google-chrome htmlcov/index.html
+"""
 
 
 [tool.pdm.dev-dependencies]
@@ -32,7 +41,7 @@ dev = [
     "pytest==7.0.1",
     "pytest-django>=4.5.2",
     "mypy>=0.931",
-    "django-debug-toolbar>=3.2.4",
+    "django-debug-toolbar>=3.5",
     "coverage==6.3.2",
 ]
 [build-system]
@@ -42,20 +51,31 @@ build-backend = "pdm.pep517.api"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE='app.settings.test'
 testpaths = [
-    "src/",
+    "tests/",
 ]
-addopts = "--rootdir ./src --disable-warnings"
+addopts = "--rootdir ./tests --disable-warnings"
 filterwarnings = 'ignore:function ham\(\) RemovedInDjango40Warning'  # Not Include Django 4.0 Deprecation Warnings
 
 [project]
-name = ""
-version = ""
+name = "boilerplate"
+version = "0.1.0"
 description = ""
 authors = [
     {name = "Leandro de Souza", email = "leandrodesouzadev@gmail.com"},
 ]
 license-expression = "MIT"
-dependencies = []
+dependencies = [
+    "Django==4.0",
+    "djangorestframework>=3.13.1",
+    "celery>=5.2.7",
+    "whitenoise>=6.2.0",
+    "django-environ>=0.9.0",
+    "django-jazzmin>=2.5.0",
+    "drf-spectacular[sidecar]>=0.22.1",
+    "django-cors-headers>=3.13.0",
+    "psycopg2-binary>=2.9.3",
+    "djangorestframework-simplejwt>=5.2.0",
+]
 requires-python = ">=3.9"
 
 [project.urls]

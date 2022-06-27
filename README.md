@@ -12,8 +12,6 @@ These are the Django libs built-in
 
 [DRF Spectacular - OpenAPI 3.0 Generator](https://drf-spectacular.readthedocs.io/en/latest/index.html)
 
-[Django Material Admin](https://pypi.org/project/django-material-admin/)
-
 [Django Environ - Environment Variables utility](https://django-environ.readthedocs.io/en/latest/)
 
 [WhiteNoise - Static Files](https://whitenoise.evans.io/)
