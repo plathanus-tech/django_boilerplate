@@ -20,13 +20,9 @@ env: environ.Env = environ.Env()
 SECRET_KEY: str = env("DJANGO_SECRET_KEY")
 DEBUG: bool = env("DJANGO_DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS: List[str] = env.list("DJANGO_ALLOWED_HOSTS", default=[])
-CORS_ORIGIN_ALLOW_ALL: bool = env(
-    "DJANGO_CORS_ORIGIN_ALLOW_ALL", cast=bool, default=False
-)
+CORS_ORIGIN_ALLOW_ALL: bool = env("DJANGO_CORS_ORIGIN_ALLOW_ALL", cast=bool, default=False)
 if not CORS_ORIGIN_ALLOW_ALL:
-    CORS_ORIGIN_WHITELIST: List[str] = env.list(
-        "DJANGO_CORS_ORIGIN_WHITELIST", default=[]
-    )
+    CORS_ORIGIN_WHITELIST: List[str] = env.list("DJANGO_CORS_ORIGIN_WHITELIST", default=[])
 
 # Password Validation
 AUTH_PASSWORD_VALIDATORS: List[Dict[str, str]] = [
@@ -196,12 +192,8 @@ CELERY_TRACK_STARTED: Optional[bool] = env("CELERY_TRACK_STARTED", default=False
 CELERY_WORKER_PREFETCH_MULTIPLIER: Optional[int] = env(
     "CELERY_WORKER_PREFETCH_MULTIPLIER", default=1
 )
-CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env(
-    "CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15
-)
-CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env(
-    "CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3
-)
+CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env("CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15)
+CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env("CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3)
 CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
 BROKER_URL: str = env("BROKER_URL")
 BROKER_TRANSPORT: str = env("BROKER_TRANSPORT")
@@ -227,12 +219,8 @@ SPECTACULAR_SETTINGS = {
     "REDOC_DIST": "SIDECAR",
 }
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(
-        minutes=env("ACCESS_TOKEN_LIFETIME_MINUTES", cast=int)
-    ),
-    "REFRESH_TOKEN_LIFETIME": timedelta(
-        days=env("REFRESH_TOKEN_LIFETIME_DAYS", cast=int)
-    ),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=env("ACCESS_TOKEN_LIFETIME_MINUTES", cast=int)),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=env("REFRESH_TOKEN_LIFETIME_DAYS", cast=int)),
     "UPDATE_LAST_LOGIN": True,
     "ROTATE_REFRESH_TOKENS": True,
 }

@@ -1,3 +1,4 @@
+# type: ignore
 # https://www.django-rest-framework.org/api-guide/exceptions/
 """
 Turns errors messages from 400 BAD_REQUEST from this:
