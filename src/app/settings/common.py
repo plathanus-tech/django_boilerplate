@@ -58,6 +58,7 @@ DJANGO_APPS: List[str] = [
 ]
 THIRD_PARTY_APPS: List[str] = [
     "rest_framework",
+    "rest_framework_simplejwt",
     "rest_framework.authtoken",
     "drf_spectacular",
     "drf_spectacular_sidecar",

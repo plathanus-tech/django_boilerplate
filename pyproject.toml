@@ -54,7 +54,6 @@ testpaths = [
     "tests/",
 ]
 addopts = "--rootdir ./tests --disable-warnings"
-filterwarnings = 'ignore:function ham\(\) RemovedInDjango40Warning'  # Not Include Django 4.0 Deprecation Warnings
 
 [project]
 name = "boilerplate"
@@ -75,6 +74,7 @@ dependencies = [
     "django-cors-headers>=3.13.0",
     "psycopg2-binary>=2.9.3",
     "djangorestframework-simplejwt>=5.2.0",
+    "setuptools>=62.6.0",
 ]
 requires-python = ">=3.9"
 
