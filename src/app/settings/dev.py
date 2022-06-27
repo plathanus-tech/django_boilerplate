@@ -2,8 +2,6 @@ import os
 from .common import *
 from typing import List
 
-print("Applying DEV Settings")
-
 # Debug Tool Bar Config
 THIRD_PARTY_APPS += [
     "debug_toolbar",
