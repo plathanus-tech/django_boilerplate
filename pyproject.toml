@@ -26,6 +26,8 @@ makemigrations.cmd = "python manage.py makemigrations"
 migrate.cmd = "python manage.py migrate"
 server.cmd = "python manage.py runserver"
 createsuperuser.cmd = "python manage.py createsuperuser"
+makemessages.shell = "cd src && pdm run python manage.py makemessages"
+compilemessages.shell = "cd src && pdm run python manage.py compilemessages"
 tests.shell = """\
 coverage run --source=src/ --rcfile=.coveragerc -m pytest tests/ \
 && \

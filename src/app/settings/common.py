@@ -120,9 +120,6 @@ LANGUAGES: List[Tuple[str, str]] = [
     ("pt-br", _("Brazilian Portuguese")),
     ("en", _("English")),
 ]
-LOCALE_PATHS: List[str] = [
-    os.path.join(BASE_DIR, "app", "locale"),
-]
 USE_I18N: bool = True
 
 # Internationalization
@@ -176,7 +173,7 @@ LOGGING: Dict[str, Any] = {
 JAZZMIN_SETTINGS = {
     "site_logo_classes": "img-circle",
     "site_icon": None,
-    "welcome_sign": _("Welcome to the admin!"),
+    "welcome_sign": "Boilerplate",
     "user_avatar": None,
     "show_sidebar": True,
     "navigation_expanded": True,

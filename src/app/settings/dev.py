@@ -15,8 +15,3 @@ INSTALLED_APPS: List[str] = DJANGO_APPS + THIRD_PARTY_APPS + YOUR_PROJECT_APPS
 
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media/")
 MEDIA_URL = "/media/"
-
-
-STATICFILES_DIRS += [
-    os.path.join(BASE_DIR, "app/static"),
-]
