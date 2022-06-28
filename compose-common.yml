@@ -46,6 +46,18 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_DB: "boilerplate"
 
+  celery-scheduler:
+    build: .
+    env_file:
+      - .env.dev
+    command: python -m celery -A app beat
+
+  celery-worker:
+    build: .
+    env_file:
+      - .env.dev
+    command: python -m celery -A app worker -P solo --concurrency 1
+
 volumes:
   postgres_data:
   logs:

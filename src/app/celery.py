@@ -12,35 +12,32 @@ DAY_HOURS = 24
 DAY_SECONDS = MINUTE_SECONDS * HOUR_MINUTES * DAY_HOURS
 
 CELERY_CONFIG = {
-    "CELERY_TASK_SERIALIZER": "json",
-    "CELERY_ACCEPT_CONTENT": [
+    "task_serializer": "json",
+    "acceot_content": [
         "json",
     ],
-    "CELERY_RESULT_SERIALIZER": "json",
-    "CELERY_RESULT_BACKEND": None,
-    "CELERY_ENABLE_UTC": True,
-    "CELERY_ENABLE_REMOTE_CONTROL": False,
-    "CELERY_DEFAULT_QUEUE": settings.DEFAULT_QUEUE_NAME,
-    "CELERY_ACKS_LATE": settings.CELERY_ACKS_LATE,
-    "CELERY_TRACK_STARTED": settings.CELERY_TRACK_STARTED,
-    "CELERY_PREFETCH_MULTIPLIER": settings.CELERY_WORKER_PREFETCH_MULTIPLIER,
+    "result_serializer": "json",
+    "result_backend": None,
+    "enable_utc": True,
+    "enable_remote_control": False,
+    "default_queue": settings.DEFAULT_QUEUE_NAME,
+    "acks_late": settings.CELERY_ACKS_LATE,
+    "track_started": settings.CELERY_TRACK_STARTED,
+    "prefetch_multiplier": settings.CELERY_WORKER_PREFETCH_MULTIPLIER,
     "CELERY_BEAT_SCHEDULE": {
-        "your_schedule_name": {
-            "task": "module.file.function_name",
-            "schedule": settings.CELERY_BEAT_RUNS_EACH_N_MINUTES * MINUTE_SECONDS,
-            "args": (),
-            "options": {
-                "queue": settings.DEFAULT_QUEUE_NAME,
-                "expires": settings.CELERY_BEAT_EXPIRES_IN_N_DAYS * DAY_SECONDS,
-            },
-        },
+        # "your_schedule_name": {
+        #     "task": "module.file.function_name",
+        #     "schedule": settings.CELERY_BEAT_RUNS_EACH_N_MINUTES * MINUTE_SECONDS,
+        #     "args": (),
+        #     "options": {
+        #         "queue": settings.DEFAULT_QUEUE_NAME,
+        #         "expires": settings.CELERY_BEAT_EXPIRES_IN_N_DAYS * DAY_SECONDS,
+        #     },
+        # },
     },
-    "CELERY_ROUTES": {"module.file.*": {"queue": settings.DEFAULT_QUEUE_NAME}},
-    "BROKER_URL": settings.BROKER_URL,
-}
+    "task_routes": {"module.file.*": {"queue": settings.DEFAULT_QUEUE_NAME}},
+    "broker_url": settings.BROKER_URL,
+}  # type: ignore
 
-app.autodiscover_tasks(
-    packages=[
-        "module.file",
-    ]
-)
+app.autodiscover_tasks(packages=[])
+app.conf.update(**CELERY_CONFIG)
