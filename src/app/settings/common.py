@@ -44,6 +44,7 @@ AUTH_USER_MODEL = "users.User"
 
 # Application definition
 DJANGO_APPS: List[str] = [
+    "django_extensions",
     "channels",
     "jazzmin",
     "django.contrib.admin",
@@ -182,6 +183,9 @@ LOGGING: Dict[str, Any] = {
 JAZZMIN_SETTINGS = {
     "site_logo_classes": "img-circle",
     "site_icon": None,
+    "site_title": "Admin",
+    "site_brand": "Boilerplate",
+    "site_header": "Admin",
     "welcome_sign": "Boilerplate",
     "user_avatar": None,
     "show_sidebar": True,

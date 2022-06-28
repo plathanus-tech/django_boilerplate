@@ -50,8 +50,7 @@ dev = [
     "mypy>=0.931",
     "django-debug-toolbar>=3.5",
     "coverage==6.3.2",
-    "pre-commit>=2.19.0",
-]
+    "pre-commit>=2.19.0"]
 [build-system]
 requires = ["pdm-pep517>=0.12.0"]
 build-backend = "pdm.pep517.api"
@@ -86,6 +85,7 @@ dependencies = [
     "channels>=3.0.5",
     "channels-redis>=3.4.0",
     "daphne>=3.0.2",
+    "django-extensions>=3.1.5",
 ]
 requires-python = ">=3.9"
 

@@ -103,7 +103,7 @@ extras = ["redis"]
 requires_python = ">=3.7"
 summary = "Distributed Task Queue."
 dependencies = [
-    "celery",
+    "celery>=5.2.7",
     "redis!=4.0.0,!=4.0.1,>=3.4.1",
 ]
 
@@ -266,6 +266,15 @@ name = "django-environ"
 version = "0.9.0"
 requires_python = ">=3.4,<4"
 summary = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
+
+[[package]]
+name = "django-extensions"
+version = "3.1.5"
+requires_python = ">=3.6"
+summary = "Extensions for Django"
+dependencies = [
+    "Django>=2.2",
+]
 
 [[package]]
 name = "django-jazzmin"
@@ -731,7 +740,7 @@ dependencies = [
 
 [metadata]
 lock_version = "3.1"
-content_hash = "sha256:b423cbb06543c037a2b556ca05558f30279e4d524893bd928133342915c5aba0"
+content_hash = "sha256:9936ce65b06a1903eb33876354af35080ec6c9f01f0d7b5ab6e831780a80e376"
 
 [metadata.files]
 "aioredis 1.3.1" = [
@@ -980,6 +989,10 @@ content_hash = "sha256:b423cbb06543c037a2b556ca05558f30279e4d524893bd92813334291
 "django-environ 0.9.0" = [
     {file = "django_environ-0.9.0-py2.py3-none-any.whl", hash = "sha256:f21a5ef8cc603da1870bbf9a09b7e5577ab5f6da451b843dbcc721a7bca6b3d9"},
     {file = "django-environ-0.9.0.tar.gz", hash = "sha256:bff5381533056328c9ac02f71790bd5bf1cea81b1beeb648f28b81c9e83e0a21"},
+]
+"django-extensions 3.1.5" = [
+    {file = "django_extensions-3.1.5-py3-none-any.whl", hash = "sha256:9238b9e016bb0009d621e05cf56ea8ce5cce9b32e91ad2026996a7377ca28069"},
+    {file = "django-extensions-3.1.5.tar.gz", hash = "sha256:28e1e1bf49f0e00307ba574d645b0af3564c981a6dfc87209d48cb98f77d0b1a"},
 ]
 "django-jazzmin 2.5.0" = [
     {file = "django_jazzmin-2.5.0-py3-none-any.whl", hash = "sha256:6b9f9951eee41f60793a0d2f6f3d57213bd5605ddda7a106acb2bcdec4ef124e"},
