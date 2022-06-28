@@ -44,6 +44,7 @@ AUTH_USER_MODEL = "users.User"
 
 # Application definition
 DJANGO_APPS: List[str] = [
+    "channels",
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -95,6 +96,18 @@ TEMPLATES: List[Dict[str, Any]] = [
 ]
 
 WSGI_APPLICATION: str = "app.wsgi.application"
+ASGI_APPLICATION: str = "app.asgi.application"
+
+REDIS_HOST = env("REDIS_HOST")
+REDIS_PORT = env("REDIS_PORT", cast=int)
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(REDIS_HOST, REDIS_PORT)],
+        },
+    },
+}
 
 
 # Database

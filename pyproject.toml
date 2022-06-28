@@ -83,6 +83,9 @@ dependencies = [
     "psycopg2-binary>=2.9.3",
     "djangorestframework-simplejwt>=5.2.0",
     "setuptools>=62.6.0",
+    "channels>=3.0.5",
+    "channels-redis>=3.4.0",
+    "daphne>=3.0.2",
 ]
 requires-python = ">=3.9"
 

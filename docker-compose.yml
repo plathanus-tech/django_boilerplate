@@ -1,5 +1,14 @@
 version: "3.3"
 services:
+  redis:
+    image: "redis"
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server
+    volumes:
+      - cache:/data
+
   traefik:
     image: "traefik:v2.4"
     container_name: "traefik"
@@ -15,10 +24,10 @@ services:
   api:
     container_name: "${HOST}"
     build: .
-    command: python manage.py runserver 0.0.0.0:80
+    command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
     volumes:
       - .:/app/
-      - .:/project/logs/
+      - .logs:/project/logs/
     ports:
       - 80
     env_file:
@@ -31,17 +40,16 @@ services:
     depends_on:
       - db
       - traefik
-    
+      - redis
 
   db:
     image: postgres:13.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+    env_file:
+      - .env.dev
 
 volumes:
   postgres_data:
   logs:
+  cache:

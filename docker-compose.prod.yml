@@ -1,6 +1,14 @@
 version: '3.3'
 
 services:
+  redis:
+    image: "redis"
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server
+    volumes:
+      - cache:/data
   traefik:
     image: "traefik:v2.4"
     container_name: "traefik"
@@ -24,10 +32,11 @@ services:
   api:
     depends_on:
       - traefik
+      - redis
     build:
       context: .
       dockerfile: Dockerfile.prod
-    command: gunicorn app.wsgi:application --bind 0.0.0.0:80
+    command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
     volumes:
       - staticfiles:/project/static
       - .logs:/project/logs/
