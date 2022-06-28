@@ -43,9 +43,7 @@ class UserAdmin(DjangoUserAdmin):
         ),
         (_("Metadata"), {"fields": ("date_joined", "last_login")}),
     )
-    add_fieldsets = (
-        (None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),
-    )
+    add_fieldsets = ((None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),)
     readonly_fields = ("date_joined",)
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email",)

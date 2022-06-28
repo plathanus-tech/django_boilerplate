@@ -9,12 +9,11 @@ services:
     extends:
       file: compose-common.yml
       service: traefik
-
   api:
     extends:
       file: compose-common.yml
       service: api
-    command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
+    command: sleep infinity
     depends_on:
       - db
       - traefik
@@ -24,24 +23,6 @@ services:
     extends:
       file: compose-common.yml
       service: db
-
-  celery-scheduler:
-    extends:
-      file: compose-common.yml
-      service: celery-scheduler
-    entrypoint: []
-    depends_on:
-      - api
-
-  celery-worker:
-    extends:
-      file: compose-common.yml
-      service: celery-worker
-    entrypoint: []
-    depends_on:
-      - api
-    
-
 
 volumes:
   postgres_data:

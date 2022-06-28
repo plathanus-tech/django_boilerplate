@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 18:09+0000\n"
+"POT-Creation-Date: 2022-06-27 18:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,94 +18,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app/base/models.py:33
+#: app/base/models.py:15
 msgid "created at"
 msgstr "Criado em"
 
-#: app/base/models.py:36
+#: app/base/models.py:18
 msgid "updated at"
 msgstr "Atualizado em"
 
-#: app/templates/admin/base.html:61
-msgid "Home"
-msgstr "Menu Principal"
+#: app/settings/common.py:120
+msgid "Brazilian Portuguese"
+msgstr "Português"
 
-#: app/templates/admin/base_site.html:37
-msgid "Documentation"
-msgstr "Documentação"
+#: app/settings/common.py:121
+msgid "English"
+msgstr "Inglês"
 
-#: app/templates/admin/base_site.html:41
-msgid "Change password"
-msgstr "Alterar senha"
+#: app/settings/common.py:222
+msgid "BoilerPlate"
+msgstr "Boilerplate"
 
-#: app/templates/admin/base_site.html:43
-msgid "Log out"
-msgstr "Sair"
-
-#: users/admin.py:33
-msgid "Personal info"
-msgstr "Informações pessoais"
-
-#: users/admin.py:35
-msgid "Permissions"
-msgstr "Permissões"
-
-#: users/admin.py:44
-msgid "Metadata"
-msgstr "Meta dados"
-
-#: users/admin.py:54
-msgid "full name"
-msgstr "nome completo"
-
-#: users/apps.py:9
-msgid "User"
-msgstr "Usuário"
-
-#: users/apps.py:10
-msgid "Users"
-msgstr "Usuários"
-
-#: users/models.py:33
-msgid "Email address"
-msgstr "Email"
-
-#: users/models.py:34
-msgid "First name"
-msgstr "Primeiro nome"
-
-#: users/models.py:35
-msgid "Last name"
-msgstr "Sobrenome"
-
-#: users/models.py:38
-msgid "Is active"
-msgstr "Está Ativo"
-
-#: users/models.py:39
-msgid "Is staff"
-msgstr "É Staff"
-
-#: users/models.py:40
-msgid "Is admin"
-msgstr "É Admin"
-
-#: users/models.py:43
-msgid "Date joined"
-msgstr "Membro desde"
-
-#: users/models.py:64
-msgid "user"
-msgstr "usuário"
-
-#: users/models.py:65
-msgid "users"
-msgstr "usuários"
-
-#: users/models.py:74
-msgid "User Group"
-msgstr "Grupo de Usuário"
-
-#: users/models.py:75
-msgid "User Groups"
-msgstr "Grupos de Usuário"
+#: app/settings/common.py:223
+msgid "The BoilerPlate's API"
+msgstr "A API do Boilerplate"

@@ -1,0 +1,64 @@
+version: "3.3"
+services:
+  redis:
+    image: "redis"
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server
+    volumes:
+      - cache:/data
+
+  traefik:
+    image: "traefik:v2.4"
+    container_name: "traefik"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.http.address=:80"
+      - "--global.sendAnonymousUsage=false"
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  api:
+    container_name: "${HOST}"
+    build: .
+    volumes:
+      - .:/app/
+      - .logs:/project/logs/
+    ports:
+      - 80
+    env_file:
+      - .env.dev
+
+    labels:
+      traefik.enable: true
+      traefik.http.routers.api.rule: Host(`${HOST}`)
+      traefik.http.routers.api.entrypoints: http
+
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "boilerplate"
+
+  celery-scheduler:
+    build: .
+    env_file:
+      - .env.dev
+    command: python -m celery -A app beat
+
+  celery-worker:
+    build: .
+    env_file:
+      - .env.dev
+    command: python -m celery -A app worker -P solo --concurrency 1
+
+volumes:
+  postgres_data:
+  logs:
+  cache:

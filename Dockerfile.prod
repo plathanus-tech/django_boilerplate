@@ -10,6 +10,7 @@ ENV HOME=/project
 
 RUN apt update -y
 RUN apt install -y netcat
+RUN apt install -y gettext
 
 RUN pip install -U pip setuptools wheel
 RUN pip install pdm
@@ -26,6 +27,4 @@ RUN apt install -y gunicorn3
 
 ENV PYTHONPATH=__pypackages__/3.9/lib
 
-RUN mkdir static
-RUN mkdir media
 ENTRYPOINT ["/project/entrypoint.prod.sh"]

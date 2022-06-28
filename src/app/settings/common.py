@@ -1,4 +1,7 @@
+# type: ignore
+
 import os
+from datetime import timedelta
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 
@@ -17,13 +20,9 @@ env: environ.Env = environ.Env()
 SECRET_KEY: str = env("DJANGO_SECRET_KEY")
 DEBUG: bool = env("DJANGO_DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS: List[str] = env.list("DJANGO_ALLOWED_HOSTS", default=[])
-CORS_ORIGIN_ALLOW_ALL: bool = env(
-    "DJANGO_CORS_ORIGIN_ALLOW_ALL", cast=bool, default=False
-)
+CORS_ORIGIN_ALLOW_ALL: bool = env("DJANGO_CORS_ORIGIN_ALLOW_ALL", cast=bool, default=False)
 if not CORS_ORIGIN_ALLOW_ALL:
-    CORS_ORIGIN_WHITELIST: List[str] = env.list(
-        "DJANGO_CORS_ORIGIN_WHITELIST", default=[]
-    )
+    CORS_ORIGIN_WHITELIST: List[str] = env.list("DJANGO_CORS_ORIGIN_WHITELIST", default=[])
 
 # Password Validation
 AUTH_PASSWORD_VALIDATORS: List[Dict[str, str]] = [
@@ -45,6 +44,10 @@ AUTH_USER_MODEL = "users.User"
 
 # Application definition
 DJANGO_APPS: List[str] = [
+    "django_extensions",
+    "channels",
+    "jazzmin",
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -52,9 +55,8 @@ DJANGO_APPS: List[str] = [
     "django.contrib.staticfiles",
 ]
 THIRD_PARTY_APPS: List[str] = [
-    "material",
-    "material.admin",
     "rest_framework",
+    "rest_framework_simplejwt",
     "rest_framework.authtoken",
     "drf_spectacular",
     "drf_spectacular_sidecar",
@@ -62,7 +64,6 @@ THIRD_PARTY_APPS: List[str] = [
 ]
 YOUR_PROJECT_APPS: List[str] = [
     "users.apps.UsersConfig",
-    "app.i18n_switcher.apps.I18nSwitcherConfig",
 ]
 LOGIN_REDIRECT_URL: str = "/admin/"
 
@@ -91,12 +92,23 @@ TEMPLATES: List[Dict[str, Any]] = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
-            "libraries": {"locale_switcher": "app.i18n_switcher.switcher"},
         },
     },
 ]
 
 WSGI_APPLICATION: str = "app.wsgi.application"
+ASGI_APPLICATION: str = "app.asgi.application"
+
+REDIS_HOST = env("REDIS_HOST")
+REDIS_PORT = env("REDIS_PORT", cast=int)
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(REDIS_HOST, REDIS_PORT)],
+        },
+    },
+}
 
 
 # Database
@@ -110,10 +122,6 @@ DATABASES: Dict[str, str] = {
         "PORT": env("SQL_PORT", default="5432"),
     }
 }
-DEFAULT_PK_FIELD: str = env.str(
-    "DEFAULT_PK_FIELD", default="django.db.models.UUIDField"
-)
-# This is not the Django DEFAULT_AUTO_FIELD, its used on app.base.models
 
 
 # Internationalization
@@ -121,9 +129,6 @@ LANGUAGE_CODE: str = "en-us"
 LANGUAGES: List[Tuple[str, str]] = [
     ("pt-br", _("Brazilian Portuguese")),
     ("en", _("English")),
-]
-LOCALE_PATHS: List[str] = [
-    os.path.join(BASE_DIR, "app", "locale"),
 ]
 USE_I18N: bool = True
 
@@ -175,30 +180,28 @@ LOGGING: Dict[str, Any] = {
 }
 
 
-# Material Admin Site
-MATERIAL_ADMIN_SITE: Dict[str, Any] = {
-    "HEADER": _("Admin"),
-    "TITLE": _("BoilerPlate"),
-    "FAVICON": "favicon.png",
-    "MAIN_BG_COLOR": "#007aff",  # Admin site main color, css color should be specified
-    "MAIN_HOVER_COLOR": "#43d1ab",  # Admin site main hover color, css color should be specified
-    "PROFILE_PICTURE": "",  # Admin site profile picture (path to static should be specified)
-    "PROFILE_BG": "",  # Admin site profile background (path to static should be specified)
-    "LOGIN_LOGO": "",  # Admin site logo on login page (path to static should be specified)
-    "LOGOUT_BG": "",  # Admin site background on login/logout pages (path to static should be specified)
-    "SHOW_THEMES": False,
-    "TRAY_REVERSE": True,
-    "NAVBAR_REVERSE": False,
-    "SHOW_COUNTS": True,
-    "APP_ICONS": {
-        # Set icons for applications(lowercase), including 3rd party apps:
-        # {'application_name': 'material_icon_name', ...}
-        "sites": "send",
+JAZZMIN_SETTINGS = {
+    "site_logo_classes": "img-circle",
+    "site_icon": None,
+    "site_title": "Admin",
+    "site_brand": "Boilerplate",
+    "site_header": "Admin",
+    "welcome_sign": "Boilerplate",
+    "user_avatar": None,
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    # https://fontawesome.com/v5/search?m=free
+    "icons": {
+        "users": "fas fa-users-cog",
+        "users.user": "fas fa-user",
+        "users.DjangoGroupProxy": "fas fa-users",
     },
-    "MODEL_ICONS": {
-        "site": "contact_mail",
-    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    "show_ui_builder": False,
+    "language_chooser": True,
 }
+
 
 DEFAULT_QUEUE_NAME: Optional[str] = env("DEFAULT_QUEUE_NAME", default="default")
 CELERY_ACKS_LATE: Optional[bool] = env("CELERY_ACKS_LATE", default=False)
@@ -206,17 +209,23 @@ CELERY_TRACK_STARTED: Optional[bool] = env("CELERY_TRACK_STARTED", default=False
 CELERY_WORKER_PREFETCH_MULTIPLIER: Optional[int] = env(
     "CELERY_WORKER_PREFETCH_MULTIPLIER", default=1
 )
-CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env(
-    "CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15
-)
-CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env(
-    "CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3
-)
+CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env("CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15)
+CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env("CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3)
 CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
-BROKER_URL: str = env("BROKER_URL")
-BROKER_TRANSPORT: str = env("BROKER_TRANSPORT")
+BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
 
-REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"}
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ),
+    "EXCEPTION_HANDLER": "app.drf_exc_handler.make_error_message_on_validation_error",
+}
 SPECTACULAR_SETTINGS = {
     "TITLE": _("BoilerPlate"),
     "DESCRIPTION": _("The BoilerPlate's API"),
@@ -224,4 +233,10 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "SIDECAR",
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
+}
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=env("ACCESS_TOKEN_LIFETIME_MINUTES", cast=int)),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=env("REFRESH_TOKEN_LIFETIME_DAYS", cast=int)),
+    "UPDATE_LAST_LOGIN": True,
+    "ROTATE_REFRESH_TOKENS": True,
 }

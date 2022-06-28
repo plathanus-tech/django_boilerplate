@@ -1,37 +1,54 @@
 version: '3.3'
 
 services:
-  nginx:
-    build: ./nginx
+  redis:
+    extends:
+      file: compose-common.yml
+      service: redis
+
+  traefik:
+    extends:
+      file: compose-common.yml
+      service: traefik
+
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--global.sendAnonymousUsage=false"
+      - "--certificatesresolvers.ssl.acme.httpchallenge=true"
+      - "--certificatesresolvers.ssl.acme.httpchallenge.entrypoint=http"
+      - "--certificatesresolvers.ssl.acme.email=somevalidemail@email.com"
+      - "--certificatesresolvers.ssl.acme.storage=/letsencrypt/acme.json"
     ports:
-      - 80:80
+      - "443:443"
+      - "80:80"
     volumes:
-      - staticfiles:/project/static
-      - mediafiles:/project/media
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  api:
+    extends:
+      file: compose-common.yml
+      service: api
+    command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
     depends_on:
-      - web
-  web:
+      - traefik
+      - redis
     build:
       context: .
       dockerfile: Dockerfile.prod
-    command: gunicorn app.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - staticfiles:/project/static
-      - mediafiles:/project/media
-    expose:
-      - 8000
     env_file:
-      - ./.env.prod
-    depends_on:
-      - db
-  db:
-    image: postgres:13.0-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./.env.prod
+      - .env.prod
+    labels:
+      traefik.http.routers.api.middlewares: redirect
+      traefik.http.middlewares.redirect.redirectscheme.scheme: https
+      traefik.http.routers.api-secure.rule: Host(`${HOST}`)
+      traefik.http.routers.api-secure.entrypoints: https
+      traefik.http.routers.api-secure.tls.certresolver: ssl
+      traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
 
 volumes:
-  postgres_data:
+  cache:
   staticfiles:
-  mediafiles:

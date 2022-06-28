@@ -1,27 +1,30 @@
-FROM python:3.8
+FROM python:3.9
 
+# set work directory
+WORKDIR /usr/src/app
+
+# set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV HOME=/project
 
 RUN apt update -y
 RUN apt install -y netcat
+RUN apt install -y gettext
 
-# install PDM
 RUN pip install -U pip setuptools wheel
 RUN pip install pdm
 
-# copy files
-COPY . /project/
+COPY pyproject.toml pdm.lock manage.py entrypoint.prod.sh ${HOME}/
+COPY .vscode ${HOME}/.vscode
+COPY src/ ${HOME}
 
-WORKDIR /project
-RUN sed -i 's/\r$//g' /project/entrypoint.sh
-RUN chmod +x /project/entrypoint.sh
+WORKDIR ${HOME}
+RUN sed -i 's/\r$//g'  entrypoint.prod.sh
+RUN chmod +x  entrypoint.prod.sh
 
-# install dependencies and project
-RUN pdm install --no-lock --no-editable
+RUN pdm install
 
-# retrieve packages from build stage
-ENV PYTHONPATH=/project/__pypackages__/3.8/lib
+ENV PYTHONPATH=__pypackages__/3.9/lib
 
-WORKDIR /project
-ENTRYPOINT ["/project/entrypoint.sh"]
+ENTRYPOINT ["/project/entrypoint.prod.sh"]

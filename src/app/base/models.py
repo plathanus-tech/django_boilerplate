@@ -1,27 +1,9 @@
-import os
-import random
-import string
-import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-def generate_random_id_for_test():
-    return "".join(random.choices(string.hexdigits, k=32))
-
-
-def get_id_field():
-
-    if "test" in os.environ["DJANGO_SETTINGS_MODULE"]:
-        return models.CharField(
-            primary_key=True, max_length=32, default=generate_random_id_for_test
-        )
-    return models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-
-
 class BaseModel(models.Model):
-
-    id = get_id_field()
+    id: int
 
     class Meta:
         abstract = True
