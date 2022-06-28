@@ -37,7 +37,6 @@ CELERY_CONFIG = {
     },
     "CELERY_ROUTES": {"module.file.*": {"queue": settings.DEFAULT_QUEUE_NAME}},
     "BROKER_URL": settings.BROKER_URL,
-    "BROKER_TRANSPORT": settings.BROKER_TRANSPORT,
 }
 
 app.autodiscover_tasks(

@@ -208,8 +208,7 @@ CELERY_WORKER_PREFETCH_MULTIPLIER: Optional[int] = env(
 CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env("CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15)
 CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env("CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3)
 CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
-BROKER_URL: str = env("BROKER_URL")
-BROKER_TRANSPORT: str = env("BROKER_TRANSPORT")
+BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
