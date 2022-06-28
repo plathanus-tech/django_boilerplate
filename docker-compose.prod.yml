@@ -2,16 +2,15 @@ version: '3.3'
 
 services:
   redis:
-    image: "redis"
-    restart: always
-    ports:
-      - "6379:6379"
-    command: redis-server
-    volumes:
-      - cache:/data
+    extends:
+      file: compose-common.yml
+      service: redis
+
   traefik:
-    image: "traefik:v2.4"
-    container_name: "traefik"
+    extends:
+      file: compose-common.yml
+      service: traefik
+
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
@@ -30,23 +29,19 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   api:
+    extends:
+      file: compose-common.yml
+      service: api
+    command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
     depends_on:
       - traefik
       - redis
     build:
       context: .
       dockerfile: Dockerfile.prod
-    command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
-    volumes:
-      - staticfiles:/project/static
-      - .logs:/project/logs/
-    ports:
-      - 80
     env_file:
       - .env.prod
     labels:
-      traefik.http.routers.api.rule: Host(`${HOST}`)
-      traefik.http.routers.api.entrypoints: http
       traefik.http.routers.api.middlewares: redirect
       traefik.http.middlewares.redirect.redirectscheme.scheme: https
       traefik.http.routers.api-secure.rule: Host(`${HOST}`)
@@ -54,7 +49,6 @@ services:
       traefik.http.routers.api-secure.tls.certresolver: ssl
       traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
 
-
-
 volumes:
+  cache:
   staticfiles:

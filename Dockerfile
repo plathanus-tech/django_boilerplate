@@ -16,6 +16,7 @@ RUN pip install -U pip setuptools wheel
 RUN pip install pdm
 
 COPY pyproject.toml pdm.lock manage.py entrypoint.prod.sh ${HOME}/
+COPY .vscode ${HOME}/.vscode
 COPY src/ ${HOME}
 
 WORKDIR ${HOME}
