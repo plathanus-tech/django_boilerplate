@@ -17,13 +17,17 @@ RUN pip install pdm
 
 COPY pyproject.toml pdm.lock manage.py entrypoint.prod.sh ${HOME}/
 COPY .vscode ${HOME}/.vscode
+
+WORKDIR ${HOME}
+RUN pdm install
+
+WORKDIR /usr/src/app
 COPY src/ ${HOME}
 
 WORKDIR ${HOME}
 RUN sed -i 's/\r$//g'  entrypoint.prod.sh
 RUN chmod +x  entrypoint.prod.sh
 
-RUN pdm install
 
 ENV PYTHONPATH=__pypackages__/3.9/lib
 
