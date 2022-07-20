@@ -14,6 +14,6 @@ fi
 
 python manage.py migrate
 python manage.py collectstatic --noinput
-python manage.py compilemessages -v 0
+python manage.py compilemessages -v 1
 
 exec "$@"

@@ -44,7 +44,6 @@ AUTH_USER_MODEL = "users.User"
 
 # Application definition
 DJANGO_APPS: List[str] = [
-    "django_extensions",
     "channels",
     "jazzmin",
     "django.contrib.admin",
@@ -128,7 +127,7 @@ DATABASES: Dict[str, str] = {
 LANGUAGE_CODE: str = "en-us"
 LANGUAGES: List[Tuple[str, str]] = [
     ("pt-br", _("Brazilian Portuguese")),
-    ("en", _("English")),
+    ("en-us", _("English")),
 ]
 USE_I18N: bool = True
 

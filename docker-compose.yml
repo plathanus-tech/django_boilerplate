@@ -14,7 +14,7 @@ services:
     extends:
       file: compose-common.yml
       service: api
-    command: python3 manage.py runserver
+    command: python3 manage.py runserver 0.0.0.0:80
     depends_on:
       - db
       - traefik
