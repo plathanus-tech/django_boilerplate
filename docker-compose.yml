@@ -14,7 +14,7 @@ services:
     extends:
       file: compose-common.yml
       service: api
-    command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
+    command: python3 manage.py runserver
     depends_on:
       - db
       - traefik
@@ -24,6 +24,14 @@ services:
     extends:
       file: compose-common.yml
       service: db
+    ports:
+      - "${SQL_PORT}:${SQL_PORT}"
+      
+    command: -p ${SQL_PORT}
+    environment:
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}
+      POSTGRES_USER: ${SQL_USER}
+      POSTGRES_DB: ${SQL_DATABASE}
 
   celery-scheduler:
     extends:
@@ -47,3 +55,4 @@ volumes:
   postgres_data:
   logs:
   cache:
+  .:

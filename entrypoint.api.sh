@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 if [ "$DJANGO_SETTINGS_MODULE" = "app.settings.DEV" ]
 then

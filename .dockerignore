@@ -16,3 +16,4 @@ tox.ini
 
 static
 letsencrypt
+__pypackages__

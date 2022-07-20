@@ -39,10 +39,6 @@ services:
     image: postgres:13.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_USER: "postgres"
-      POSTGRES_DB: "boilerplate"
 
   celery-scheduler:
     build: .
@@ -60,3 +56,4 @@ volumes:
   postgres_data:
   logs:
   cache:
+  .:
