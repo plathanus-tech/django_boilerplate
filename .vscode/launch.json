@@ -19,6 +19,17 @@
       "args": ["run", "python", "manage.py", "runserver"],
       "django": true,
       "envFile": "${workspaceFolder}/src/app/settings/.env"
+    },
+    {
+      "name": "Python: Django - Docker",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": ["runserver", "0.0.0.0:80"],
+      "django": true,
+      "env": {
+        "PYTHONPATH": "__pypackages__/3.9/lib"
+      }
     }
   ]
 }

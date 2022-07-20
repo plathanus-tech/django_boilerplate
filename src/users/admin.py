@@ -1,12 +1,19 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.contrib.auth.admin import GroupAdmin as DjangoGroupAdmin
 from django.utils.translation import gettext_lazy as _
-from .forms import MyUserCreationForm, MyUserChangeForm
-from .models import ProxyUser
 from rest_framework.authtoken.models import TokenProxy
-from rest_framework.authtoken.admin import TokenAdmin
+
+from .forms import MyUserCreationForm, MyUserChangeForm
+from .models import User, DjangoGroupProxy
 
 
+admin.site.unregister(TokenProxy)
+admin.site.unregister(Group)
+
+
+@admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
@@ -14,7 +21,7 @@ class UserAdmin(DjangoUserAdmin):
 
     list_display = (
         "email",
-        "full_name",
+        "get_full_name",
         "is_staff",
         "is_superuser",
         "is_active",
@@ -36,19 +43,17 @@ class UserAdmin(DjangoUserAdmin):
         ),
         (_("Metadata"), {"fields": ("date_joined", "last_login")}),
     )
-    add_fieldsets = (
-        (None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),
-    )
+    add_fieldsets = ((None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),)
     readonly_fields = ("date_joined",)
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email",)
     filter_horizontal = ("groups", "user_permissions")
 
+    @admin.display(description=_("full name"))
+    def get_full_name(self, obj):
+        return obj.full_name
 
-class MyTokenAdmin(TokenAdmin):
-    icon_name = "https"
 
-
-admin.site.register(ProxyUser, UserAdmin)
-admin.site.unregister(TokenProxy)
-admin.site.register(TokenProxy, MyTokenAdmin)
+@admin.register(DjangoGroupProxy)
+class GroupAdmin(DjangoGroupAdmin):
+    icon_name = "group"

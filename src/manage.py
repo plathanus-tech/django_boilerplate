@@ -2,14 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-import environ
 from pathlib import Path
 
 
 BASE_DIR: Path = Path(__file__).resolve().parent
-
-env = environ.Env()
-env.read_env(BASE_DIR / "app/settings/.env", overwrite=True)
 
 
 def main():

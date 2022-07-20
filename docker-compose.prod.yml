@@ -1,0 +1,54 @@
+version: '3.3'
+
+services:
+  redis:
+    extends:
+      file: compose-common.yml
+      service: redis
+
+  traefik:
+    extends:
+      file: compose-common.yml
+      service: traefik
+
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--global.sendAnonymousUsage=false"
+      - "--certificatesresolvers.ssl.acme.httpchallenge=true"
+      - "--certificatesresolvers.ssl.acme.httpchallenge.entrypoint=http"
+      - "--certificatesresolvers.ssl.acme.email=somevalidemail@email.com"
+      - "--certificatesresolvers.ssl.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  api:
+    extends:
+      file: compose-common.yml
+      service: api
+    command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
+    depends_on:
+      - traefik
+      - redis
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    env_file:
+      - .env.prod
+    labels:
+      traefik.http.routers.api.middlewares: redirect
+      traefik.http.middlewares.redirect.redirectscheme.scheme: https
+      traefik.http.routers.api-secure.rule: Host(`${HOST}`)
+      traefik.http.routers.api-secure.entrypoints: https
+      traefik.http.routers.api-secure.tls.certresolver: ssl
+      traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
+
+volumes:
+  cache:
+  staticfiles:

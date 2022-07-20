@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
+from django.utils.translation import gettext_lazy as _
+from app.base.models import BaseModel
 
 
 class UserManager(BaseUserManager):
@@ -27,7 +28,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     username = None  # Removes username field
     email = models.EmailField(_("Email address"), unique=True)
     first_name = models.CharField(_("First name"), max_length=30)
@@ -56,10 +57,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
+    def get_short_name(self):
+        return self.full_name
 
-class ProxyUser(User):
-    pass
+    class Meta:
+        verbose_name = _("user")
+        verbose_name_plural = _("users")
+
+
+class DjangoGroupProxy(Group):
+    """Defining this here allow to group the django model `Group`
+    together in this users app."""
 
     class Meta:
         proxy = True
-        verbose_name = "user"
+        verbose_name = _("User Group")
+        verbose_name_plural = _("User Groups")

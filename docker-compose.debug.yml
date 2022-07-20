@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  redis:
+    extends:
+      file: compose-common.yml
+      service: redis
+
+  traefik:
+    extends:
+      file: compose-common.yml
+      service: traefik
+  api:
+    extends:
+      file: compose-common.yml
+      service: api
+    command: sleep infinity
+    depends_on:
+      - db
+      - traefik
+      - redis
+
+  db:
+    extends:
+      file: compose-common.yml
+      service: db
+
+volumes:
+  postgres_data:
+  logs:
+  cache:

@@ -1,10 +1,9 @@
 from django.apps import AppConfig
-from rest_framework.authtoken.apps import AuthTokenConfig
+from django.utils.translation import gettext_lazy as _
 
 
 class UsersConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "users"
-
-
-AuthTokenConfig.icon_name = "code"
+    verbose_name = _("User")
+    verbose_name_plural = _("Users")

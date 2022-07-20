@@ -1,36 +1,29 @@
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
-from django.urls import path, include
-from drf_yasg import openapi
-from drf_yasg.views import get_schema_view
-from rest_framework import permissions
+from django.urls import path, include, reverse
+from django.shortcuts import redirect
+from drf_spectacular import views as drf_views
 
-from app.base.jwt_auth import DecoratedTokenObtainPairView, DecoratedTokenRefreshView
-
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="REST API",
-        default_version="v1",
-        description="Welcome to the Docs API",
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
+from app.base.jwt_auth import auth_token_view, refresh_view
 
 
-urlpatterns = [
+schema_view = drf_views.SpectacularAPIView.as_view()
+swagger_view = drf_views.SpectacularSwaggerView.as_view(url_name="schema")
+redoc_view = drf_views.SpectacularRedocView.as_view(url_name="schema")
+
+urlpatterns = i18n_patterns(
+    path("", lambda r: redirect(reverse("admin:login"))),
+    path("i18n/", include("django.conf.urls.i18n")),
     path("admin/", admin.site.urls),
     path("", include("rest_framework.urls", namespace="rest_framework")),
-    path("", include("users.urls")),
-    path("docs/", schema_view.with_ui(), name="swagger"),
-    path(
-        "api/token/", DecoratedTokenObtainPairView.as_view(), name="token_obtain_pair"
-    ),
-    path(
-        "api/token/refresh/", DecoratedTokenRefreshView.as_view(), name="token_refresh"
-    ),
-]
+    path("api/schema/", schema_view, name="schema"),
+    path("api/docs/", swagger_view, name="docs"),
+    path("api/redoc/", redoc_view, name="redoc"),
+    path("api/auth/", auth_token_view, name="token_obtain_pair"),
+    path("api/auth/refresh/", refresh_view, name="token_refresh"),
+    prefix_default_language=True,
+)
 
 if settings.DEBUG:  # pragma: no cover
     import debug_toolbar
