@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 if [ "$DJANGO_SETTINGS_MODULE" = "app.settings.DEV" ]
 then
@@ -13,6 +14,6 @@ fi
 
 python manage.py migrate
 python manage.py collectstatic --noinput
-python manage.py compilemessages -v 0
+python manage.py compilemessages -v 1
 
 exec "$@"

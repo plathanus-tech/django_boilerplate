@@ -44,13 +44,14 @@ google-chrome htmlcov/index.html
 
 [tool.pdm.dev-dependencies]
 dev = [
-    "black>=22.1.0",
+    "black==22.3.0",
     "pytest==7.0.1",
     "pytest-django>=4.5.2",
-    "mypy>=0.931",
+    "mypy==0.961",
     "django-debug-toolbar>=3.5",
     "coverage==6.3.2",
-    "pre-commit>=2.19.0"]
+    "pre-commit>=2.19.0",
+]
 [build-system]
 requires = ["pdm-pep517>=0.12.0"]
 build-backend = "pdm.pep517.api"
@@ -60,7 +61,7 @@ DJANGO_SETTINGS_MODULE='app.settings.test'
 testpaths = [
     "tests/",
 ]
-addopts = "--rootdir ./tests --disable-warnings"
+addopts = "--rootdir ./tests"
 
 [project]
 name = "boilerplate"
@@ -85,7 +86,6 @@ dependencies = [
     "channels>=3.0.5",
     "channels-redis>=3.4.0",
     "daphne>=3.0.2",
-    "django-extensions>=3.1.5",
 ]
 requires-python = ">=3.9"
 

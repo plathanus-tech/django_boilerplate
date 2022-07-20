@@ -11,7 +11,6 @@ services:
 
   traefik:
     image: "traefik:v2.4"
-    container_name: "traefik"
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
@@ -22,7 +21,6 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
   api:
-    container_name: "${HOST}"
     build: .
     volumes:
       - .:/app/
@@ -41,10 +39,6 @@ services:
     image: postgres:13.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_USER: "postgres"
-      POSTGRES_DB: "boilerplate"
 
   celery-scheduler:
     build: .
@@ -62,3 +56,4 @@ volumes:
   postgres_data:
   logs:
   cache:
+  .:
