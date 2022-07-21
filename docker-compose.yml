@@ -19,6 +19,8 @@ services:
       - db
       - traefik
       - redis
+    environment:
+      - SQL_HOST=db
 
   db:
     extends:
