@@ -25,20 +25,20 @@ CELERY_CONFIG = {
     "acks_late": settings.CELERY_ACKS_LATE,
     "track_started": settings.CELERY_TRACK_STARTED,
     "prefetch_multiplier": settings.CELERY_WORKER_PREFETCH_MULTIPLIER,
-    "CELERY_BEAT_SCHEDULE": {
-        # "your_schedule_name": {
-        #     "task": "module.file.function_name",
-        #     "schedule": settings.CELERY_BEAT_RUNS_EACH_N_MINUTES * MINUTE_SECONDS,
-        #     "args": (),
-        #     "options": {
-        #         "queue": settings.DEFAULT_QUEUE_NAME,
-        #         "expires": settings.CELERY_BEAT_EXPIRES_IN_N_DAYS * DAY_SECONDS,
-        #     },
-        # },
+    "beat_schedule": {
+        "heart_beat_each_15_minutes": {
+            "task": "users.tasks.heart_beat",
+            "schedule": 1 * MINUTE_SECONDS,
+            "args": (),
+            "options": {
+                "expires": settings.CELERY_BEAT_EXPIRES_IN_N_DAYS * DAY_SECONDS,
+            },
+        },
     },
-    "task_routes": {"module.file.*": {"queue": settings.DEFAULT_QUEUE_NAME}},
     "broker_url": settings.BROKER_URL,
 }  # type: ignore
 
-app.autodiscover_tasks(packages=[])
+app.autodiscover_tasks(
+    ["users"],
+)
 app.conf.update(**CELERY_CONFIG)

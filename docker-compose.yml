@@ -28,7 +28,7 @@ services:
       service: db
     ports:
       - "${SQL_PORT}:${SQL_PORT}"
-      
+
     command: -p ${SQL_PORT}
     environment:
       POSTGRES_PASSWORD: ${SQL_PASSWORD}
@@ -50,7 +50,8 @@ services:
     entrypoint: []
     depends_on:
       - api
-    
+    environment:
+      - SQL_HOST=db
 
 
 volumes:

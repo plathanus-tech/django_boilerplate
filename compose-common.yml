@@ -45,12 +45,16 @@ services:
     env_file:
       - .env.dev
     command: python -m celery -A app beat
+    volumes:
+      - .:/app/
 
   celery-worker:
     build: .
     env_file:
       - .env.dev
     command: python -m celery -A app worker -P solo --concurrency 1
+    volumes:
+      - .:/app/
 
 volumes:
   postgres_data:
