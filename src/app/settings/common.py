@@ -162,11 +162,6 @@ LOGGING: Dict[str, Any] = {
     "disable_existing_loggers": False,
     "handlers": {
         "console": {"class": "logging.StreamHandler"},
-        "file": {
-            "level": LOGGING_LEVEL,
-            "class": "logging.FileHandler",
-            "filename": "django.log",
-        },
     },
     "formatters": {
         "verbose": {
