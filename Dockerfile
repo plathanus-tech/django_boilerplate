@@ -10,9 +10,8 @@ ENV PYTHONUNBUFFERED 1
 RUN apt update -y
 RUN apt install -y netcat gettext
 
-RUN pip install -U pip setuptools wheel
+RUN pip install pip setuptools wheel
 RUN pip install pdm==1.15.0
-
 
 COPY pyproject.toml pdm.lock manage.py entrypoint.api.sh /app/
 # Install dev deps
