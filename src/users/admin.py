@@ -1,13 +1,12 @@
 from django.contrib import admin
-from django.contrib.auth.models import Group
-from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.admin import GroupAdmin as DjangoGroupAdmin
+from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import TokenProxy
 
-from .forms import MyUserCreationForm, MyUserChangeForm
-from .models import User, DjangoGroupProxy
-
+from .forms import MyUserChangeForm, MyUserCreationForm
+from .models import DjangoGroupProxy, User
 
 admin.site.unregister(TokenProxy)
 admin.site.unregister(Group)

@@ -3,11 +3,10 @@
 import os
 from datetime import timedelta
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import environ
 from django.utils.translation import gettext_lazy as _
-
 
 # Build paths from src directory
 BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent

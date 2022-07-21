@@ -18,3 +18,10 @@ repos:
       - id: mypy
         always_run: true
         args: [src]
+
+  - repo: "https://github.com/PyCQA/isort"
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        always_run: true
+        args: [src, --check-only]

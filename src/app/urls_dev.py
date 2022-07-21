@@ -1,8 +1,7 @@
-from .urls import urlpatterns
-
 from django.conf import settings
-from django.urls import path, include
+from django.urls import include, path
 
+from .urls import urlpatterns
 
 if settings.DEBUG:  # pragma: no cover
     import debug_toolbar

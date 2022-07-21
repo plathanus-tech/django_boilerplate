@@ -2,6 +2,7 @@
 
 import django.contrib.auth.models
 from django.db import migrations, models
+
 import users.models
 
 

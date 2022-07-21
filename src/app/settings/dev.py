@@ -1,8 +1,9 @@
 # type: ignore
 
 import os
-from .common import *
 from typing import List
+
+from .common import *
 
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media/")
 MEDIA_URL = "/media/"

@@ -1,11 +1,10 @@
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
-from django.urls import path, include, reverse
 from django.shortcuts import redirect
+from django.urls import include, path, reverse
 from drf_spectacular import views as drf_views
 
 from app.base.jwt_auth import auth_token_view, refresh_view
-
 
 schema_view = drf_views.SpectacularAPIView.as_view()
 swagger_view = drf_views.SpectacularSwaggerView.as_view(url_name="schema")

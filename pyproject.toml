@@ -18,6 +18,9 @@ extend-exclude = """
 migrations
 """
 
+[tool.isort]
+profile = "black"
+
 [tool.pdm]
 [[tool.pdm.source]]
 name = "pypi"
@@ -51,6 +54,7 @@ dev = [
     "django-debug-toolbar>=3.5",
     "coverage==6.3.2",
     "pre-commit>=2.19.0",
+    "isort>=5.10.1",
 ]
 [build-system]
 requires = ["pdm-pep517>=0.12.0"]
