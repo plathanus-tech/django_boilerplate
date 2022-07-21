@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include, reverse
@@ -24,10 +23,3 @@ urlpatterns = i18n_patterns(
     path("api/auth/refresh/", refresh_view, name="token_refresh"),
     prefix_default_language=True,
 )
-
-if settings.DEBUG:  # pragma: no cover
-    import debug_toolbar
-
-    urlpatterns += [
-        path("__debug__/", include(debug_toolbar.urls)),
-    ]
