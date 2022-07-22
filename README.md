@@ -10,11 +10,17 @@ It may not work on MacOs or Windows.
     This project requires python3.10 to run. To install it follow these guidelines:
 
     > sudo apt update && sudo apt upgrade -y
+
     > sudo apt install software-properties-common -y
+
     > sudo add-apt-repository ppa:deadsnakes/ppa
+
     > sudo apt install python3.10
+
     > sudo apt install python3-pip python3.10-distutils python3-apt --reinstall
+
     > python3.10 -m pip install --upgrade pip
+
     > python3.10 -m pip install setuptools wheel
 
     These steps work from any version of python3.
