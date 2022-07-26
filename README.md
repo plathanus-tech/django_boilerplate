@@ -31,7 +31,7 @@ It may not work on MacOs or Windows.
     Install [PDM](https://pdm.fming.dev/latest/). PDM is a project development management tool. It's really similar to npm.
     Command:
 
-    > pip install pdm==1.15.0
+    > pip install pdm
 
 2.  Install python project dependencies:
 
