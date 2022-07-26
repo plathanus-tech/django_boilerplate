@@ -4,7 +4,7 @@ services:
     image: "redis"
     restart: always
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
     command: redis-server
     volumes:
       - cache:/data
