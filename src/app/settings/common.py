@@ -132,7 +132,6 @@ USE_I18N: bool = True
 
 # Internationalization
 # Dates
-USE_L10N: bool = True
 FORMAT_MODULE_PATH: List[str] = [
     "app.settings.formats",
 ]
