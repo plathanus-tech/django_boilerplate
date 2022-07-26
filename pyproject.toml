@@ -94,6 +94,6 @@ dependencies = [
 requires-python = ">=3.9"
 
 [project.urls]
-Homepage = ""
+Homepage = "https://github.com/leandrodesouzadev/django_boilerplate"
 
 [project.optional-dependencies]
