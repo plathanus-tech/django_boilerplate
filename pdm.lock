@@ -736,7 +736,7 @@ dependencies = [
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:a37bf6210d34d411b8858640615f7e41000756de9934f1643cc3ca9168cf111f"
+content_hash = "sha256:e04c431786016cfa9efb457fca7ecd18e05bf2f7d9c3f5a19b6ea6cb7a452d74"
 
 [metadata.files]
 "aioredis 1.3.1" = [

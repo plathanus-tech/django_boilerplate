@@ -74,6 +74,21 @@ description = "Django Boilerplate"
 authors = [
     {name = "Leandro de Souza", email = "leandrodesouzadev@gmail.com"},
 ]
-dependencies = []
-requires-python = "==3.9"
+dependencies = [
+    "Django==4.0",
+    "djangorestframework>=3.13.1",
+    "celery[redis]>=5.2.7",
+    "whitenoise>=6.2.0",
+    "django-environ>=0.9.0",
+    "django-jazzmin>=2.5.0",
+    "drf-spectacular[sidecar]>=0.22.1",
+    "django-cors-headers>=3.13.0",
+    "psycopg2-binary>=2.9.3",
+    "djangorestframework-simplejwt>=5.2.0",
+    "setuptools>=62.6.0",
+    "channels>=3.0.5",
+    "channels-redis>=3.4.0",
+    "daphne>=3.0.2",
+]
+requires-python = "==3.9.13"
 license = {text = "MIT"}
