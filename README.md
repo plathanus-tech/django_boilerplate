@@ -97,7 +97,15 @@ After all these steps, you will end up with the following components running in 
 - Celery Scheduler: Produces messages (tasks) periodically to workers consume.
 - Redis: In-Memory database that is used as a broker for celery.
 
-## Project Dependencies
+## Going Live:
+
+For production environments you most likely will be using a AWS EC2 instance for a MVP product. The project is configured so you just need to git clone it in the virtual machine, setup the `.env.prod` file, build the `docker-compose-prod.yml` file and run the `up` command.
+For production we don't use some of the docker services that are present on development, they are:
+
+- db:
+  You will need to setup a AWS RDS instance for the PostgreSQL Database, then set the proper environment variables in the .env.prod file: `SQL_ENGINE`, `SQL_DATABASE`, `SQL_USER`, `SQL_PASSWORD`, `SQL_HOST`, `SQL_PORT`.
+- media storage:
+  On development we store media on the local machine, but in production you should setup a S3 Bucket to receive the images. Then, you must configure the following environment variables: `AWS_ACCESS_KEY_ID`,`AWS_SECRET_ACCESS_KEY`,`AWS_STORAGE_BUCKET_NAME`.
 
 ### Django Apps
 
