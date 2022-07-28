@@ -3,10 +3,20 @@ from typing import List
 
 from .common import *
 
+THIRD_PARTY_APPS += ["storages"]
 INSTALLED_APPS: List[str] = DJANGO_APPS + THIRD_PARTY_APPS + YOUR_PROJECT_APPS
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", str)
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", str)
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", str)
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+AWS_MEDIA_LOCATION = "media/"
+DEFAULT_FILE_STORAGE = "app.ext.storage.aws_s3.PrivateMediaStorage"
+
 
 STATIC_ROOT: str = os.path.join(BASE_DIR, "static")
 

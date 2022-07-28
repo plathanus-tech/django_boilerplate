@@ -51,6 +51,7 @@ db.sqlite3-journal
 src/static/
 /static/
 media/
+test_media/
 
 # Scrapy stuff:
 .scrapy

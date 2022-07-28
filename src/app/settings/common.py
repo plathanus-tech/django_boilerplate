@@ -153,6 +153,11 @@ STATICFILES_FINDERS: List[str] = [
 ]
 STATICFILES_STORAGE: str = "whitenoise.storage.CompressedStaticFilesStorage"
 
+MEDIA_URL = "/media/"
+
+# Storages
+DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+
 
 # Logging
 LOGGING_LEVEL: str = env("DJANGO_LOGGING_LEVEL", default="INFO")

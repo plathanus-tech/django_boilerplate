@@ -90,6 +90,7 @@ dependencies = [
     "channels-redis>=3.4.0",
     "daphne>=3.0.2",
     "sendgrid>=6.9.7",
+    "django-storages>=1.12.3",
 ]
 requires-python = "==3.9.13"
 license = {text = "MIT"}
