@@ -570,6 +570,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "python-http-client"
+version = "3.3.7"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+summary = "HTTP REST client, simplified for Python"
+
+[[package]]
 name = "pytz"
 version = "2022.1"
 summary = "World timezone definitions, modern and historical"
@@ -589,6 +595,16 @@ dependencies = [
     "async-timeout>=4.0.2",
     "deprecated>=1.2.3",
     "packaging>=20.4",
+]
+
+[[package]]
+name = "sendgrid"
+version = "6.9.7"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+summary = "Twilio SendGrid library for Python"
+dependencies = [
+    "python-http-client>=3.2.1",
+    "starkbank-ecdsa>=2.0.1",
 ]
 
 [[package]]
@@ -620,6 +636,11 @@ name = "sqlparse"
 version = "0.4.2"
 requires_python = ">=3.5"
 summary = "A non-validating SQL parser."
+
+[[package]]
+name = "starkbank-ecdsa"
+version = "2.0.3"
+summary = "A lightweight and fast pure python ECDSA library"
 
 [[package]]
 name = "toml"
@@ -736,7 +757,7 @@ dependencies = [
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:e04c431786016cfa9efb457fca7ecd18e05bf2f7d9c3f5a19b6ea6cb7a452d74"
+content_hash = "sha256:a515bd712415e4ee234fda121c6bf3e551873efafbd133f673e43cf24337f826"
 
 [metadata.files]
 "aioredis 1.3.1" = [
@@ -1330,6 +1351,10 @@ content_hash = "sha256:e04c431786016cfa9efb457fca7ecd18e05bf2f7d9c3f5a19b6ea6cb7
     {url = "https://files.pythonhosted.org/packages/4b/21/b65ecd6686da400e2f6e3c49c2a428325abd979c9670cd97e1671f53296e/pytest_django-4.5.2-py3-none-any.whl", hash = "sha256:c60834861933773109334fe5a53e83d1ef4828f2203a1d6a0fa9972f4f75ab3e"},
     {url = "https://files.pythonhosted.org/packages/9b/42/6d6563165b82289d4a30ea477f85c04386303e51cf4e4e4651d4f9910830/pytest-django-4.5.2.tar.gz", hash = "sha256:d9076f759bb7c36939dbdd5ae6633c18edfc2902d1a69fdbefd2426b970ce6c2"},
 ]
+"python-http-client 3.3.7" = [
+    {url = "https://files.pythonhosted.org/packages/29/31/9b360138f4e4035ee9dac4fe1132b6437bd05751aaf1db2a2d83dc45db5f/python_http_client-3.3.7-py3-none-any.whl", hash = "sha256:ad371d2bbedc6ea15c26179c6222a78bc9308d272435ddf1d5c84f068f249a36"},
+    {url = "https://files.pythonhosted.org/packages/56/fa/284e52a8c6dcbe25671f02d217bf2f85660db940088faf18ae7a05e97313/python_http_client-3.3.7.tar.gz", hash = "sha256:bf841ee45262747e00dec7ee9971dfb8c7d83083f5713596488d67739170cea0"},
+]
 "pytz 2022.1" = [
     {url = "https://files.pythonhosted.org/packages/2f/5f/a0f653311adff905bbcaa6d3dfaf97edcf4d26138393c6ccd37a484851fb/pytz-2022.1.tar.gz", hash = "sha256:1e760e2fe6a8163bc0b3d9a19c4f84342afa0a2affebfaa84b01b978a02ecaa7"},
     {url = "https://files.pythonhosted.org/packages/60/2e/dec1cc18c51b8df33c7c4d0a321b084cf38e1733b98f9d15018880fb4970/pytz-2022.1-py2.py3-none-any.whl", hash = "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"},
@@ -1373,6 +1398,10 @@ content_hash = "sha256:e04c431786016cfa9efb457fca7ecd18e05bf2f7d9c3f5a19b6ea6cb7
     {url = "https://files.pythonhosted.org/packages/8f/d4/78ef2d3f316041fa6c92daa7ac2c8056c39858c3775fad35fd84b9b3a6fb/redis-4.3.4.tar.gz", hash = "sha256:ddf27071df4adf3821c4f2ca59d67525c3a82e5f268bed97b813cb4fabf87880"},
     {url = "https://files.pythonhosted.org/packages/e6/b3/4020cf6172bfd8a75fa2a8fa478bae7a842cf0d7173f2f77305b0c98052b/redis-4.3.4-py3-none-any.whl", hash = "sha256:a52d5694c9eb4292770084fa8c863f79367ca19884b329ab574d5cb2036b3e54"},
 ]
+"sendgrid 6.9.7" = [
+    {url = "https://files.pythonhosted.org/packages/33/a8/c13804d8baff6f75db7ff9502a27c79f28beb559142dabc65e7aae6ae48b/sendgrid-6.9.7.tar.gz", hash = "sha256:fa30411c627690fecd0ef6b1d4e1783f2d0272aa14b5fffb133ebd1e31114f16"},
+    {url = "https://files.pythonhosted.org/packages/98/dc/f50ef2317a4279e12556498dfb08824509818120a458209e3eb25abbe5a3/sendgrid-6.9.7-py3-none-any.whl", hash = "sha256:ba8d3d39e1f392b9434365d53983b2fc6a458ae0496d2d9e103c15e1743ab66b"},
+]
 "service-identity 21.1.0" = [
     {url = "https://files.pythonhosted.org/packages/09/2e/26ade69944773df4748c19d3053e025b282f48de02aad84906d34a29d28b/service-identity-21.1.0.tar.gz", hash = "sha256:6e6c6086ca271dc11b033d17c3a8bea9f24ebff920c587da090afc9519419d34"},
     {url = "https://files.pythonhosted.org/packages/93/5a/5e93f280ec7be676b5a57f305350f439d31ced168bca04e6ffa64b575664/service_identity-21.1.0-py2.py3-none-any.whl", hash = "sha256:f0b0caac3d40627c3c04d7a51b6e06721857a0e10a8775f2d1d7e72901b3a7db"},
@@ -1388,6 +1417,9 @@ content_hash = "sha256:e04c431786016cfa9efb457fca7ecd18e05bf2f7d9c3f5a19b6ea6cb7
 "sqlparse 0.4.2" = [
     {url = "https://files.pythonhosted.org/packages/05/40/d836d55fb3f467243ee839ab7b814822fda522cd395fa41e282684e71ee5/sqlparse-0.4.2-py3-none-any.whl", hash = "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"},
     {url = "https://files.pythonhosted.org/packages/32/fe/8a8575debfd924c8160295686a7ea661107fc34d831429cce212b6442edb/sqlparse-0.4.2.tar.gz", hash = "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae"},
+]
+"starkbank-ecdsa 2.0.3" = [
+    {url = "https://files.pythonhosted.org/packages/f7/5f/e86a504bacc66aaf063440e5bc2c0cd2d903e5479e83ed875b8a6a195794/starkbank-ecdsa-2.0.3.tar.gz", hash = "sha256:73b62b1b3de54bbaa05dedb1a2d951c033432bb074de899e19d4a96a36b21df6"},
 ]
 "toml 0.10.2" = [
     {url = "https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},

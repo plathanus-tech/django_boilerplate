@@ -89,6 +89,7 @@ dependencies = [
     "channels>=3.0.5",
     "channels-redis>=3.4.0",
     "daphne>=3.0.2",
+    "sendgrid>=6.9.7",
 ]
 requires-python = "==3.9.13"
 license = {text = "MIT"}

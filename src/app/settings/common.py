@@ -63,6 +63,7 @@ THIRD_PARTY_APPS: List[str] = [
 YOUR_PROJECT_APPS: List[str] = [
     "users.apps.UsersConfig",
 ]
+LOGIN_URL = "/admin/login/"
 LOGIN_REDIRECT_URL: str = "/admin/"
 
 MIDDLEWARE: List[str] = [
@@ -155,6 +156,7 @@ STATICFILES_STORAGE: str = "whitenoise.storage.CompressedStaticFilesStorage"
 
 # Logging
 LOGGING_LEVEL: str = env("DJANGO_LOGGING_LEVEL", default="INFO")
+SENDGRID_LOGGING_LEVEL: str = env("SENDGRID_LOGGING_LEVEL", default="WARNING")
 LOGGING: Dict[str, Any] = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -169,6 +171,12 @@ LOGGING: Dict[str, Any] = {
         "simple": {"format": "{levelname} {asctime}: {message}", "style": "{"},
     },
     "root": {"handlers": ["console"], "level": LOGGING_LEVEL},
+    "loggers": {
+        "send_grid": {
+            "handlers": ["console"],
+            "level": SENDGRID_LOGGING_LEVEL,
+        },
+    },
 }
 
 
