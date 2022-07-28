@@ -36,14 +36,13 @@ server.cmd = "python manage.py runserver"
 createsuperuser.cmd = "python manage.py createsuperuser"
 makemessages.shell = "cd src && pdm run python manage.py makemessages"
 compilemessages.shell = "cd src && pdm run python manage.py compilemessages"
-tests.shell = """\
+tests = { env_file=".env.test", shell = """\
 coverage run --source=src/ --rcfile=.coveragerc -m pytest tests/ \
 && \
 coverage html \
 && \
 google-chrome htmlcov/index.html
-"""
-
+"""}
 
 [tool.pdm.dev-dependencies]
 dev = [
@@ -61,7 +60,6 @@ requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE='app.settings.test'
 testpaths = [
     "tests/",
 ]
