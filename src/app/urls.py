@@ -5,8 +5,6 @@ from django.shortcuts import redirect
 from django.urls import include, path, reverse
 from drf_spectacular import views as drf_views
 
-from app.base.jwt_auth import auth_token_view, refresh_view
-
 schema_view = drf_views.SpectacularAPIView.as_view()
 swagger_view = drf_views.SpectacularSwaggerView.as_view(url_name="schema")
 redoc_view = drf_views.SpectacularRedocView.as_view(url_name="schema")
@@ -39,7 +37,6 @@ urlpatterns = i18n_patterns(
     path("api/schema/", schema_view, name="schema"),
     path("api/docs/", swagger_view, name="docs"),
     path("api/redoc/", redoc_view, name="redoc"),
-    path("api/auth/", auth_token_view, name="token_obtain_pair"),
-    path("api/auth/refresh/", refresh_view, name="token_refresh"),
+    path("", include("users.urls", namespace="users")),
     prefix_default_language=True,
 )
