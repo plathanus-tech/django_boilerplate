@@ -21,7 +21,7 @@ COPY entrypoint.api.sh entrypoint.api.sh
 RUN sed -i 's/\r$//g' entrypoint.api.sh
 RUN chmod +x  entrypoint.api.sh
 
-ENV PYTHONPATH=src:__pypackages__/3.9/lib
+ENV PYTHONPATH=src:.venv/lib/python3.9/site-packages
 COPY ./ /app/
 
-ENTRYPOINT ["sh", "/project/entrypoint.api.sh"]
+ENTRYPOINT ["sh", "/app/entrypoint.api.sh"]
