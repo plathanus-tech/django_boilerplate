@@ -56,6 +56,18 @@ services:
     volumes:
       - .:/app/
 
+  flower:
+    build: .
+    env_file:
+      - .env.dev
+    entrypoint: []
+    command: python -m celery -A app flower --address=0.0.0.0 --port=${FLOWER_PORT}
+    environment:
+      - SQL_HOST=db
+      - REDIS_HOST=redis
+    ports:
+      - 80
+
 volumes:
   postgres_data:
   logs:

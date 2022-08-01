@@ -49,6 +49,17 @@ services:
       traefik.http.routers.api-secure.tls.certresolver: ssl
       traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
 
+  flower:
+    extends:
+      file: compose-common.yml
+      service: flower
+    command: python -m celery -A app flower --address=0.0.0.0 --port=${FLOWER_PORT} --basic_auth=${FLOWER_USER}:${FLOWER_PASSWORD}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.flower.rule=Host(`${FLOWER_HOST}`)
+    expose:
+      - ${FLOWER_PORT}
+
 volumes:
   cache:
   staticfiles:
