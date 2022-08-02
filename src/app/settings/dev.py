@@ -24,4 +24,7 @@ INSTALLED_APPS: List[str] = DJANGO_APPS + THIRD_PARTY_APPS + YOUR_PROJECT_APPS
 ROOT_URLCONF: str = "app.urls_dev"
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = ROOT_DIR / "sent_emails"
+EMAIL_FILE_PATH = ROOT_DIR / "dev_notifications" / "emails"
+
+SMS_BACKEND = "app.ext.sms.backends.filebased.FileBasedSmsBackend"
+SMS_FILE_PATH = ROOT_DIR / "dev_notifications" / "sms"

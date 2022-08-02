@@ -106,6 +106,10 @@ For production we don't use some of the docker services that are present on deve
   You will need to setup a AWS RDS instance for the PostgreSQL Database, then set the proper environment variables in the .env.prod file: `SQL_ENGINE`, `SQL_DATABASE`, `SQL_USER`, `SQL_PASSWORD`, `SQL_HOST`, `SQL_PORT`.
 - media storage:
   On development we store media on the local machine, but in production you should setup a S3 Bucket to receive the images. Then, you must configure the following environment variables: `AWS_ACCESS_KEY_ID`,`AWS_SECRET_ACCESS_KEY`,`AWS_STORAGE_BUCKET_NAME`.
+- email:
+  By default, the boilerplate will use the sendgrid Api to send emails. If you wish to use it, set the `SENDGRID_API_KEY` variable.
+- sms:
+  By default, the boilerplate will use the twilio Api to send SMS's. If you wish to use it, set the `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_SERVICE_PHONE` variables.
 
 ### Django Apps
 

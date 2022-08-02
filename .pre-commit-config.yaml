@@ -14,10 +14,11 @@ repos:
         args: [src, --check]
         always_run: true
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v0.961
+    rev: v0.902
     hooks:
       - id: mypy
         exclude: ^.*\b(migrations)\b.*$
+        additional_dependencies: ["types-all"]
 
   - repo: "https://github.com/PyCQA/isort"
     rev: 5.10.1
