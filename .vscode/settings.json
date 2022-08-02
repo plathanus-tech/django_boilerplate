@@ -1,14 +1,18 @@
 {
+  "python.analysis.typeCheckingMode": "off",
+  "python.languageServer": "Pylance",
   "python.linting.enabled": false,
+  "python.linting.mypyEnabled": true,
+  "python.linting.mypyArgs": [
+    "--follow-imports=silent",
+    "--ignore-missing-imports",
+    "--show-column-numbers",
+    "--no-pretty",
+    "--exclude='.py$'"
+  ],
   "python.formatting.provider": "black",
-  "python.autoComplete.extraPaths": [
-    "__pypackages__/3.9/lib",
-    ".venv/lib/python3.9/site-packages"
-  ],
-  "python.analysis.extraPaths": [
-    "__pypackages__/3.9/lib",
-    ".venv/lib/python3.9/site-packages"
-  ],
+  "python.autoComplete.extraPaths": [".venv/lib/python3.9/site-packages"],
+  "python.analysis.extraPaths": [".venv/lib/python3.9/site-packages"],
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -22,7 +26,11 @@
     "manage.py": true,
     "**/*.mo": true,
     ".tox/": true,
-    ".mypy_cache": true,
-    "letsencrypt": true
+    "**/.mypy_cache": true,
+    ".pytest_cache": true,
+    "letsencrypt": true,
+    "src/static": true,
+    "htmlcov": true,
+    "celerybeat-schedule": true
   }
 }
