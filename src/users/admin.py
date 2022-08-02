@@ -50,7 +50,7 @@ class UserAdmin(DjangoUserAdmin):
 
     @admin.display(description=_("full name"))
     def get_full_name(self, obj):
-        return obj.full_name
+        return obj.full_name  # pragma: no cover
 
 
 @admin.register(DjangoGroupProxy)

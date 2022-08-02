@@ -1,8 +1,8 @@
 [run]
-omit = 
+omit =
 
     ; Django migrations
-    */migrations/* 
+    */migrations/*
 
     ; Django Apps
     *apps.py
@@ -10,9 +10,10 @@ omit =
     *asgi.py
     *wsgi.py
     *tests.py
-    
+
     ; Django settings
     *settings/*
+    */urls_dev.py
 
     ; DRF Auto Docs
     *docs.py
@@ -26,3 +27,21 @@ omit =
 
     ; python module boilerplate
     *__init__.py
+
+    # prod-only services
+    src/app/ext/sms/backends/twilio.py
+    src/app/ext/email/send_grid.py
+    src/app/ext/storage/aws_s3.py
+    src/app/ext/storage/fields.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    class .*\bProtocol\):
+    @(abc\.)?abstractmethod
+    from abc *
+    class .*\b\(ABC\):
