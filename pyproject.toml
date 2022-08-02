@@ -36,13 +36,7 @@ server.cmd = "python manage.py runserver"
 createsuperuser.cmd = "python manage.py createsuperuser"
 makemessages.shell = "cd src && pdm run python manage.py makemessages"
 compilemessages.shell = "cd src && pdm run python manage.py compilemessages"
-tests = { env_file=".env.test", shell = """\
-coverage run --source=src/ --rcfile=.coveragerc -m pytest tests/ \
-&& \
-coverage html \
-&& \
-google-chrome htmlcov/index.html
-"""}
+tests = { env_file = ".env.test", shell = "coverage run --source=src/ --rcfile=.coveragerc -m pytest tests/ && coverage html && google-chrome htmlcov/index.html"}
 
 [tool.pdm.dev-dependencies]
 dev = [
@@ -54,6 +48,7 @@ dev = [
     "coverage==6.3.2",
     "pre-commit>=2.19.0",
     "isort>=5.10.1",
+    "types-all>=1.0.0",
 ]
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
@@ -94,3 +89,5 @@ dependencies = [
 ]
 requires-python = "==3.9.13"
 license = {text = "MIT"}
+
+[project.optional-dependencies]
