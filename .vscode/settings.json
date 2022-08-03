@@ -1,7 +1,7 @@
 {
   "python.analysis.typeCheckingMode": "off",
   "python.languageServer": "Pylance",
-  "python.linting.enabled": false,
+  "python.linting.enabled": true,
   "python.linting.mypyEnabled": true,
   "python.linting.mypyArgs": [
     "--follow-imports=silent",
