@@ -14,7 +14,7 @@ DAY_SECONDS = MINUTE_SECONDS * HOUR_MINUTES * DAY_HOURS
 
 CELERY_CONFIG = {
     "task_serializer": "json",
-    "acceot_content": [
+    "accept_content": [
         "json",
     ],
     "result_serializer": "json",

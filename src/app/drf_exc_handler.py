@@ -23,10 +23,13 @@ To this:
     ]
 }
 """
+import logging
 from typing import Optional
 
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
+
+logger = logging.getLogger(__name__)
 
 
 def make_error_message_on_validation_error(exc, context):
@@ -50,4 +53,5 @@ def make_error_message_on_validation_error(exc, context):
         errors.append({"field": field_name, "messages": field_errors})
     response.data = {"errors": errors}
 
+    logger.warning(f"Path:{response.wsgi_request.path} ValidationError: {errors=}")
     return response

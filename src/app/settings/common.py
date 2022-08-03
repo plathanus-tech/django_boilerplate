@@ -162,11 +162,43 @@ DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 # Logging
 LOGGING_LEVEL: str = env("DJANGO_LOGGING_LEVEL", default="INFO")
 SENDGRID_LOGGING_LEVEL: str = env("SENDGRID_LOGGING_LEVEL", default="WARNING")
+TWILIO_LOGGING_LEVEL: str = env("TWILIO_LOGGING_LEVEL", default="INFO")
+
 LOGGING: Dict[str, Any] = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
         "console": {"class": "logging.StreamHandler"},
+        "root_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/root.log",
+            "formatter": "verbose",
+        },
+        "http_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/http.log",
+            "formatter": "verbose",
+        },
+        "sendgrid_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/sendgrid.log",
+            "formatter": "verbose",
+        },
+        "twilio_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/twilio.log",
+            "formatter": "verbose",
+        },
+        "background_tasks_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/background_tasks.log",
+            "formatter": "verbose",
+        },
+        "users_tasks_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/users_tasks.log",
+            "formatter": "verbose",
+        },
     },
     "formatters": {
         "verbose": {
@@ -175,11 +207,32 @@ LOGGING: Dict[str, Any] = {
         },
         "simple": {"format": "{levelname} {asctime}: {message}", "style": "{"},
     },
-    "root": {"handlers": ["console"], "level": LOGGING_LEVEL},
+    "filters": {
+        "no_static_logs": {"()": "app.log_filters.StaticFilesFilter"},
+    },
+    "root": {"handlers": ["console", "root_file"], "level": LOGGING_LEVEL},
     "loggers": {
+        "django.channels.server": {
+            "filters": ["no_static_logs"],
+            "handlers": ["console", "http_file"],
+            "level": LOGGING_LEVEL,
+            "propagate": False,
+        },
+        "drf_exc_handler": {
+            "handlers": ["console", "http_file"],
+            "level": LOGGING_LEVEL,
+        },
         "send_grid": {
-            "handlers": ["console"],
+            "handlers": ["console", "sendgrid_file"],
             "level": SENDGRID_LOGGING_LEVEL,
+        },
+        "twilio": {
+            "handlers": ["console", "twilio_file"],
+            "level": TWILIO_LOGGING_LEVEL,
+        },
+        "users.tasks": {
+            "handlers": ["console", "background_tasks_file", "users_tasks_file"],
+            "level": "INFO",
         },
     },
 }
@@ -205,6 +258,10 @@ JAZZMIN_SETTINGS = {
     "default_icon_children": "fas fa-circle",
     "show_ui_builder": False,
     "language_chooser": True,
+}
+JAZZMIN_UI_TWEAKS = {
+    "actions_sticky_top": True,
+    "navbar_fixed": True,
 }
 
 

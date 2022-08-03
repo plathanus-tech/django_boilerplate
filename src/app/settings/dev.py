@@ -8,6 +8,8 @@ from .common import *
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media/")
 MEDIA_URL = "/media/"
 
+CSRF_TRUSTED_ORIGINS = ["http://*.com"]
+
 # Debug Tool Bar Config
 if DEBUG:
     THIRD_PARTY_APPS += [
