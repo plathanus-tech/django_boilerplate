@@ -67,7 +67,7 @@ authors = [
     {name = "Leandro de Souza", email = "leandrodesouzadev@gmail.com"},
 ]
 dependencies = [
-    "Django==4.0",
+    "Django==4.1",
     "djangorestframework>=3.13.1",
     "celery[redis]>=5.2.7",
     "whitenoise>=6.2.0",
