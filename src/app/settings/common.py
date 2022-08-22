@@ -63,8 +63,8 @@ THIRD_PARTY_APPS: List[str] = [
 YOUR_PROJECT_APPS: List[str] = [
     "users.apps.UsersConfig",
 ]
-LOGIN_URL = "/admin/login/"
-LOGIN_REDIRECT_URL: str = "/admin/"
+LOGIN_URL = "/a/login/"
+LOGIN_REDIRECT_URL: str = "/a/"
 
 MIDDLEWARE: List[str] = [
     "django.middleware.security.SecurityMiddleware",

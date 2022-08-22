@@ -1,5 +1,6 @@
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
+from django.contrib.auth import decorators as auth_decorators
 from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
 from django.urls import include, path, reverse
@@ -11,6 +12,7 @@ redoc_view = drf_views.SpectacularRedocView.as_view(url_name="schema")
 
 urlpatterns = i18n_patterns(
     path("", lambda r: redirect(reverse("admin:login"))),
+    path("a/", admin.site.urls),
     path(
         "admin/password_reset/",
         auth_views.PasswordResetView.as_view(),
@@ -32,11 +34,9 @@ urlpatterns = i18n_patterns(
         name="password_reset_complete",
     ),
     path("i18n/", include("django.conf.urls.i18n")),
-    path("admin/", admin.site.urls),
-    path("", include("rest_framework.urls", namespace="rest_framework")),
-    path("api/schema/", schema_view, name="schema"),
-    path("api/docs/", swagger_view, name="docs"),
-    path("api/redoc/", redoc_view, name="redoc"),
+    path("api/schema/", auth_decorators.login_required(schema_view), name="schema"),
+    path("api/docs/", auth_decorators.login_required(swagger_view), name="docs"),
+    path("api/redoc/", auth_decorators.login_required(redoc_view), name="redoc"),
     path("", include("users.urls", namespace="users")),
     prefix_default_language=True,
 )
