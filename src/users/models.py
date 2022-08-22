@@ -1,7 +1,8 @@
-from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
+from django.contrib.auth.models import AbstractBaseUser, Group, PermissionsMixin
+from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from app.base.models import BaseModel
 
 
@@ -11,12 +12,6 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra):
         user = self.model(email=self.normalize_email(email), **extra)
         user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_staffuser(self, email, password, **extra):
-        user = self.create_user(email, password=password, **extra)
-        user.is_staff = True
         user.save(using=self._db)
         return user
 

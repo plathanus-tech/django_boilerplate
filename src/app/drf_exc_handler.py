@@ -23,30 +23,35 @@ To this:
     ]
 }
 """
+import logging
 from typing import Optional
+
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
+
+logger = logging.getLogger(__name__)
 
 
 def make_error_message_on_validation_error(exc, context):
     response: Optional[Response] = exception_handler(exc, context)
 
-    if not response or response.status_code != 400:
+    if not response or response.status_code != 400:  # pragma: no cover
         return response
 
     errors = []
     old_data = response.data
     for field_name, messages in old_data.items():
-        if isinstance(messages, dict):
+        if isinstance(messages, dict):  # pragma: no cover
             field_errors = messages.values()
-        elif isinstance(messages, str):
+        elif isinstance(messages, str):  # pragma: no cover
             field_errors = [messages]
         elif isinstance(messages, (list, tuple)):
             field_errors = messages
-        else:
+        else:  # pragma: no cover
             return response
 
         errors.append({"field": field_name, "messages": field_errors})
     response.data = {"errors": errors}
 
+    logger.warning(f"Path:{response.wsgi_request.path} ValidationError: {errors=}")
     return response

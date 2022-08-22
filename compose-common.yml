@@ -4,7 +4,7 @@ services:
     image: "redis"
     restart: always
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
     command: redis-server
     volumes:
       - cache:/data
@@ -24,7 +24,7 @@ services:
     build: .
     volumes:
       - .:/app/
-      - .logs:/project/logs/
+      - ./logs:/app/logs/
     ports:
       - 80
     env_file:
@@ -45,12 +45,28 @@ services:
     env_file:
       - .env.dev
     command: python -m celery -A app beat
+    volumes:
+      - .:/app/
 
   celery-worker:
     build: .
     env_file:
       - .env.dev
     command: python -m celery -A app worker -P solo --concurrency 1
+    volumes:
+      - .:/app/
+
+  flower:
+    build: .
+    env_file:
+      - .env.dev
+    entrypoint: []
+    command: python -m celery -A app flower --address=0.0.0.0 --port=${FLOWER_PORT}
+    environment:
+      - SQL_HOST=db
+      - REDIS_HOST=redis
+    ports:
+      - ${FLOWER_PORT}
 
 volumes:
   postgres_data:

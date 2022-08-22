@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-27 18:20+0000\n"
+"POT-Creation-Date: 2022-07-28 19:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,70 +18,74 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: users/admin.py:33
+#: users/admin.py:32
 msgid "Personal info"
 msgstr "Informações pessoais"
 
-#: users/admin.py:35
+#: users/admin.py:34
 msgid "Permissions"
 msgstr "Permissões"
 
-#: users/admin.py:44
+#: users/admin.py:43
 msgid "Metadata"
 msgstr "Metadados"
 
-#: users/admin.py:54
+#: users/admin.py:51
 msgid "full name"
 msgstr "nome completo"
 
-#: users/apps.py:9
+#: users/api/v1/serializers.py:17
+msgid "Unable to login with the given credentials"
+msgstr "Não possível autenticar com as credenciais informadas"
+
+#: users/apps.py:8
 msgid "User"
 msgstr "Usuário"
 
-#: users/apps.py:10
+#: users/apps.py:9
 msgid "Users"
 msgstr "Usuários"
 
-#: users/models.py:33
+#: users/models.py:34
 msgid "Email address"
 msgstr "Endereço de e-mail"
 
-#: users/models.py:34
+#: users/models.py:35
 msgid "First name"
 msgstr "Primeiro nome"
 
-#: users/models.py:35
+#: users/models.py:36
 msgid "Last name"
 msgstr "Sobrenome"
 
-#: users/models.py:38
+#: users/models.py:39
 msgid "Is active"
 msgstr "Ativo"
 
-#: users/models.py:39
+#: users/models.py:40
 msgid "Is staff"
 msgstr "Staff"
 
-#: users/models.py:40
+#: users/models.py:41
 msgid "Is admin"
 msgstr "Super usuário"
 
-#: users/models.py:43
+#: users/models.py:44
 msgid "Date joined"
 msgstr "Data criação"
 
-#: users/models.py:64
+#: users/models.py:65
 msgid "user"
 msgstr "usuário"
 
-#: users/models.py:65
+#: users/models.py:66
 msgid "users"
 msgstr "usuários"
 
-#: users/models.py:74
+#: users/models.py:75
 msgid "User Group"
 msgstr "Grupo de Usuários"
 
-#: users/models.py:75
+#: users/models.py:76
 msgid "User Groups"
 msgstr "Grupos de Usuários"

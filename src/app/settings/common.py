@@ -3,11 +3,10 @@
 import os
 from datetime import timedelta
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import environ
 from django.utils.translation import gettext_lazy as _
-
 
 # Build paths from src directory
 BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
@@ -64,7 +63,8 @@ THIRD_PARTY_APPS: List[str] = [
 YOUR_PROJECT_APPS: List[str] = [
     "users.apps.UsersConfig",
 ]
-LOGIN_REDIRECT_URL: str = "/admin/"
+LOGIN_URL = "/a/login/"
+LOGIN_REDIRECT_URL: str = "/a/"
 
 MIDDLEWARE: List[str] = [
     "django.middleware.security.SecurityMiddleware",
@@ -77,6 +77,7 @@ MIDDLEWARE: List[str] = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "app.middlewares.tz.TimezoneMiddleware",
 ]
 ROOT_URLCONF: str = "app.urls"
 TEMPLATES: List[Dict[str, Any]] = [
@@ -133,7 +134,6 @@ USE_I18N: bool = True
 
 # Internationalization
 # Dates
-USE_L10N: bool = True
 FORMAT_MODULE_PATH: List[str] = [
     "app.settings.formats",
 ]
@@ -142,7 +142,10 @@ FORMAT_MODULE_PATH: List[str] = [
 # Time Zone
 TIME_ZONE: str = "UTC"
 USE_TZ: bool = True
-
+TIMEZONE_FOR_LANGUAGE = {
+    "pt-br": "America/Sao_Paulo",
+    "en": "UTC",
+}
 
 # Static Files
 STATIC_URL: str = "/static/"
@@ -154,18 +157,51 @@ STATICFILES_FINDERS: List[str] = [
 ]
 STATICFILES_STORAGE: str = "whitenoise.storage.CompressedStaticFilesStorage"
 
+MEDIA_URL = "/media/"
+
+# Storages
+DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+
 
 # Logging
 LOGGING_LEVEL: str = env("DJANGO_LOGGING_LEVEL", default="INFO")
+SENDGRID_LOGGING_LEVEL: str = env("SENDGRID_LOGGING_LEVEL", default="WARNING")
+TWILIO_LOGGING_LEVEL: str = env("TWILIO_LOGGING_LEVEL", default="INFO")
+
 LOGGING: Dict[str, Any] = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
         "console": {"class": "logging.StreamHandler"},
-        "file": {
-            "level": LOGGING_LEVEL,
+        "root_file": {
             "class": "logging.FileHandler",
-            "filename": "django.log",
+            "filename": "logs/root.log",
+            "formatter": "verbose",
+        },
+        "http_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/http.log",
+            "formatter": "verbose",
+        },
+        "sendgrid_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/sendgrid.log",
+            "formatter": "verbose",
+        },
+        "twilio_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/twilio.log",
+            "formatter": "verbose",
+        },
+        "background_tasks_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/background_tasks.log",
+            "formatter": "verbose",
+        },
+        "users_tasks_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/users_tasks.log",
+            "formatter": "verbose",
         },
     },
     "formatters": {
@@ -175,7 +211,34 @@ LOGGING: Dict[str, Any] = {
         },
         "simple": {"format": "{levelname} {asctime}: {message}", "style": "{"},
     },
-    "root": {"handlers": ["console"], "level": LOGGING_LEVEL},
+    "filters": {
+        "no_static_logs": {"()": "app.log_filters.StaticFilesFilter"},
+    },
+    "root": {"handlers": ["console", "root_file"], "level": LOGGING_LEVEL},
+    "loggers": {
+        "django.channels.server": {
+            "filters": ["no_static_logs"],
+            "handlers": ["console", "http_file"],
+            "level": LOGGING_LEVEL,
+            "propagate": False,
+        },
+        "drf_exc_handler": {
+            "handlers": ["console", "http_file"],
+            "level": LOGGING_LEVEL,
+        },
+        "send_grid": {
+            "handlers": ["console", "sendgrid_file"],
+            "level": SENDGRID_LOGGING_LEVEL,
+        },
+        "twilio": {
+            "handlers": ["console", "twilio_file"],
+            "level": TWILIO_LOGGING_LEVEL,
+        },
+        "users.tasks": {
+            "handlers": ["console", "background_tasks_file", "users_tasks_file"],
+            "level": "INFO",
+        },
+    },
 }
 
 
@@ -200,6 +263,10 @@ JAZZMIN_SETTINGS = {
     "show_ui_builder": False,
     "language_chooser": True,
 }
+JAZZMIN_UI_TWEAKS = {
+    "actions_sticky_top": True,
+    "navbar_fixed": True,
+}
 
 
 DEFAULT_QUEUE_NAME: Optional[str] = env("DEFAULT_QUEUE_NAME", default="default")
@@ -212,6 +279,10 @@ CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env("CELERY_BEAT_RUNS_EACH_N_MI
 CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env("CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3)
 CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
 BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+
+FLOWER_HOST = env("FLOWER_HOST")
+FLOWER_PORT = env("FLOWER_PORT")
+
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
@@ -232,6 +303,7 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "SIDECAR",
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
+    "SERVE_PUBLIC": False,
 }
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=env("ACCESS_TOKEN_LIFETIME_MINUTES", cast=int)),

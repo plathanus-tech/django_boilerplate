@@ -1,11 +1,14 @@
 # type: ignore
 
 import os
-from .common import *
 from typing import List
+
+from .common import *
 
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media/")
 MEDIA_URL = "/media/"
+
+CSRF_TRUSTED_ORIGINS = ["http://*.com"]
 
 # Debug Tool Bar Config
 if DEBUG:
@@ -15,6 +18,15 @@ if DEBUG:
     MIDDLEWARE += [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
     ]
-    INTERNAL_IPS: List[str] = ["127.0.0.1", "localhost"]
+    INTERNAL_IPS: List[str] = ["127.0.0.1", os.environ.get("HOST", "localhost")]
+    DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
 
 INSTALLED_APPS: List[str] = DJANGO_APPS + THIRD_PARTY_APPS + YOUR_PROJECT_APPS
+
+ROOT_URLCONF: str = "app.urls_dev"
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = ROOT_DIR / "dev_notifications" / "emails"
+
+SMS_BACKEND = "app.ext.sms.backends.filebased.FileBasedSmsBackend"
+SMS_FILE_PATH = ROOT_DIR / "dev_notifications" / "sms"

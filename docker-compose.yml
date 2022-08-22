@@ -19,6 +19,10 @@ services:
       - db
       - traefik
       - redis
+    environment:
+      - SQL_HOST=db
+      - REDIS_HOST=redis
+      - FLOWER_HOST=flower
 
   db:
     extends:
@@ -26,7 +30,7 @@ services:
       service: db
     ports:
       - "${SQL_PORT}:${SQL_PORT}"
-      
+
     command: -p ${SQL_PORT}
     environment:
       POSTGRES_PASSWORD: ${SQL_PASSWORD}
@@ -40,6 +44,9 @@ services:
     entrypoint: []
     depends_on:
       - api
+    environment:
+      - SQL_HOST=db
+      - REDIS_HOST=redis
 
   celery-worker:
     extends:
@@ -48,7 +55,16 @@ services:
     entrypoint: []
     depends_on:
       - api
-    
+    environment:
+      - SQL_HOST=db
+      - REDIS_HOST=redis
+
+  flower:
+    extends:
+      file: compose-common.yml
+      service: flower
+    ports:
+      - "${FLOWER_PORT}:${FLOWER_PORT}"
 
 
 volumes:
