@@ -77,6 +77,7 @@ MIDDLEWARE: List[str] = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "app.middlewares.tz.TimezoneMiddleware",
 ]
 ROOT_URLCONF: str = "app.urls"
 TEMPLATES: List[Dict[str, Any]] = [
@@ -141,7 +142,10 @@ FORMAT_MODULE_PATH: List[str] = [
 # Time Zone
 TIME_ZONE: str = "UTC"
 USE_TZ: bool = True
-
+TIMEZONE_FOR_LANGUAGE = {
+    "pt-br": "America/Sao_Paulo",
+    "en": "UTC",
+}
 
 # Static Files
 STATIC_URL: str = "/static/"
