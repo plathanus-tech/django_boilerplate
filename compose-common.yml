@@ -52,7 +52,7 @@ services:
     build: .
     env_file:
       - .env.dev
-    command: python -m celery -A app worker -P solo --concurrency 1
+    command: python -m celery -A app worker -P solo --concurrency 1 --events
     volumes:
       - .:/app/
 
