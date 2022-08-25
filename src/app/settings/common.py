@@ -125,7 +125,7 @@ DATABASES: Dict[str, str] = {
 
 
 # Internationalization
-LANGUAGE_CODE: str = "en-us"
+LANGUAGE_CODE: str = "pt-br"
 LANGUAGES: List[Tuple[str, str]] = [
     ("pt-br", _("Brazilian Portuguese")),
     ("en-us", _("English")),
