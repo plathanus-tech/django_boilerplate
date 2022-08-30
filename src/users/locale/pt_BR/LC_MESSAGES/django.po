@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-30 15:27+0000\n"
+"POT-Creation-Date: 2022-08-30 16:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: users/admin.py:32
+#: users/admin.py:31
 msgid "Personal info"
 msgstr "Informações pessoais"
 
-#: users/admin.py:34
+#: users/admin.py:33
 msgid "Permissions"
 msgstr "Permissões"
 
-#: users/admin.py:43
+#: users/admin.py:42
 msgid "Metadata"
 msgstr "Metadados"
 
-#: users/admin.py:51
+#: users/admin.py:50
 msgid "full name"
 msgstr "nome completo"
 
@@ -38,11 +38,11 @@ msgstr "nome completo"
 msgid "Unable to login with the given credentials"
 msgstr "Não possível autenticar com as credenciais informadas"
 
-#: users/apps.py:8
+#: users/apps.py:8 users/models.py:53
 msgid "User"
 msgstr "Usuário"
 
-#: users/apps.py:9
+#: users/apps.py:9 users/models.py:54
 msgid "Users"
 msgstr "Usuários"
 
@@ -51,41 +51,29 @@ msgid "Email address"
 msgstr "Endereço de e-mail"
 
 #: users/models.py:29
-msgid "First name"
-msgstr "Primeiro nome"
+msgid "Full name"
+msgstr "Nome completo"
 
-#: users/models.py:30
-msgid "Last name"
-msgstr "Sobrenome"
-
-#: users/models.py:33
+#: users/models.py:32
 msgid "Is active"
 msgstr "Ativo"
 
-#: users/models.py:34
+#: users/models.py:33
 msgid "Is staff"
 msgstr "Staff"
 
-#: users/models.py:35
+#: users/models.py:34
 msgid "Is admin"
 msgstr "Super usuário"
 
-#: users/models.py:38
+#: users/models.py:37
 msgid "Date joined"
 msgstr "Data criação"
 
-#: users/models.py:59
-msgid "user"
-msgstr "usuário"
-
-#: users/models.py:60
-msgid "users"
-msgstr "usuários"
-
-#: users/models.py:69
+#: users/models.py:63
 msgid "User Group"
 msgstr "Grupo de Usuários"
 
-#: users/models.py:70
+#: users/models.py:64
 msgid "User Groups"
 msgstr "Grupos de Usuários"

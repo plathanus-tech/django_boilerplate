@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-30 15:27+0000\n"
+"POT-Creation-Date: 2022-08-30 16:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,19 +26,19 @@ msgstr "Criado em"
 msgid "updated at"
 msgstr "Atualizado em"
 
-#: app/settings/common.py:130
+#: app/settings/common.py:137
 msgid "Brazilian Portuguese"
 msgstr "Português"
 
-#: app/settings/common.py:131
+#: app/settings/common.py:138
 msgid "English"
 msgstr "Inglês"
 
-#: app/settings/common.py:300
+#: app/settings/common.py:307
 msgid "BoilerPlate"
 msgstr "Boilerplate"
 
-#: app/settings/common.py:301
+#: app/settings/common.py:308
 msgid "The BoilerPlate's API"
 msgstr "A API do Boilerplate"
 
