@@ -1,16 +1,11 @@
-from django.contrib.admin.options import BaseModelAdmin
-
-
 def no_permission(*args, **kwargs) -> bool:
     """A callable that will always return False"""
     return False
 
 
 class ReadOnlyAdminMixin:
-    """A read-only admin"""
+    """A read-only admin. It must be inherited before the `admin.ModelAdmin` due to python's MRO."""
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.has_add_permission = no_permission
-        self.has_delete_permission = no_permission
-        self.has_change_permission = no_permission
+    has_add_permission = no_permission
+    has_delete_permission = no_permission
+    has_change_permission = no_permission
