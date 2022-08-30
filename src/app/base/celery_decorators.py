@@ -41,7 +41,7 @@ def task(
     *,
     autoretry_for: Tuple[Exception, ...] = None,  # type: ignore
     max_retries: int = 3,
-    retry_backoff: bool = None,  # type: ignore
+    retry_backoff: bool = False,  # type: ignore
     rate_limit: str = None,  # type: ignore
     time_limit: int = None,  # type: ignore
     soft_time_limit: int = None,  # type: ignore
@@ -58,7 +58,7 @@ def task(
 
         return shared_task(  # type: ignore
             bind=bind,
-            autoretry_for=autoretry_for,
+            autoretry_for=autoretry_for or (),
             max_retries=max_retries,
             retry_backoff=retry_backoff,
             rate_limit=rate_limit,
