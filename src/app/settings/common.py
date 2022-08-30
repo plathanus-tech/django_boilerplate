@@ -9,7 +9,14 @@ import environ
 from django.utils.translation import gettext_lazy as _
 
 # Build paths from src directory
-BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
+BASE_DIR: Path = Path(__file__).resolve()
+for x in range(10):
+    BASE_DIR = BASE_DIR.parent
+    if BASE_DIR.name == "src":
+        break
+else:
+    raise AssertionError("Project not build from src directory")
+
 ROOT_DIR: Path = BASE_DIR.parent
 
 env: environ.Env = environ.Env()
@@ -175,32 +182,32 @@ LOGGING: Dict[str, Any] = {
         "console": {"class": "logging.StreamHandler"},
         "root_file": {
             "class": "logging.FileHandler",
-            "filename": "logs/root.log",
+            "filename": ROOT_DIR / "logs/root.log",
             "formatter": "verbose",
         },
         "http_file": {
             "class": "logging.FileHandler",
-            "filename": "logs/http.log",
+            "filename": ROOT_DIR / "logs/http.log",
             "formatter": "verbose",
         },
         "sendgrid_file": {
             "class": "logging.FileHandler",
-            "filename": "logs/sendgrid.log",
+            "filename": ROOT_DIR / "logs/sendgrid.log",
             "formatter": "verbose",
         },
         "twilio_file": {
             "class": "logging.FileHandler",
-            "filename": "logs/twilio.log",
+            "filename": ROOT_DIR / "logs/twilio.log",
             "formatter": "verbose",
         },
         "background_tasks_file": {
             "class": "logging.FileHandler",
-            "filename": "logs/background_tasks.log",
+            "filename": ROOT_DIR / "logs/background_tasks.log",
             "formatter": "verbose",
         },
         "users_tasks_file": {
             "class": "logging.FileHandler",
-            "filename": "logs/users_tasks.log",
+            "filename": ROOT_DIR / "logs/users_tasks.log",
             "formatter": "verbose",
         },
     },
