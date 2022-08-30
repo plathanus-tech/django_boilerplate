@@ -85,6 +85,7 @@ dependencies = [
     "django-storages>=1.12.3",
     "Pillow>=9.2.0",
     "flower>=1.1.0",
+    "validate-docbr>=1.10.0",
 ]
 requires-python = "==3.9.13"
 license = {text = "MIT"}

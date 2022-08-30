@@ -758,6 +758,11 @@ requires_python = ">=3.6"
 summary = "Implementation of RFC 6570 URI Templates"
 
 [[package]]
+name = "validate-docbr"
+version = "1.10.0"
+summary = "Validate brazilian documents."
+
+[[package]]
 name = "vine"
 version = "5.0.0"
 requires_python = ">=3.6"
@@ -802,7 +807,7 @@ dependencies = [
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:6fd3c8d2b5aa2575ea204d96bec10efcd670e6f54fefb56eae6a582ce7e3aff7"
+content_hash = "sha256:364e9f70496f8fa251280b3b1dd2648c097d323418faa662823f7e02137d6a6a"
 
 [metadata.files]
 "aioredis 1.3.1" = [
@@ -1596,6 +1601,9 @@ content_hash = "sha256:6fd3c8d2b5aa2575ea204d96bec10efcd670e6f54fefb56eae6a582ce
 "uritemplate 4.1.1" = [
     {url = "https://files.pythonhosted.org/packages/81/c0/7461b49cd25aeece13766f02ee576d1db528f1c37ce69aee300e075b485b/uritemplate-4.1.1-py2.py3-none-any.whl", hash = "sha256:830c08b8d99bdd312ea4ead05994a38e8936266f84b9a7878232db50b044e02e"},
     {url = "https://files.pythonhosted.org/packages/d2/5a/4742fdba39cd02a56226815abfa72fe0aa81c33bed16ed045647d6000eba/uritemplate-4.1.1.tar.gz", hash = "sha256:4346edfc5c3b79f694bccd6d6099a322bbeb628dbf2cd86eea55a456ce5124f0"},
+]
+"validate-docbr 1.10.0" = [
+    {url = "https://files.pythonhosted.org/packages/8b/0d/799d5c729efb85a8bd7786c7cb55780bb66f9c386ec805198e05d3fa0c80/validate_docbr-1.10.0-py3-none-any.whl", hash = "sha256:ff016f180b0c5ecff06abce1d83385924438c4d4c7f5c050e90fb724f1d968bb"},
 ]
 "vine 5.0.0" = [
     {url = "https://files.pythonhosted.org/packages/66/b2/8954108816865edf2b1e0d24f3c2c11dfd7232f795bcf1e4164fb8ee5e15/vine-5.0.0.tar.gz", hash = "sha256:7d3b1624a953da82ef63462013bbd271d3eb75751489f9807598e8f340bd637e"},

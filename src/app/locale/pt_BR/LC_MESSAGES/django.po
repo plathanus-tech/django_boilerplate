@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-28 19:28+0000\n"
+"POT-Creation-Date: 2022-08-30 15:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,18 +26,54 @@ msgstr "Criado em"
 msgid "updated at"
 msgstr "Atualizado em"
 
-#: app/settings/common.py:129
+#: app/settings/common.py:130
 msgid "Brazilian Portuguese"
 msgstr "Português"
 
-#: app/settings/common.py:130
+#: app/settings/common.py:131
 msgid "English"
 msgstr "Inglês"
 
-#: app/settings/common.py:235
+#: app/settings/common.py:300
 msgid "BoilerPlate"
 msgstr "Boilerplate"
 
-#: app/settings/common.py:236
+#: app/settings/common.py:301
 msgid "The BoilerPlate's API"
 msgstr "A API do Boilerplate"
+
+#: app/validators/br/doc.py:28
+msgid "Invalid Certificate number"
+msgstr "Certidão inválida"
+
+#: app/validators/br/doc.py:35
+msgid "Invalid CNH number"
+msgstr "CNH inválida"
+
+#: app/validators/br/doc.py:42
+msgid "Invalid CNPJ number"
+msgstr "CNPJ inválido"
+
+#: app/validators/br/doc.py:49
+msgid "Invalid CNS number"
+msgstr "CNS inválido"
+
+#: app/validators/br/doc.py:56
+msgid "Invalid CPF number"
+msgstr "CPF inválido"
+
+#: app/validators/br/doc.py:63
+msgid "Invalid CPF/CNPJ number"
+msgstr "CPF/CNPJ inválido"
+
+#: app/validators/br/doc.py:73
+msgid "Invalid PIS number"
+msgstr "PIS inválido"
+
+#: app/validators/br/doc.py:80
+msgid "Invalid RENAVAM number"
+msgstr "RENAVAM inválido"
+
+#: app/validators/br/doc.py:87
+msgid "Invalid Voter Registration number"
+msgstr "Título de Eleitor inválido"

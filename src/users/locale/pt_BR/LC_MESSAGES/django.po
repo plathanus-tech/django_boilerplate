@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-28 19:28+0000\n"
+"POT-Creation-Date: 2022-08-30 15:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,46 +46,46 @@ msgstr "Usuário"
 msgid "Users"
 msgstr "Usuários"
 
-#: users/models.py:34
+#: users/models.py:28
 msgid "Email address"
 msgstr "Endereço de e-mail"
 
-#: users/models.py:35
+#: users/models.py:29
 msgid "First name"
 msgstr "Primeiro nome"
 
-#: users/models.py:36
+#: users/models.py:30
 msgid "Last name"
 msgstr "Sobrenome"
 
-#: users/models.py:39
+#: users/models.py:33
 msgid "Is active"
 msgstr "Ativo"
 
-#: users/models.py:40
+#: users/models.py:34
 msgid "Is staff"
 msgstr "Staff"
 
-#: users/models.py:41
+#: users/models.py:35
 msgid "Is admin"
 msgstr "Super usuário"
 
-#: users/models.py:44
+#: users/models.py:38
 msgid "Date joined"
 msgstr "Data criação"
 
-#: users/models.py:65
+#: users/models.py:59
 msgid "user"
 msgstr "usuário"
 
-#: users/models.py:66
+#: users/models.py:60
 msgid "users"
 msgstr "usuários"
 
-#: users/models.py:75
+#: users/models.py:69
 msgid "User Group"
 msgstr "Grupo de Usuários"
 
-#: users/models.py:76
+#: users/models.py:70
 msgid "User Groups"
 msgstr "Grupos de Usuários"
