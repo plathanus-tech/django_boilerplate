@@ -19,7 +19,7 @@ class UserAdmin(DjangoUserAdmin):
 
     list_display = (
         "email",
-        "get_full_name",
+        "full_name",
         "is_staff",
         "is_superuser",
         "is_active",
@@ -27,8 +27,7 @@ class UserAdmin(DjangoUserAdmin):
     )
     list_filter = ("is_superuser", "is_staff", "is_active")
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
-        (_("Personal info"), {"fields": ("first_name", "last_name")}),
+        (None, {"fields": ("email", "password", "full_name")}),
         (
             _("Permissions"),
             {
@@ -46,10 +45,6 @@ class UserAdmin(DjangoUserAdmin):
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email",)
     filter_horizontal = ("groups", "user_permissions")
-
-    @admin.display(description=_("full name"))
-    def get_full_name(self, obj):
-        return obj.full_name  # pragma: no cover
 
 
 @admin.register(Group)

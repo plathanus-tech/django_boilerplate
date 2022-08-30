@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-30 16:27+0000\n"
+"POT-Creation-Date: 2022-08-30 18:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,11 @@ msgstr "Criado em"
 #: app/base/models.py:18
 msgid "updated at"
 msgstr "Atualizado em"
+
+#: app/fields/phone.py:37
+#, python-format
+msgid "Invalid phone number. Original error message was: %s"
+msgstr "Telefone inválido. A mensagem de erro original foi: %s"
 
 #: app/settings/common.py:137
 msgid "Brazilian Portuguese"

@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from app.base.models import BaseModel
+from app.models import InternationalPhoneNumberField
 
 
 class UserManager(BaseUserManager):

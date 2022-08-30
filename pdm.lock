@@ -479,6 +479,11 @@ requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 summary = "Utility library for gitignore style pattern matching of file paths."
 
 [[package]]
+name = "phonenumbers"
+version = "8.12.54"
+summary = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
+
+[[package]]
 name = "pillow"
 version = "9.2.0"
 requires_python = ">=3.7"
@@ -807,7 +812,7 @@ dependencies = [
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:364e9f70496f8fa251280b3b1dd2648c097d323418faa662823f7e02137d6a6a"
+content_hash = "sha256:ca836864c0d7c12545af4c3d97d497ac17d15273580e02b6b332c66cd6749d39"
 
 [metadata.files]
 "aioredis 1.3.1" = [
@@ -1279,6 +1284,10 @@ content_hash = "sha256:364e9f70496f8fa251280b3b1dd2648c097d323418faa662823f7e021
 "pathspec 0.9.0" = [
     {url = "https://files.pythonhosted.org/packages/42/ba/a9d64c7bcbc7e3e8e5f93a52721b377e994c22d16196e2b0f1236774353a/pathspec-0.9.0-py2.py3-none-any.whl", hash = "sha256:7d15c4ddb0b5c802d161efc417ec1a2558ea2653c2e8ad9c19098201dc1c993a"},
     {url = "https://files.pythonhosted.org/packages/f6/33/436c5cb94e9f8902e59d1d544eb298b83c84b9ec37b5b769c5a0ad6edb19/pathspec-0.9.0.tar.gz", hash = "sha256:e564499435a2673d586f6b2130bb5b95f04a3ba06f81b8f895b651a3c76aabb1"},
+]
+"phonenumbers 8.12.54" = [
+    {url = "https://files.pythonhosted.org/packages/3f/53/9af31a506081c3c6a48499934368239dff2389deb1e9161cb0d07f04a67b/phonenumbers-8.12.54-py2.py3-none-any.whl", hash = "sha256:704676bb14b330eedaab1705ba77f52e5d8879249f222d8e639ef323face8303"},
+    {url = "https://files.pythonhosted.org/packages/ab/8f/0c031fec066582281382b5c7fe641edf6050831773b7bff958903eeb1f61/phonenumbers-8.12.54.tar.gz", hash = "sha256:ec1ac87bed33640ef85e0b00be44e247c65367e8b846d3d8d0a10e0fb7aae1b9"},
 ]
 "pillow 9.2.0" = [
     {url = "https://files.pythonhosted.org/packages/01/61/3ff85fb4bb596ce3d223c8fcf93c8df5c12bc8899dfb4fb3cb1c5b20dd5f/Pillow-9.2.0-cp39-cp39-manylinux_2_28_x86_64.whl", hash = "sha256:13b725463f32df1bfeacbf3dd197fb358ae8ebcd8c5548faa75126ea425ccb60"},
