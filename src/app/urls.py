@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.auth import decorators as auth_decorators
@@ -12,7 +13,7 @@ redoc_view = drf_views.SpectacularRedocView.as_view(url_name="schema")
 
 urlpatterns = i18n_patterns(
     path("", lambda r: redirect(reverse("admin:login"))),
-    path("a/", admin.site.urls),
+    path(f"{settings.ADMIN_URL_PREFIX}/", admin.site.urls),
     path(
         "admin/password_reset/",
         auth_views.PasswordResetView.as_view(),

@@ -70,8 +70,9 @@ THIRD_PARTY_APPS: List[str] = [
 YOUR_PROJECT_APPS: List[str] = [
     "users.apps.UsersConfig",
 ]
-LOGIN_URL = "/a/login/"
-LOGIN_REDIRECT_URL: str = "/a/"
+ADMIN_URL_PREFIX = "a"
+LOGIN_URL = f"/{ADMIN_URL_PREFIX}/login/"
+LOGIN_REDIRECT_URL: str = f"/{ADMIN_URL_PREFIX}/"
 
 MIDDLEWARE: List[str] = [
     "django.middleware.security.SecurityMiddleware",
@@ -219,19 +220,16 @@ LOGGING: Dict[str, Any] = {
         "simple": {"format": "{levelname} {asctime}: {message}", "style": "{"},
     },
     "filters": {
-        "no_static_logs": {"()": "app.log_filters.StaticFilesFilter"},
+        "no_static_logs": {"()": "app.logging.filters.StaticFilesFilter"},
+        "no_admin_logs": {"()": "app.logging.filters.AdminRoutesFilter"},
     },
     "root": {"handlers": ["console", "root_file"], "level": LOGGING_LEVEL},
     "loggers": {
         "django.channels.server": {
-            "filters": ["no_static_logs"],
+            "filters": ["no_static_logs", "no_admin_logs"],
             "handlers": ["console", "http_file"],
             "level": LOGGING_LEVEL,
             "propagate": False,
-        },
-        "drf_exc_handler": {
-            "handlers": ["console", "http_file"],
-            "level": LOGGING_LEVEL,
         },
         "send_grid": {
             "handlers": ["console", "sendgrid_file"],
@@ -301,7 +299,6 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ),
-    "EXCEPTION_HANDLER": "app.drf_exc_handler.make_error_message_on_validation_error",
 }
 SPECTACULAR_SETTINGS = {
     "TITLE": _("BoilerPlate"),

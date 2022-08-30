@@ -38,7 +38,5 @@ CELERY_CONFIG = {
     "broker_url": settings.BROKER_URL,
 }  # type: ignore
 
-app.autodiscover_tasks(
-    ["users"],
-)
+app.autodiscover_tasks(["users"])
 app.conf.update(**CELERY_CONFIG)
