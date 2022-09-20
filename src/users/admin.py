@@ -42,7 +42,7 @@ class UserAdmin(DjangoUserAdmin):
     )
     add_fieldsets = ((None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),)
     readonly_fields = ("date_joined",)
-    search_fields = ("email", "first_name", "last_name")
+    search_fields = ("email", "full_name")
     ordering = ("email",)
     filter_horizontal = ("groups", "user_permissions")
 

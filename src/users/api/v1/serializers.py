@@ -25,7 +25,7 @@ class LoginSerializer(serializers.Serializer):
 class LoggedUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "first_name", "last_name", "date_joined"]
+        fields = ["email", "full_name", "date_joined"]
 
 
 class LoginTokenSerializer(serializers.Serializer):
