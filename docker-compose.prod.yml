@@ -49,6 +49,31 @@ services:
       traefik.http.routers.api-secure.tls.certresolver: ssl
       traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
 
+  celery-scheduler:
+    extends:
+      file: compose-common.yml
+      service: celery-scheduler
+    entrypoint: []
+    depends_on:
+      - api
+    environment:
+      - REDIS_HOST=redis
+    labels:
+      - traefik.enable=false
+
+  celery-worker:
+    extends:
+      file: compose-common.yml
+      service: celery-worker
+    entrypoint: ["sh", "/app/entrypoint.worker.sh"]
+    command: python -m celery -A app worker --events
+    depends_on:
+      - api
+    environment:
+      - REDIS_HOST=redis
+    labels:
+      - traefik.enable=false
+
   flower:
     extends:
       file: compose-common.yml
@@ -62,4 +87,4 @@ services:
 
 volumes:
   cache:
-  staticfiles:
+  logs:

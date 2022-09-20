@@ -21,6 +21,10 @@ COPY entrypoint.api.sh entrypoint.api.sh
 RUN sed -i 's/\r$//g' entrypoint.api.sh
 RUN chmod +x  entrypoint.api.sh
 
+COPY entrypoint.worker.sh entrypoint.worker.sh
+RUN sed -i 's/\r$//g' entrypoint.worker.sh
+RUN chmod +x  entrypoint.worker.sh
+
 ENV PYTHONPATH=src:.venv/lib/python3.9/site-packages
 COPY ./ /app/
 
