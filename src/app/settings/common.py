@@ -220,14 +220,9 @@ LOGGING: Dict[str, Any] = {
         },
         "simple": {"format": "{levelname} {asctime}: {message}", "style": "{"},
     },
-    "filters": {
-        "no_static_logs": {"()": "app.logging.filters.StaticFilesFilter"},
-        "no_admin_logs": {"()": "app.logging.filters.AdminRoutesFilter"},
-    },
     "root": {"handlers": ["console", "root_file"], "level": LOGGING_LEVEL},
     "loggers": {
         "django.channels.server": {
-            "filters": ["no_static_logs", "no_admin_logs"],
             "handlers": ["console", "http_file"],
             "level": LOGGING_LEVEL,
             "propagate": False,

@@ -2,36 +2,32 @@ version: '3.3'
 
 services:
   redis:
-    extends:
-      file: compose-common.yml
-      service: redis
+    image: "redis"
+    restart: always
+    ports:
+      - "%{REDIS_PORT}:${REDIS_PORT}"
+    command: redis-server
+    volumes:
+      - cache:/data
+    labels:
+      traefik.enable: "false"
 
   traefik:
-    extends:
-      file: compose-common.yml
-      service: traefik
-
+    build:
+      dockerfile: traefik.Dockerfile
+      context: .
     command:
-      - "--api.insecure=true"
+      - "--configFile=traefik.yml"
       - "--providers.docker=true"
-      - "--entrypoints.http.address=:80"
-      - "--entrypoints.https.address=:443"
-      - "--global.sendAnonymousUsage=false"
-      - "--certificatesresolvers.ssl.acme.httpchallenge=true"
-      - "--certificatesresolvers.ssl.acme.httpchallenge.entrypoint=http"
-      - "--certificatesresolvers.ssl.acme.email=somevalidemail@email.com"
-      - "--certificatesresolvers.ssl.acme.storage=/letsencrypt/acme.json"
     ports:
       - "443:443"
       - "80:80"
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefiklogs:/traefiklogs"
 
-  api:
-    extends:
-      file: compose-common.yml
-      service: api
+  app:
     command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
     depends_on:
       - traefik
@@ -39,52 +35,89 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
+    ports:
+      - 80
     env_file:
       - .env.prod
     labels:
-      traefik.http.routers.api.middlewares: redirect
+      traefik.enable: true
+      traefik.http.routers.app.rule: Host(`${HOST}`)
+      traefik.http.routers.app.entrypoints: http
+      traefik.http.routers.app.middlewares: redirect
       traefik.http.middlewares.redirect.redirectscheme.scheme: https
-      traefik.http.routers.api-secure.rule: Host(`${HOST}`)
-      traefik.http.routers.api-secure.entrypoints: https
-      traefik.http.routers.api-secure.tls.certresolver: ssl
+      traefik.http.routers.app-secure.rule: Host(`${HOST}`)
+      traefik.http.routers.app-secure.entrypoints: https
+      traefik.http.routers.app-secure.tls.certresolver: ssl
       traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
 
   celery-scheduler:
-    extends:
-      file: compose-common.yml
-      service: celery-scheduler
+    build: .
     entrypoint: []
+    env_file:
+      - .env.dev
+    command: python -m celery -A app beat
+    volumes:
+      - .:/app/
     depends_on:
-      - api
+      - app
     environment:
       - REDIS_HOST=redis
     labels:
-      - traefik.enable=false
+      traefik.enable: "false"
 
   celery-worker:
-    extends:
-      file: compose-common.yml
-      service: celery-worker
+    build: .
+    env_file:
+      - .env.dev
     entrypoint: ["sh", "/app/entrypoint.worker.sh"]
     command: python -m celery -A app worker --events
     depends_on:
-      - api
+      - app
     environment:
       - REDIS_HOST=redis
+    volumes:
+      - .:/app/
     labels:
-      - traefik.enable=false
+      traefik.enable: "false"
 
   flower:
-    extends:
-      file: compose-common.yml
-      service: flower
+    build: .
+    env_file:
+      - .env.dev
+    entrypoint: []
+    environment:
+      - SQL_HOST=db
+      - REDIS_HOST=redis
+    ports:
+      - ${FLOWER_PORT}
     command: python -m celery -A app flower --address=0.0.0.0 --port=${FLOWER_PORT} --basic_auth=${FLOWER_USER}:${FLOWER_PASSWORD}
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.flower.rule=Host(`${FLOWER_HOST}`)
+      traefik.enable: "true"
+      traefik.http.routers.flower.rule: Host(`${FLOWER_HOST}`)
     expose:
       - ${FLOWER_PORT}
+
+  nginx:
+    depends_on:
+      - traefik
+      - app
+    image: nginx:alpine
+    expose:
+      - 80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - staticfiles:/app/static
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.nginx.rule: Host(`${HOST}`) && PathPrefix(`/static`)
+      traefik.http.routers.nginx.entrypoints: http
+      traefik.http.services.nginx.loadbalancer.server.port: "80"
+      traefik.http.routers.nginx-secure.rule: Host(`${HOST}`) && PathPrefix(`/static`)
+      traefik.http.routers.nginx-secure.entrypoints: https
+      traefik.http.routers.nginx-secure.tls.certresolver: ssl
+      traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
 
 volumes:
   cache:
   logs:
+  staticfiles:
