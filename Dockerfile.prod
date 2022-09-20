@@ -11,7 +11,7 @@ RUN apt update -y
 RUN apt install -y netcat gettext
 
 RUN pip install pip setuptools wheel
-RUN pip install pdm
+RUN pip install pdm==2.1.0
 
 COPY pyproject.toml pdm.lock manage.py entrypoint.api.sh /app/
 # Install prod deps

@@ -11,11 +11,11 @@ RUN apt update -y
 RUN apt install -y netcat gettext
 
 RUN pip install pip setuptools wheel
-RUN pip install pdm
+RUN pip install pdm==2.1.0
 
 COPY pyproject.toml pdm.lock manage.py entrypoint.api.sh /app/
 # Install dev deps
-RUN pdm install
+RUN pdm install --no-lock --no-editable
 
 COPY entrypoint.api.sh entrypoint.api.sh
 RUN sed -i 's/\r$//g' entrypoint.api.sh
