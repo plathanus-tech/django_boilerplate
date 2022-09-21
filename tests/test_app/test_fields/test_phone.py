@@ -24,8 +24,3 @@ def test_international_phone_number_field_to_python(
 ):
     field = phone.InternationalPhoneNumberField(region=region)
     assert out_phone == field.to_python(in_phone), scenario
-
-
-def test_when_phone_is_none_then_none_is_returned():
-    field = phone.InternationalPhoneNumberField(empty_value=None)
-    assert field.to_python(None) is None
