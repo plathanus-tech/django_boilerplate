@@ -17,13 +17,15 @@ class InternationalPhoneNumberField(CharField):
         input_mask: Optional[str] = None,
         **charfield_kwargs,
     ):
-        self.region = region
+        self.region = region or "BR"
         self.output_format = output_format
-        self.input_mask = input_mask
+        self.input_mask = input_mask or "+00 (00) 00000-0000"
         charfield_kwargs.setdefault("max_length", 20)
         super().__init__(**charfield_kwargs)
 
     def formfield(self, **kwargs):
+        meta = phonenumbers.phonemetadata.PhoneMetadata.metadata_for_region(self.region)
+
         return super().formfield(
             **{
                 **kwargs,
@@ -31,5 +33,6 @@ class InternationalPhoneNumberField(CharField):
                 "region": self.region,
                 "output_format": self.output_format,
                 "input_mask": self.input_mask,
+                "initial": f"+{meta.country_code}" if meta else "+",
             }
         )
