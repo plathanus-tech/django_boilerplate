@@ -181,62 +181,31 @@ LOGGING: Dict[str, Any] = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
-        "console": {"class": "logging.StreamHandler"},
-        "root_file": {
-            "class": "logging.FileHandler",
-            "filename": ROOT_DIR / "logs/root.log",
-            "formatter": "verbose",
-        },
-        "http_file": {
-            "class": "logging.FileHandler",
-            "filename": ROOT_DIR / "logs/http.log",
-            "formatter": "verbose",
-        },
-        "sendgrid_file": {
-            "class": "logging.FileHandler",
-            "filename": ROOT_DIR / "logs/sendgrid.log",
-            "formatter": "verbose",
-        },
-        "twilio_file": {
-            "class": "logging.FileHandler",
-            "filename": ROOT_DIR / "logs/twilio.log",
-            "formatter": "verbose",
-        },
-        "background_tasks_file": {
-            "class": "logging.FileHandler",
-            "filename": ROOT_DIR / "logs/background_tasks.log",
-            "formatter": "verbose",
-        },
-        "users_tasks_file": {
-            "class": "logging.FileHandler",
-            "filename": ROOT_DIR / "logs/users_tasks.log",
-            "formatter": "verbose",
-        },
+        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
     },
     "formatters": {
         "verbose": {
             "format": "{levelname} {module} {asctime}: {message}",
             "style": "{",
         },
-        "simple": {"format": "{levelname} {asctime}: {message}", "style": "{"},
     },
-    "root": {"handlers": ["console", "root_file"], "level": LOGGING_LEVEL},
+    "root": {"handlers": ["console"], "level": LOGGING_LEVEL},
     "loggers": {
         "django.channels.server": {
-            "handlers": ["console", "http_file"],
+            "handlers": ["console"],
             "level": LOGGING_LEVEL,
             "propagate": False,
         },
         "send_grid": {
-            "handlers": ["console", "sendgrid_file"],
+            "handlers": ["console"],
             "level": SENDGRID_LOGGING_LEVEL,
         },
         "twilio": {
-            "handlers": ["console", "twilio_file"],
+            "handlers": ["console"],
             "level": TWILIO_LOGGING_LEVEL,
         },
         "users.tasks": {
-            "handlers": ["console", "background_tasks_file", "users_tasks_file"],
+            "handlers": ["console"],
             "level": "INFO",
         },
     },

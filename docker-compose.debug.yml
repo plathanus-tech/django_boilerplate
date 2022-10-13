@@ -27,7 +27,6 @@ services:
     build: .
     volumes:
       - .:/app/
-      - ./logs:/app/logs/
     ports:
       - 80
     env_file:
@@ -119,6 +118,5 @@ services:
 volumes:
   staticfiles:
   postgres_data:
-  logs:
   cache:
   .:
