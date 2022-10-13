@@ -136,6 +136,9 @@ LANGUAGES: List[Tuple[str, str]] = [
     ("pt-br", _("Brazilian Portuguese")),
     ("en-us", _("English")),
 ]
+LOCALE_PATHS = [
+    BASE_DIR / "app" / "locale",
+]
 USE_I18N: bool = True
 
 # Internationalization
