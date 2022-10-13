@@ -1,5 +1,3 @@
-# type: ignore
-
 import os
 from typing import List
 
@@ -23,7 +21,7 @@ if DEBUG:
 
 INSTALLED_APPS: List[str] = DJANGO_APPS + THIRD_PARTY_APPS + YOUR_PROJECT_APPS
 
-ROOT_URLCONF: str = "app.urls_dev"
+ROOT_URLCONF = "app.urls_dev"
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = ROOT_DIR / "dev_notifications" / "emails"

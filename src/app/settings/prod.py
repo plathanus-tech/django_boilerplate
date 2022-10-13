@@ -1,4 +1,4 @@
-# type: ignore
+import os
 from typing import List
 
 from .common import *
@@ -18,7 +18,7 @@ AWS_MEDIA_LOCATION = "media/"
 DEFAULT_FILE_STORAGE = "app.ext.storage.aws_s3.PrivateMediaStorage"
 
 
-STATIC_ROOT: str = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 SECURE_SSL_REDIRECT = env("DJANGO_SECURE_SSL_REDIRECT", bool)
 CSRF_COOKIE_SECURE = env("DJANGO_CSRF_COOKIE_SECURE", bool)

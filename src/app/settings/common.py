@@ -1,5 +1,3 @@
-# type: ignore
-
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -120,7 +118,7 @@ CHANNEL_LAYERS = {
 
 
 # Database
-DATABASES: Dict[str, str] = {
+DATABASES = {
     "default": {
         "ENGINE": env("SQL_ENGINE", default="django.db.backends.postgresql"),
         "NAME": env("SQL_DATABASE", default="app"),
