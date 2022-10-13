@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-if [ "$DJANGO_SETTINGS_MODULE" = "app.settings.DEV" ]
+if [ "$DJANGO_SETTINGS_MODULE" = "app.settings.dev" ]
 then
 
     while ! nc -z $SQL_HOST $SQL_PORT; do
