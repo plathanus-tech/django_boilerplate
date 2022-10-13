@@ -8,7 +8,7 @@ from .common import *
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media/")
 MEDIA_URL = "/media/"
 
-CSRF_TRUSTED_ORIGINS = ["http://*.com"]
+CSRF_TRUSTED_ORIGINS = ["http://*.com", "https://*.ngrok.io"]
 
 # Debug Tool Bar Config
 if DEBUG:
