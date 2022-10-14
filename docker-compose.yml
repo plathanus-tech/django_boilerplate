@@ -26,6 +26,7 @@ services:
     build: .
     volumes:
       - .:/app/
+      - staticfiles:/app/static
     ports:
       - 80
     env_file:
@@ -63,8 +64,6 @@ services:
     env_file:
       - .env.dev
     command: python -m celery -A app beat
-    volumes:
-      - .:/app/
     entrypoint: []
     depends_on:
       - app
@@ -77,8 +76,6 @@ services:
     env_file:
       - .env.dev
     command: python -m celery -A app worker -P solo --concurrency 1 --events
-    volumes:
-      - .:/app/
     entrypoint: []
     depends_on:
       - app

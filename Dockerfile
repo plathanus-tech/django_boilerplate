@@ -13,7 +13,7 @@ RUN apt install -y netcat gettext
 RUN pip install pip setuptools wheel
 RUN pip install pdm==2.1.0
 
-COPY pyproject.toml pdm.lock manage.py entrypoint.api.sh /app/
+COPY pyproject.toml pdm.lock manage.py /app/
 # Install dev deps
 RUN pdm install --no-lock --no-editable
 

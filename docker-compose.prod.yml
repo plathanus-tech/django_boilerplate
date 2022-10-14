@@ -35,6 +35,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
+    volumes:
+      - staticfiles:/app/static
     ports:
       - 80
     env_file:
@@ -56,8 +58,6 @@ services:
     env_file:
       - .env.dev
     command: python -m celery -A app beat
-    volumes:
-      - .:/app/
     depends_on:
       - app
     environment:
@@ -75,8 +75,6 @@ services:
       - app
     environment:
       - REDIS_HOST=redis
-    volumes:
-      - .:/app/
     labels:
       traefik.enable: "false"
 
