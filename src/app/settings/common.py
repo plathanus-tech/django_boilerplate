@@ -226,7 +226,7 @@ JAZZMIN_SETTINGS = {
     "icons": {
         "users": "fas fa-users-cog",
         "users.user": "fas fa-user",
-        "users.DjangoGroupProxy": "fas fa-users",
+        "users.Group": "fas fa-users",
     },
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",

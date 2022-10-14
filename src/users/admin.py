@@ -32,7 +32,9 @@ class UserAdmin(DjangoUserAdmin):
             _("Permissions"),
             {
                 "fields": (
-                    ("is_superuser", "is_staff", "is_active"),
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
                     ("groups",),
                     ("user_permissions",),
                 )
@@ -41,7 +43,7 @@ class UserAdmin(DjangoUserAdmin):
         (_("Metadata"), {"fields": ("date_joined", "last_login")}),
     )
     add_fieldsets = ((None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),)
-    readonly_fields = ("date_joined",)
+    readonly_fields = ("date_joined", "last_login")
     search_fields = ("email", "full_name")
     ordering = ("email",)
     filter_horizontal = ("groups", "user_permissions")

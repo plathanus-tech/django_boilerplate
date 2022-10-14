@@ -31,9 +31,21 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     full_name = models.CharField(_("Full name"), max_length=255)
 
     # Permissions
-    is_active = models.BooleanField(_("Is active"), default=True)
-    is_staff = models.BooleanField(_("Is staff"), default=False)
-    is_superuser = models.BooleanField(_("Is admin"), default=False)
+    is_active = models.BooleanField(
+        _("Is active"),
+        help_text=_("Inactive users can't login. Use this instead of deleting the user."),
+        default=True,
+    )
+    is_staff = models.BooleanField(
+        _("Is staff"),
+        help_text=_("Only staff users can access the admin"),
+        default=False,
+    )
+    is_superuser = models.BooleanField(
+        _("Is admin"),
+        help_text=_("Super users have all permissions"),
+        default=False,
+    )
 
     # Meta
     date_joined = models.DateTimeField(_("Date joined"), auto_now_add=True)
