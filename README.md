@@ -7,7 +7,7 @@ It may not work on MacOs or Windows.
 
 0.  _Python_
 
-    This project requires python3.10 to run. To install it follow these guidelines:
+    This project requires python3.9 to run. To install it follow these guidelines:
 
     > sudo apt update && sudo apt upgrade -y
 
@@ -15,13 +15,13 @@ It may not work on MacOs or Windows.
 
     > sudo add-apt-repository ppa:deadsnakes/ppa
 
-    > sudo apt install python3.10
+    > sudo apt install python3.9
 
-    > sudo apt install python3-pip python3.10-distutils python3-apt --reinstall
+    > sudo apt install python3-pip python3.9-distutils python3-apt --reinstall
 
-    > python3.10 -m pip install --upgrade pip
+    > python3.9 -m pip install --upgrade pip
 
-    > python3.10 -m pip install setuptools wheel
+    > python3.9 -m pip install setuptools wheel
 
     These steps work from any version of python3.
     Just swap the minor version to the desired version.
@@ -33,17 +33,29 @@ It may not work on MacOs or Windows.
 
     > pip install pdm
 
-2.  Install python project dependencies:
+2.  Setup your local environment for development:
+
+    > pdm use
+
+    Select the python3.9 interpreter
+
+    After that, create a virtual environment for this interpreter
+
+    > pdm venv create
+
+    > pdm use
+
+    Select the interpreter for the virtual environment you just created
 
     > pdm install
 
-3.  Pre-Commit
+    Setup on vscode the virtual environment of the interpreter (bottom-right corner)
 
     Install the [pre-commit](https://pre-commit.com/index.html) into your local git repository.
 
     > pdm run pre-commit install
 
-4.  Setting up Environment Variables
+2.1. Setting up Environment Variables
 
     Now let's configure the environment variables. First of all copy the `.env.dev.example` to the root of your project with the name `.env.dev`. The following command should do the job:
 
@@ -56,13 +68,15 @@ It may not work on MacOs or Windows.
     Some important variables:
 
     - HOST: This will define where the project will be reachable when you build in the next step. If you leave the default, `dev.boilerplate.com` then all you need to do is add it to `/etc/hosts` like:
+
       `127.0.0.1 dev.boilerplate.com`
+
     - DJANGO_SECRET_KEY: For development this can be any value, changing this value after having users registered will break their passwords.
     - DJANGO_SETTINGS_MODULE: Where django will look for the settings. For production swap to `app.settings.prod`
     - DJANGO_DEBUG: When set to True (1) will display Tracebacks and will add a debug toolbar in the site.
     - SQL_HOST: Leaving this value to `localhost` allows you to externally access the database while the docker-compose services are running.
 
-5.  Docker
+3.  Docker
 
     Make sure you have [docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed into your machine. It's used to build and run the project.
     So to build the project you can:
@@ -80,6 +94,14 @@ It may not work on MacOs or Windows.
     or, use the shortcut using _Make_:
 
     > make up
+
+    To create a user to access the admin panel, run:
+
+    > pdm run createsuperuser
+
+    or, if you don't have pdm on your machine:
+
+    > docker-compose --env-file .env.dev exec app python manage.py createsuperuser
 
     If you want you can also debug inside vscode.
     For that you're going to need the [Remote Explorer](https://github.com/Microsoft/vscode-remote-release) extension. After installing the extension run:
