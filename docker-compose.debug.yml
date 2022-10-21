@@ -2,7 +2,6 @@ version: "3.3"
 services:
   redis:
     image: "redis"
-    restart: always
     ports:
       - "${REDIS_PORT}:${REDIS_PORT}"
     command: redis-server
@@ -13,7 +12,6 @@ services:
     build:
       dockerfile: traefik.Dockerfile
       context: .
-    container_name: "traefik"
     command:
       - "--configFile=traefik.yml"
       - "--providers.docker=true"
@@ -27,6 +25,7 @@ services:
     build: .
     volumes:
       - .:/app/
+      - staticfiles:/app/static
     ports:
       - 80
     env_file:
@@ -64,8 +63,6 @@ services:
     env_file:
       - .env.dev
     command: python -m celery -A app beat
-    volumes:
-      - .:/app/
     entrypoint: []
     depends_on:
       - app
@@ -78,8 +75,6 @@ services:
     env_file:
       - .env.dev
     command: python -m celery -A app worker -P solo --concurrency 1 --events
-    volumes:
-      - .:/app/
     entrypoint: []
     depends_on:
       - app
