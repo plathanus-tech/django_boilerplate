@@ -2,11 +2,11 @@ version: "3.3"
 services:
   redis:
     image: "redis"
-    ports:
-      - "${REDIS_PORT}:${REDIS_PORT}"
-    command: redis-server
+    command: redis-server --requirepass ${REDIS_PASSWORD} --replicaof no one --replica-read-only no
     volumes:
       - cache:/data
+    env_file:
+      - .env.qa
 
   traefik:
     build:
@@ -16,63 +16,53 @@ services:
       - "--configFile=traefik.yml"
       - "--providers.docker=true"
     ports:
+      - "443:443"
       - "80:80"
     volumes:
+      - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./traefiklogs:/traefiklogs"
 
   app:
     build: .
     volumes:
-      - .:/app/
       - staticfiles:/app/static
       - mediafiles:/app/media
     ports:
       - 80
     env_file:
-      - .env.dev
+      - .env.qa
 
     labels:
       traefik.enable: true
       traefik.http.routers.api.rule: Host(`${HOST}`)
       traefik.http.routers.api.entrypoints: http
+      traefik.http.middlewares.redirect.redirectscheme.scheme: https
+      traefik.http.routers.app-secure.rule: Host(`${HOST}`)
+      traefik.http.routers.app-secure.entrypoints: https
+      traefik.http.routers.app-secure.tls.certresolver: ssl
+      traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
       traefik.http.services.app-service.loadbalancer.healthcheck.path: /health-check
       traefik.http.services.app-service.loadbalancer.healthcheck.timeout: 2s
       traefik.http.services.app-service.loadbalancer.healthcheck.interval: 5s
       traefik.http.services.app-service.loadbalancer.healthcheck.hostname: ${HOST}
-    command: python3 manage.py runserver 0.0.0.0:80
+
+    command: python3 -m daphne -b 0.0.0.0 -p 80 app.asgi:application
     depends_on:
-      - db
       - traefik
       - redis
     environment:
-      - SQL_HOST=db
       - REDIS_HOST=redis
-      - FLOWER_HOST=flower
-
-  db:
-    image: postgres:13.0-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "${SQL_PORT}:${SQL_PORT}"
-
-    command: -p ${SQL_PORT}
-    environment:
-      POSTGRES_PASSWORD: ${SQL_PASSWORD}
-      POSTGRES_USER: ${SQL_USER}
-      POSTGRES_DB: ${SQL_DATABASE}
 
   celery-scheduler:
     build: .
     env_file:
-      - .env.dev
+      - .env.qa
     command: python -m celery -A app beat
     entrypoint: []
     depends_on:
       - app
     environment:
-      - SQL_HOST=db
       - REDIS_HOST=redis
     labels:
       - "traefik.enable=false"
@@ -80,28 +70,15 @@ services:
   celery-worker:
     build: .
     env_file:
-      - .env.dev
+      - .env.qa
     command: python -m celery -A app worker -P solo --concurrency 1 --events
     entrypoint: []
     depends_on:
       - app
     environment:
-      - SQL_HOST=db
       - REDIS_HOST=redis
     labels:
       - "traefik.enable=false"
-
-  flower:
-    build: .
-    env_file:
-      - .env.dev
-    entrypoint: []
-    command: python -m celery -A app flower --address=0.0.0.0 --port=${FLOWER_PORT}
-    environment:
-      - SQL_HOST=db
-      - REDIS_HOST=redis
-    ports:
-      - "${FLOWER_PORT}:${FLOWER_PORT}"
 
   nginx:
     depends_on:
@@ -114,15 +91,19 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - staticfiles:/app/static:ro
       - mediafiles:/app/media:ro
+    env_file:
+      - .env.qa
     labels:
       traefik.enable: "true"
       traefik.http.routers.nginx.rule: Host(`${HOST}`) && (PathPrefix(`/static`) || PathPrefix(`/media`))
       traefik.http.routers.nginx.entrypoints: http
       traefik.http.services.nginx.loadbalancer.server.port: "80"
+      traefik.http.routers.nginx-secure.rule: Host(`${HOST}`) && (PathPrefix(`/static`) || PathPrefix(`/media`))
+      traefik.http.routers.nginx-secure.entrypoints: https
+      traefik.http.routers.nginx-secure.tls.certresolver: ssl
+      traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: https
 
 volumes:
   staticfiles:
   mediafiles:
-  postgres_data:
   cache:
-  .:

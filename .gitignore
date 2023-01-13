@@ -68,6 +68,7 @@ celerybeat.pid
 # Environments
 .env.prod
 .env.dev
+.env.qa
 venv/
 dev/
 .pdm.toml

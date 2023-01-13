@@ -16,7 +16,7 @@ certificatesResolvers:
     acme:
       httpChallenge:
         entryPoint: http
-      email: levoagoraapp@gmail.com
+      email: leandrodesouzadev@gmail.com
       storage: /letsencrypt/acme.json
 
 accessLog:
