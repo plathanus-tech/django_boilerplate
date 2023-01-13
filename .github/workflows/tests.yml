@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          pip install tox tox-gh-actions
+          pip install tox==3.28.0 tox-gh-actions
       - name: Test with tox
         run: tox
 
