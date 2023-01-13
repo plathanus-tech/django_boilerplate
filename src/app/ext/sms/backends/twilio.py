@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 
 class TwilioSmsBackend(BaseSmsBackend):
 
-    URL = "https://api.twilio.com/2010-04-01/Accounts/AC442993f482bdceb56aa1dab7ce4166dd/Messages.json"
     SID = settings.TWILIO_ACCOUNT_SID
+    URL = f"https://api.twilio.com/2010-04-01/Accounts/{SID}/Messages.json"
     TOKEN = settings.TWILIO_AUTH_TOKEN
     PHONE = settings.TWILIO_SERVICE_PHONE
 
