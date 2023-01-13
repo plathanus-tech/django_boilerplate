@@ -189,12 +189,16 @@ LOGGING: Dict[str, Any] = {
             "style": "{",
         },
     },
+    "filters": {
+        "health_check_filter": {"()": "app.filters.HealthCheckFilter"},
+    },
     "root": {"handlers": ["console"], "level": LOGGING_LEVEL},
     "loggers": {
         "django.channels.server": {
             "handlers": ["console"],
             "level": LOGGING_LEVEL,
             "propagate": False,
+            "filters": ["health_check_filter"],
         },
         "send_grid": {
             "handlers": ["console"],
