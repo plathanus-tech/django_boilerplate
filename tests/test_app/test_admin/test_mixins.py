@@ -1,6 +1,6 @@
 import pytest
 
-from app.base.admin import ReadOnlyAdminMixin
+from app.admin.mixins import ReadOnlyAdminMixin
 
 attrs = [
     ("has_add_permission"),

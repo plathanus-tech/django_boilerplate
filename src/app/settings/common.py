@@ -24,9 +24,16 @@ env: environ.Env = environ.Env()
 SECRET_KEY: str = env("DJANGO_SECRET_KEY")
 DEBUG: bool = env("DJANGO_DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS: List[str] = env.list("DJANGO_ALLOWED_HOSTS", default=[])
+
+# Security - CORS
 CORS_ORIGIN_ALLOW_ALL: bool = env("DJANGO_CORS_ORIGIN_ALLOW_ALL", cast=bool, default=False)
 if not CORS_ORIGIN_ALLOW_ALL:
     CORS_ORIGIN_WHITELIST: List[str] = env.list("DJANGO_CORS_ORIGIN_WHITELIST", default=[])
+
+# Security - CSRF
+CSRF_TRUSTED_ORIGINS = env.list(
+    "CSRF_TRUSTED_ORIGINS", default=["http://*.com", "https://*.ngrok.io"]
+)
 
 # Password Validation
 AUTH_PASSWORD_VALIDATORS: List[Dict[str, str]] = [
@@ -68,6 +75,9 @@ THIRD_PARTY_APPS: List[str] = [
 YOUR_PROJECT_APPS: List[str] = [
     "users.apps.UsersConfig",
 ]
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + YOUR_PROJECT_APPS
+
+
 ADMIN_URL_PREFIX = "a"
 LOGIN_URL = f"/{ADMIN_URL_PREFIX}/login/"
 LOGIN_REDIRECT_URL: str = f"/{ADMIN_URL_PREFIX}/"
@@ -116,7 +126,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-
 # Database
 DATABASES = {
     "default": {
@@ -159,17 +168,23 @@ TIMEZONE_FOR_LANGUAGE = {
 # Static Files
 STATIC_URL: str = "/static/"
 STATIC_ROOT: str = os.path.join(ROOT_DIR, "static")
-STATICFILES_DIRS: List[str] = []
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, direc) for direc in env.list("STATICFILES_DIRS", default=[])
+]
 STATICFILES_FINDERS: List[str] = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 STATICFILES_STORAGE: str = "whitenoise.storage.CompressedStaticFilesStorage"
 
+# Media files
+MEDIA_ROOT = os.path.join(ROOT_DIR, env("MEDIA_ROOT", default="media/"))
 MEDIA_URL = "/media/"
 
 # Storages
-DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+DEFAULT_FILE_STORAGE = env(
+    "DEFAULT_FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
+)
 
 
 # Logging
@@ -190,7 +205,7 @@ LOGGING: Dict[str, Any] = {
         },
     },
     "filters": {
-        "health_check_filter": {"()": "app.filters.HealthCheckFilter"},
+        "health_check_filter": {"()": "app.logging.filters.HealthCheckFilter"},
     },
     "root": {"handlers": ["console"], "level": LOGGING_LEVEL},
     "loggers": {
@@ -285,4 +300,7 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
 }
 
+# External Services
+EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
+SMS_BACKEND = env("SMS_BACKEND", default="app.ext.sms.backends.stdout.StdOutSmsBackend")
 PUSH_NOTIFICATION_SERVICE_ADAPTER = env("PUSH_NOTIFICATION_SERVICE_ADAPTER", default="expo")

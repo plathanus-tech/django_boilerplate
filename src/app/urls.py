@@ -3,6 +3,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.auth import decorators as auth_decorators
 from django.contrib.auth import views as auth_views
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import include, path, reverse
 from drf_spectacular import views as drf_views
@@ -12,6 +13,7 @@ swagger_view = drf_views.SpectacularSwaggerView.as_view(url_name="schema")
 redoc_view = drf_views.SpectacularRedocView.as_view(url_name="schema")
 
 urlpatterns = i18n_patterns(
+    path("health-check", lambda r: HttpResponse("Ok")),
     path("", lambda r: redirect(reverse("admin:login"))),
     path(f"{settings.ADMIN_URL_PREFIX}/", admin.site.urls),
     path(
