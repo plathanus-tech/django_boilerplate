@@ -83,23 +83,6 @@ services:
     labels:
       - "traefik.enable=false"
 
-  flower:
-    build: .
-    env_file:
-      - .env.prod
-    entrypoint: []
-    environment:
-      - SQL_HOST=db
-      - REDIS_HOST=redis
-    ports:
-      - ${FLOWER_PORT}
-    command: python -m celery -A app flower --address=0.0.0.0 --port=${FLOWER_PORT} --basic_auth=${FLOWER_USER}:${FLOWER_PASSWORD}
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.flower.rule: Host(`${FLOWER_HOST}`)
-    expose:
-      - ${FLOWER_PORT}
-
   nginx:
     depends_on:
       - traefik

@@ -22,13 +22,23 @@ env: environ.Env = environ.Env()
 
 # Security
 SECRET_KEY: str = env("DJANGO_SECRET_KEY")
-DEBUG: bool = env("DJANGO_DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS: List[str] = env.list("DJANGO_ALLOWED_HOSTS", default=[])
+DEBUG: bool = env("DJANGO_DEBUG", cast=bool, default=False)
+USE_DEBUG_TOOLBAR = env("USE_DEBUG_TOOLBAR", cast=bool, default=False)
+IS_TESTING = env("IS_TESTING", cast=bool, default=False)
+
+
+SECURE_SSL_REDIRECT = env("SECURE_SSL_REDIRECT", bool, default=False)
+CSRF_COOKIE_SECURE = env("CSRF_COOKIE_SECURE", bool, default=False)
+SECURE_HSTS_SECONDS = env("SECURE_HSTS_SECONDS", int, default=0)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env("SECURE_HSTS_INCLUDE_SUBDOMAINS", bool, default=False)
+SECURE_HSTS_PRELOAD = env("SECURE_HSTS_PRELOAD", bool, default=False)
+SESSION_COOKIE_SECURE = env("SESSION_COOKIE_SECURE", bool, default=False)
 
 # Security - CORS
-CORS_ORIGIN_ALLOW_ALL: bool = env("DJANGO_CORS_ORIGIN_ALLOW_ALL", cast=bool, default=False)
+CORS_ORIGIN_ALLOW_ALL: bool = env("CORS_ORIGIN_ALLOW_ALL", cast=bool, default=False)
 if not CORS_ORIGIN_ALLOW_ALL:
-    CORS_ORIGIN_WHITELIST: List[str] = env.list("DJANGO_CORS_ORIGIN_WHITELIST", default=[])
+    CORS_ORIGIN_WHITELIST: List[str] = env.list("CORS_ORIGIN_WHITELIST", default=[])
 
 # Security - CSRF
 CSRF_TRUSTED_ORIGINS = env.list(
@@ -85,7 +95,6 @@ LOGIN_REDIRECT_URL: str = f"/{ADMIN_URL_PREFIX}/"
 MIDDLEWARE: List[str] = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -117,11 +126,18 @@ ASGI_APPLICATION: str = "app.asgi.application"
 
 REDIS_HOST = env("REDIS_HOST")
 REDIS_PORT = env("REDIS_PORT", cast=int)
+REDIS_PASSWORD = env("REDIS_PASSWORD", default=None)
+REDIS_DB = env("REDIS_DB", default="0")
+if REDIS_PASSWORD is None:
+    REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
+else:
+    REDIS_URL = f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(REDIS_HOST, REDIS_PORT)],
+            "hosts": [REDIS_URL],
         },
     },
 }
@@ -137,7 +153,6 @@ DATABASES = {
         "PORT": env("SQL_PORT", default="5432"),
     }
 }
-
 
 # Internationalization
 LANGUAGE_CODE: str = "pt-br"
@@ -175,7 +190,7 @@ STATICFILES_FINDERS: List[str] = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE: str = "whitenoise.storage.CompressedStaticFilesStorage"
+STATICFILES_STORAGE: str = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 # Media files
 MEDIA_ROOT = os.path.join(ROOT_DIR, env("MEDIA_ROOT", default="media/"))
@@ -185,7 +200,17 @@ MEDIA_URL = "/media/"
 DEFAULT_FILE_STORAGE = env(
     "DEFAULT_FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
 )
+if DEFAULT_FILE_STORAGE == "app.ext.storage.aws_s3.PrivateMediaStorage":
+    INSTALLED_APPS.append("storages")
+    AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", str)
+    AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", str)
+    AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", str)
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
 
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=86400",
+    }
+    AWS_MEDIA_LOCATION = "media/"
 
 # Logging
 LOGGING_LEVEL: str = env("DJANGO_LOGGING_LEVEL", default="INFO")
@@ -259,19 +284,14 @@ JAZZMIN_UI_TWEAKS = {
 
 
 DEFAULT_QUEUE_NAME: Optional[str] = env("DEFAULT_QUEUE_NAME", default="default")
-CELERY_ACKS_LATE: Optional[bool] = env("CELERY_ACKS_LATE", default=False)
+CELERY_ACKS_LATE: Optional[bool] = env("CELERY_ACKS_LATE", default=True)
 CELERY_TRACK_STARTED: Optional[bool] = env("CELERY_TRACK_STARTED", default=False)
 CELERY_WORKER_PREFETCH_MULTIPLIER: Optional[int] = env(
     "CELERY_WORKER_PREFETCH_MULTIPLIER", default=1
 )
-CELERY_BEAT_RUNS_EACH_N_MINUTES: Optional[int] = env("CELERY_BEAT_RUNS_EACH_N_MINUTES", default=15)
 CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env("CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3)
-CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=True)
-BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
-
-FLOWER_HOST = env("FLOWER_HOST")
-FLOWER_PORT = env("FLOWER_PORT")
-
+CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=False)
+BROKER_URL = REDIS_URL
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
@@ -302,5 +322,28 @@ SIMPLE_JWT = {
 
 # External Services
 EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
+if EMAIL_BACKEND == "app.ext.email.send_grid.SendGridEmailBackend":
+    SENDGRID_API_KEY = env("SENDGRID_API_KEY")
+
 SMS_BACKEND = env("SMS_BACKEND", default="app.ext.sms.backends.stdout.StdOutSmsBackend")
+if SMS_BACKEND == "app.ext.sms.backends.twilio.TwilioSmsBackend":
+    TWILIO_ACCOUNT_SID = env("TWILIO_ACCOUNT_SID")
+    TWILIO_AUTH_TOKEN = env("TWILIO_AUTH_TOKEN")
+    TWILIO_SERVICE_PHONE = env("TWILIO_SERVICE_PHONE")
+
 PUSH_NOTIFICATION_SERVICE_ADAPTER = env("PUSH_NOTIFICATION_SERVICE_ADAPTER", default="expo")
+
+if DEBUG and USE_DEBUG_TOOLBAR:
+    INSTALLED_APPS.append("debug_toolbar")
+    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+    INTERNAL_IPS = ["127.0.0.1", os.environ.get("HOST", "localhost")]
+    DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
+    ROOT_URLCONF = "app.urls_dev"
+
+if IS_TESTING:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }

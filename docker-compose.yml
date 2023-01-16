@@ -48,7 +48,6 @@ services:
     environment:
       - SQL_HOST=db
       - REDIS_HOST=redis
-      - FLOWER_HOST=flower
 
   db:
     image: postgres:13.0-alpine
@@ -90,18 +89,6 @@ services:
       - REDIS_HOST=redis
     labels:
       - "traefik.enable=false"
-
-  flower:
-    build: .
-    env_file:
-      - .env.dev
-    entrypoint: []
-    command: python -m celery -A app flower --address=0.0.0.0 --port=${FLOWER_PORT}
-    environment:
-      - SQL_HOST=db
-      - REDIS_HOST=redis
-    ports:
-      - "${FLOWER_PORT}:${FLOWER_PORT}"
 
   nginx:
     depends_on:

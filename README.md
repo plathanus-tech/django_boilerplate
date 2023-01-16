@@ -72,7 +72,6 @@ It may not work on MacOs or Windows.
       `127.0.0.1 dev.boilerplate.com`
 
     - DJANGO_SECRET_KEY: For development this can be any value, changing this value after having users registered will break their passwords.
-    - DJANGO_SETTINGS_MODULE: Where django will look for the settings. For production swap to `app.settings.prod`
     - DJANGO_DEBUG: When set to True (1) will display Tracebacks and will add a debug toolbar in the site.
     - SQL_HOST: Leaving this value to `localhost` allows you to externally access the database while the docker-compose services are running.
 
@@ -144,7 +143,6 @@ These are the Django related libs used in this project:
 - [Daphne ASGI Server](https://github.com/django/daphne)
 - [DRF Spectacular - OpenAPI 3.0 Generator](https://drf-spectacular.readthedocs.io/en/latest/index.html)
 - [Django Environ - Environment Variables utility](https://django-environ.readthedocs.io/en/latest/)
-- [WhiteNoise - Static Files](https://whitenoise.evans.io/)
 - [Django CORS Headers](https://pypi.org/project/django-cors-headers/)
 
 ### Python Libs
