@@ -53,6 +53,7 @@ def main():
     if not running_containers:
         print("No containers running, starting all containers")
         dkr.compose.up(build=True, detach=True, scales={"app": 1})
+        return
 
     print(f"There are running containers, scaling the app")
     dkr.compose.up(
