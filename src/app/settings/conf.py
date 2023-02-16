@@ -65,7 +65,6 @@ AUTH_USER_MODEL = "users.User"
 
 # Application definition
 DJANGO_APPS: List[str] = [
-    "channels",
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -83,6 +82,7 @@ THIRD_PARTY_APPS: List[str] = [
     "corsheaders",
 ]
 YOUR_PROJECT_APPS: List[str] = [
+    "app",
     "users.apps.UsersConfig",
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + YOUR_PROJECT_APPS
@@ -132,15 +132,6 @@ if REDIS_PASSWORD is None:
     REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
 else:
     REDIS_URL = f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
-
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [REDIS_URL],
-        },
-    },
-}
 
 # Database
 DATABASES = {
