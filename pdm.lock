@@ -590,7 +590,7 @@ dependencies = [
 
 [[package]]
 name = "setuptools"
-version = "63.2.0"
+version = "67.3.2"
 requires_python = ">=3.7"
 summary = "Easily download, build, install, upgrade, and uninstall Python packages"
 
@@ -713,7 +713,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:d52ed3d084ecb0bdc6f8d0b419ec8d545fc737962a1567d99e2679a7a23df28e"
+content_hash = "sha256:a7de85746861a2a25aeb891b296974d76cc320adf01f09b6e3ee684a0727cc68"
 
 [metadata.files]
 "amqp 5.1.1" = [
@@ -1362,9 +1362,9 @@ content_hash = "sha256:d52ed3d084ecb0bdc6f8d0b419ec8d545fc737962a1567d99e2679a7a
     {url = "https://files.pythonhosted.org/packages/33/a8/c13804d8baff6f75db7ff9502a27c79f28beb559142dabc65e7aae6ae48b/sendgrid-6.9.7.tar.gz", hash = "sha256:fa30411c627690fecd0ef6b1d4e1783f2d0272aa14b5fffb133ebd1e31114f16"},
     {url = "https://files.pythonhosted.org/packages/98/dc/f50ef2317a4279e12556498dfb08824509818120a458209e3eb25abbe5a3/sendgrid-6.9.7-py3-none-any.whl", hash = "sha256:ba8d3d39e1f392b9434365d53983b2fc6a458ae0496d2d9e103c15e1743ab66b"},
 ]
-"setuptools 63.2.0" = [
-    {url = "https://files.pythonhosted.org/packages/0a/ba/52611dc8278828eb9ec339e6914a0f865f9e2af967214905927835dfac0a/setuptools-63.2.0.tar.gz", hash = "sha256:c04b44a57a6265fe34a4a444e965884716d34bae963119a76353434d6f18e450"},
-    {url = "https://files.pythonhosted.org/packages/a4/53/bfc6409447ca024558b8b19d055de94c813c3e32c0296c48a0873a161cf5/setuptools-63.2.0-py3-none-any.whl", hash = "sha256:0d33c374d41c7863419fc8f6c10bfe25b7b498aa34164d135c622e52580c6b16"},
+"setuptools 67.3.2" = [
+    {url = "https://files.pythonhosted.org/packages/86/7b/f35d72b7a6acbc27732e88d7ceb7f224b3e0683bf645e1c9e2ac2cd96c0d/setuptools-67.3.2-py3-none-any.whl", hash = "sha256:bb6d8e508de562768f2027902929f8523932fcd1fb784e6d573d2cafac995a48"},
+    {url = "https://files.pythonhosted.org/packages/a3/56/f49e7877e8d8a09faaeecde5ca61169e9cfd46d014def474daa31bf217ca/setuptools-67.3.2.tar.gz", hash = "sha256:95f00380ef2ffa41d9bba85d95b27689d923c93dfbafed4aecd7cf988a25e012"},
 ]
 "six 1.16.0" = [
     {url = "https://files.pythonhosted.org/packages/71/39/171f1c67cd00715f190ba0b100d606d440a28c93c7714febeca8b79af85e/six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
