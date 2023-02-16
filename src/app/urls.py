@@ -12,8 +12,7 @@ schema_view = drf_views.SpectacularAPIView.as_view()
 swagger_view = drf_views.SpectacularSwaggerView.as_view(url_name="schema")
 redoc_view = drf_views.SpectacularRedocView.as_view(url_name="schema")
 
-urlpatterns = i18n_patterns(
-    path("health-check", lambda r: HttpResponse("Ok")),
+translated_patterns = i18n_patterns(
     path("", lambda r: redirect(reverse("admin:login"))),
     path(f"{settings.ADMIN_URL_PREFIX}/", admin.site.urls),
     path(
@@ -43,3 +42,7 @@ urlpatterns = i18n_patterns(
     path("", include("users.urls", namespace="users")),
     prefix_default_language=True,
 )
+
+urlpatterns = [
+    path("health-check", lambda r: HttpResponse("Ok")),
+] + translated_patterns
