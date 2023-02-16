@@ -80,13 +80,9 @@ dependencies = [
     "psycopg2-binary>=2.9.3",
     "djangorestframework-simplejwt>=5.2.0",
     "setuptools>=62.6.0",
-    "sendgrid>=6.9.7",
-    "django-storages>=1.12.3",
     "Pillow>=9.2.0",
     "flower>=1.1.0",
     "validate-docbr>=1.10.0",
-    "boto3>=1.24.76",
-    "gunicorn>=20.1.0",
 ]
 requires-python = ">=3.9.13"
 license = {text = "MIT"}
@@ -94,4 +90,10 @@ license = {text = "MIT"}
 [project.optional-dependencies]
 phonenumbers = [
     "phonenumbers>=8.13.6",
+]
+production = [
+    "sendgrid>=6.9.7",
+    "django-storages>=1.13.2",
+    "boto3>=1.26.72",
+    "gunicorn>=20.1.0",
 ]

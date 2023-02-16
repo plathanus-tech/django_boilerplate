@@ -52,18 +52,18 @@ dependencies = [
 
 [[package]]
 name = "boto3"
-version = "1.24.76"
+version = "1.26.72"
 requires_python = ">= 3.7"
 summary = "The AWS SDK for Python"
 dependencies = [
-    "botocore<1.28.0,>=1.27.76",
+    "botocore<1.30.0,>=1.29.72",
     "jmespath<2.0.0,>=0.7.1",
     "s3transfer<0.7.0,>=0.6.0",
 ]
 
 [[package]]
 name = "botocore"
-version = "1.27.76"
+version = "1.29.72"
 requires_python = ">= 3.7"
 summary = "Low-level, data-driven core of boto 3."
 dependencies = [
@@ -225,11 +225,11 @@ dependencies = [
 
 [[package]]
 name = "django-storages"
-version = "1.12.3"
-requires_python = ">=3.5"
+version = "1.13.2"
+requires_python = ">=3.7"
 summary = "Support for many storage backends in Django"
 dependencies = [
-    "Django>=2.2",
+    "Django>=3.2",
 ]
 
 [[package]]
@@ -743,7 +743,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:37804f420adfef24ef09c41297b09dd39d522db6183cc7cb2fb70cc4d25cfa71"
+content_hash = "sha256:f77183c6d44d679803d829fe395b1b7c9116e0b20bacd0c133fafcd85d35a7b8"
 
 [metadata.files]
 "amqp 5.1.1" = [
@@ -794,13 +794,13 @@ content_hash = "sha256:37804f420adfef24ef09c41297b09dd39d522db6183cc7cb2fb70cc4d
     {url = "https://files.pythonhosted.org/packages/ee/1f/b29c7371958ab41a800f8718f5d285bf4333b8d0b5a5a8650234463ee644/black-22.3.0.tar.gz", hash = "sha256:35020b8886c022ced9282b51b5a875b6d1ab0c387b31a065b84db7c33085ca79"},
     {url = "https://files.pythonhosted.org/packages/f7/11/3818eb66303c9648e0f51899ec1e16d8576a36b855fdcb03a82311b57c62/black-22.3.0-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:cc1e1de68c8e5444e8f94c3670bb48a2beef0e91dddfd4fcc29595ebd90bb9ce"},
 ]
-"boto3 1.24.76" = [
-    {url = "https://files.pythonhosted.org/packages/0d/47/02c96435cd5fa469a3fbf93df9285ae687a65ca410c0e0ea0d870e831f8c/boto3-1.24.76-py3-none-any.whl", hash = "sha256:5bfcced1a30597b06b3426024c7a9220526882e8fc2dd255f03b9389b5ad8623"},
-    {url = "https://files.pythonhosted.org/packages/9c/90/6bec7d210f87100552ec4454ea1316384adcbb6c5b63c2a1cb5ca50bdaaa/boto3-1.24.76.tar.gz", hash = "sha256:aee98e60c7d2ce1396a3beaf47f8ff749e64804cbdaed8e19d4338a6f628f2dc"},
+"boto3 1.26.72" = [
+    {url = "https://files.pythonhosted.org/packages/27/77/d3ff0ad78cc0e7b37175c9002ad60ebeb5e6dabc5a358d03577c155d8869/boto3-1.26.72.tar.gz", hash = "sha256:5d6e19d148c4a9d5d85f0d96570d11264f23db610f1e3c9a8b7e8b6898424691"},
+    {url = "https://files.pythonhosted.org/packages/f5/02/94a27ed892af3291db641ec67eb03fd98d4179c17d50ba3a7f57cff5f0ee/boto3-1.26.72-py3-none-any.whl", hash = "sha256:990997248716f12b296d7d30b3119a93347d73b7a4831c015e53aaebbd074a77"},
 ]
-"botocore 1.27.76" = [
-    {url = "https://files.pythonhosted.org/packages/24/08/b9e9753fb0dbb8e2cc19a692e4082accf654447304d34946c2728b96880f/botocore-1.27.76.tar.gz", hash = "sha256:b5c32922eba727a466f171dcc281f309d2a313e2f6dc592d43044caad96de338"},
-    {url = "https://files.pythonhosted.org/packages/54/fa/9502a6d39a7b7c5b262ecb90294b819b2217f948263e8fc2ac3227dba43c/botocore-1.27.76-py3-none-any.whl", hash = "sha256:0d4a67801e5a4be4cd84795320ad9fb8c315ed1e7a63e1191b2b3f7a7171d43c"},
+"botocore 1.29.72" = [
+    {url = "https://files.pythonhosted.org/packages/85/d8/b3ed4e4176bb7fa3d6e08b94a9b94a13315478162d55ac61b785a6233cb1/botocore-1.29.72.tar.gz", hash = "sha256:8710f53af0e20f08f36a3bf434d18bc7ceba5d9835495b02aedbedd35df5de9a"},
+    {url = "https://files.pythonhosted.org/packages/c0/11/2b79ed0d550ccfd7b27f63cf4f4389ca3d07be6f8db05c36d7b9d0306611/botocore-1.29.72-py3-none-any.whl", hash = "sha256:77fff109e1bdbf030d8400ccab9d28454c03c7be62c1696a239b21792b0873df"},
 ]
 "celery 5.2.7" = [
     {url = "https://files.pythonhosted.org/packages/1d/99/21fe9d1829cab4fc77d18f89d0c4cbcfe754e95f8b8f4af64fe4997c442f/celery-5.2.7-py3-none-any.whl", hash = "sha256:138420c020cd58d6707e6257b6beda91fd39af7afde5d36c6334d175302c0e14"},
@@ -995,9 +995,9 @@ content_hash = "sha256:37804f420adfef24ef09c41297b09dd39d522db6183cc7cb2fb70cc4d
     {url = "https://files.pythonhosted.org/packages/b9/be/3d8b107e3920d790a1cb2b94fdf5cfbc577ebe5a80eee0f023728bca2848/django-jazzmin-2.5.0.tar.gz", hash = "sha256:2ee5ea548e9d5d6cf6495025d006b063ecae84702304eb90c9c5ef37ba99078a"},
     {url = "https://files.pythonhosted.org/packages/fd/be/9bef1b61c7eb5bc22736da04336c57d6a436a245702e8cadc616e0780eb5/django_jazzmin-2.5.0-py3-none-any.whl", hash = "sha256:6b9f9951eee41f60793a0d2f6f3d57213bd5605ddda7a106acb2bcdec4ef124e"},
 ]
-"django-storages 1.12.3" = [
-    {url = "https://files.pythonhosted.org/packages/13/f9/61740c0224454142354914e539d06dd49c6eb8bd863a583a1624acdf6c02/django_storages-1.12.3-py3-none-any.whl", hash = "sha256:204a99f218b747c46edbfeeb1310d357f83f90fa6a6024d8d0a3f422570cee84"},
-    {url = "https://files.pythonhosted.org/packages/17/1d/fc2055860a7bbade74659874305e831fa24fe9b8f5a582aa8a0e650352d2/django-storages-1.12.3.tar.gz", hash = "sha256:a475edb2f0f04c4f7e548919a751ecd50117270833956ed5bd585c0575d2a5e7"},
+"django-storages 1.13.2" = [
+    {url = "https://files.pythonhosted.org/packages/06/ed/6eef8d009138d4c58c63026bf24e946a7e09caac77aca33ab46a5e5bc51f/django_storages-1.13.2-py3-none-any.whl", hash = "sha256:31dc5a992520be571908c4c40d55d292660ece3a55b8141462b4e719aa38eab3"},
+    {url = "https://files.pythonhosted.org/packages/cb/8a/3872af7e3d61a8eb7616872549cd74f7f1090de41792a059adb7ce6854dc/django-storages-1.13.2.tar.gz", hash = "sha256:cbadd15c909ceb7247d4ffc503f12a9bec36999df8d0bef7c31e57177d512688"},
 ]
 "djangorestframework 3.13.1" = [
     {url = "https://files.pythonhosted.org/packages/7e/40/efa7f7b2448194b1065572f34d3e6cadb478c67af62f6893957376d8a9be/djangorestframework-3.13.1.tar.gz", hash = "sha256:0c33407ce23acc68eca2a6e46424b008c9c02eceb8cf18581921d0092bc1f2ee"},

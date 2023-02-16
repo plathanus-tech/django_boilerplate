@@ -14,7 +14,7 @@ RUN pip install pdm==2.1.0
 
 # Install dev deps
 COPY pyproject.toml pdm.lock /pkgs/
-RUN pdm install
+RUN pdm install -G :all
 
 WORKDIR /app
 COPY entrypoint.api.sh entrypoint.api.sh
