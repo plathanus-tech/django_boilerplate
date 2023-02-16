@@ -1,6 +1,13 @@
 from typing import Optional
 
-import phonenumbers
+try:
+    import phonenumbers
+except ImportError as e:
+    raise ImportError(
+        "`phonenumbers` is not installed. This is an optional dependency.",
+        "Did your forgot to install all the dependencies using: `pdm install -G :all`?"
+        "Or maybe if you only want to add this dependency, run `pdm install -G phonenumbers`",
+    ) from e
 from django.db.models import CharField
 
 from app import fields
