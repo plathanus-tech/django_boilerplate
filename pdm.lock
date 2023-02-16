@@ -713,7 +713,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:0a36013a1d79acb37c24382ecbbf19f0504a456b5fddbacb7434fd3afa3c47ab"
+content_hash = "sha256:d52ed3d084ecb0bdc6f8d0b419ec8d545fc737962a1567d99e2679a7a23df28e"
 
 [metadata.files]
 "amqp 5.1.1" = [

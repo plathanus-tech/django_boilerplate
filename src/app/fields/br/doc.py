@@ -1,7 +1,15 @@
 from typing import Type
 
 from django import forms
-from validate_docbr import BaseDoc
+
+try:
+    from validate_docbr import BaseDoc
+except ImportError as e:
+    raise ImportError(
+        "`validate-docbr` is not installed. This is an optional dependency.",
+        "Did your forgot to install all the dependencies using: `pdm install -G :all`?"
+        "Or maybe if you only want to add this dependency, run `pdm install -G brdocs`",
+    ) from e
 
 from app import validators
 
