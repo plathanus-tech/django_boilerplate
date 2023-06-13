@@ -17,11 +17,12 @@ COPY pyproject.toml pdm.lock /pkgs/
 RUN pdm install -G :all
 
 WORKDIR /app
-COPY entrypoint.api.sh entrypoint.api.sh
-RUN sed -i 's/\r$//g' entrypoint.api.sh
-RUN chmod +x  entrypoint.api.sh
+COPY infra/app/entrypoint.api.sh /app/entrypoint.api.sh
+RUN sed -i 's/\r$//g' /app/entrypoint.api.sh
+RUN chmod +x  /app/entrypoint.api.sh
 
-ENV PYTHONPATH=src:/pkgs/.venv/lib/python3.11/site-packages
-COPY ./ /app
+ENV PYTHONPATH=/app/src:/pkgs/.venv/lib/python3.11/site-packages
+COPY src /app/src
+COPY manage.py gunicorn.conf.py /app/
 
 ENTRYPOINT [ "sh", "/app/entrypoint.api.sh" ]

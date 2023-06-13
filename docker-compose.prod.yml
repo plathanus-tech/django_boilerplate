@@ -24,9 +24,9 @@ services:
       - "443:443"
       - "80:80"
     volumes:
-      - "./letsencrypt:/letsencrypt"
+      - "./storage/letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./traefiklogs:/traefiklogs"
+      - "./storage/traefiklogs:/traefiklogs"
 
   app:
     command: python3 -m gunicorn --bind 0.0.0.0:80 app.wsgi:application
@@ -35,7 +35,7 @@ services:
       - redis
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: infra/app/Dockerfile.prod
     volumes:
       - staticfiles:/app/static
     ports:
@@ -58,8 +58,9 @@ services:
       traefik.http.services.app-service.loadbalancer.healthcheck.hostname: ${HOST}
 
   celery-scheduler:
-    build: .
-    entrypoint: []
+    build:
+      context: .
+      dockerfile: infra/app/Dockerfile.prod
     env_file:
       - .env.prod
     command: python -m celery -A app beat
@@ -71,10 +72,11 @@ services:
       - "traefik.enable=false"
 
   celery-worker:
-    build: .
+    build:
+      context: .
+      dockerfile: infra/app/Dockerfile.prod
     env_file:
       - .env.prod
-    entrypoint: [ "sh", "/app/entrypoint.worker.sh" ]
     command: python -m celery -A app worker --events
     depends_on:
       - app

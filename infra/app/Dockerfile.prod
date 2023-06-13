@@ -18,15 +18,12 @@ RUN pdm install --prod -G production --no-lock --no-editable
 
 WORKDIR /app
 
-COPY entrypoint.api.sh entrypoint.api.sh
+COPY infra/app/entrypoint.api.sh entrypoint.api.sh
 RUN sed -i 's/\r$//g' entrypoint.api.sh
 RUN chmod +x  entrypoint.api.sh
 
-COPY entrypoint.worker.sh entrypoint.worker.sh
-RUN sed -i 's/\r$//g' entrypoint.worker.sh
-RUN chmod +x  entrypoint.worker.sh
-
-ENV PYTHONPATH=src:/pkgs/.venv/lib/python3.11/site-packages
-COPY ./ /app/
+ENV PYTHONPATH=/app/src:/pkgs/.venv/lib/python3.11/site-packages
+COPY src /app/src
+COPY manage.py gunicorn.conf.py /app/
 
 ENTRYPOINT ["sh", "/app/entrypoint.api.sh"]

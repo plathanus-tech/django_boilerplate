@@ -10,7 +10,7 @@ services:
 
   traefik:
     build:
-      dockerfile: traefik.Dockerfile
+      dockerfile: ./infra/traefik/traefik.Dockerfile
       context: .
     command:
       - "--configFile=traefik.yml"
@@ -19,12 +19,14 @@ services:
       - "80:80"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./traefiklogs:/traefiklogs"
+      - "./storage/traefiklogs:/traefiklogs"
 
   app:
-    build: .
+    build:
+      dockerfile: infra/app/Dockerfile
+      context: .
     volumes:
-      - .:/app/
+      - ./src:/app/src
       - staticfiles:/app/static
       - mediafiles:/app/media
     ports:
@@ -63,7 +65,9 @@ services:
       POSTGRES_DB: ${SQL_DATABASE}
 
   celery-scheduler:
-    build: .
+    build:
+      dockerfile: infra/app/Dockerfile
+      context: .
     env_file:
       - .env.dev
     command: python -m celery -A app beat
@@ -77,7 +81,9 @@ services:
       - "traefik.enable=false"
 
   celery-worker:
-    build: .
+    build:
+      dockerfile: infra/app/Dockerfile
+      context: .
     env_file:
       - .env.dev
     command: python -m celery -A app worker -P solo --concurrency 1 --events
@@ -98,7 +104,7 @@ services:
     expose:
       - 80
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - staticfiles:/app/static:ro
       - mediafiles:/app/media:ro
     labels:
