@@ -225,7 +225,7 @@ LOGGING: Dict[str, Any] = {
     },
     "root": {"handlers": ["console"], "level": LOGGING_LEVEL},
     "loggers": {
-        "django.channels.server": {
+        "django.server": {
             "handlers": ["console"],
             "level": LOGGING_LEVEL,
             "propagate": False,
