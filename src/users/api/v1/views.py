@@ -24,7 +24,6 @@ from . import serializers
 @permission_classes([])
 @authentication_classes([])
 def auth(request: request.Request) -> response.Response:
-
     login_srlzr = serializers.LoginSerializer(data=request.data)
     login_srlzr.is_valid(raise_exception=True)
     user = login_srlzr.user

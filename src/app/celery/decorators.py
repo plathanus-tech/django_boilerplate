@@ -28,7 +28,7 @@ class DecoratedTaskFunction(Protocol):
         countdown: float = ...,
         eta: datetime = ...,
         expires: Union[float, datetime] = ...,
-        **options
+        **options,
     ):
         """Runs a task on the background.
         Parameters, directly from [celery docs](https://docs.celeryq.dev/en/stable/reference/celery.app.task.html?highlight=apply_async#celery.app.task.Task.apply_async).
@@ -47,11 +47,12 @@ def task(
     soft_time_limit: int = None,  # type: ignore
     throws: Tuple[Exception, ...] = None,  # type: ignore
     base: Task = None,
-    **options
+    **options,
 ):
     """A wrapper around celery.shared_task decorator.
     This decorator does nothing at runtime. It only serves static typing purposes.
-    Directly from [celery docs](https://docs.celeryq.dev/en/stable/userguide/tasks.html#task-options)."""
+    Directly from [celery docs](https://docs.celeryq.dev/en/stable/userguide/tasks.html#task-options).
+    """
 
     def wrapped(fn) -> DecoratedTaskFunction:
         from celery import shared_task

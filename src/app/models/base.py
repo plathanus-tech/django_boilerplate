@@ -10,7 +10,6 @@ class BaseModel(models.Model):
 
 
 class AutoTimeStampModel(BaseModel):
-
     created_at = models.DateTimeField(
         verbose_name=_("created at"), auto_now_add=True, blank=True, editable=False
     )

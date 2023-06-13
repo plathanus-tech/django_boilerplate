@@ -1,4 +1,4 @@
-FROM python:3.9.13
+FROM python:3.11-slim-buster
 
 WORKDIR /pkgs
 
@@ -21,7 +21,7 @@ COPY entrypoint.api.sh entrypoint.api.sh
 RUN sed -i 's/\r$//g' entrypoint.api.sh
 RUN chmod +x  entrypoint.api.sh
 
-ENV PYTHONPATH=src:/pkgs/.venv/lib/python3.9/site-packages
+ENV PYTHONPATH=src:/pkgs/.venv/lib/python3.11/site-packages
 COPY ./ /app
 
 ENTRYPOINT [ "sh", "/app/entrypoint.api.sh" ]

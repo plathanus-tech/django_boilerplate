@@ -7,7 +7,7 @@ It may not work on MacOs or Windows.
 
 0.  _Python_
 
-    This project requires python3.9 to run. To install it follow these guidelines:
+    This project requires python3.11 to run. To install it follow these guidelines:
 
     > sudo apt update && sudo apt upgrade -y
 
@@ -15,13 +15,13 @@ It may not work on MacOs or Windows.
 
     > sudo add-apt-repository ppa:deadsnakes/ppa
 
-    > sudo apt install python3.9
+    > sudo apt install python3.11
 
-    > sudo apt install python3-pip python3.9-distutils python3-apt --reinstall
+    > sudo apt install python3-pip python3.11-distutils python3-apt --reinstall
 
-    > python3.9 -m pip install --upgrade pip
+    > python3.11 -m pip install --upgrade pip
 
-    > python3.9 -m pip install setuptools wheel
+    > python3.11 -m pip install setuptools wheel
 
     These steps work from any version of python3.
     Just swap the minor version to the desired version.
