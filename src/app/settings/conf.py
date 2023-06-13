@@ -173,7 +173,7 @@ TIMEZONE_FOR_LANGUAGE = {
 
 # Static Files
 STATIC_URL: str = "/static/"
-STATIC_ROOT: str = os.path.join(ROOT_DIR, "static")
+STATIC_ROOT: str = os.path.join(ROOT_DIR, env("STATIC_ROOT", default="storage/static"))
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, direc) for direc in env.list("STATICFILES_DIRS", default=[])
 ]
@@ -184,7 +184,7 @@ STATICFILES_FINDERS: List[str] = [
 STATICFILES_STORAGE: str = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 # Media files
-MEDIA_ROOT = os.path.join(ROOT_DIR, env("MEDIA_ROOT", default="media/"))
+MEDIA_ROOT = os.path.join(ROOT_DIR, env("MEDIA_ROOT", default="storage/media/"))
 MEDIA_URL = "/media/"
 
 # Storages

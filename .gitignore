@@ -47,10 +47,8 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-src/static/
-/static/
-media/**
 test_media/
+storage/*
 
 # Scrapy stuff:
 .scrapy

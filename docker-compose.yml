@@ -27,8 +27,8 @@ services:
       context: .
     volumes:
       - ./src:/app/src
-      - staticfiles:/app/static
-      - mediafiles:/app/media
+      - ./storage/static:/app/storage/static
+      - ./storage/static:/app/storage/media
     ports:
       - 80
     env_file:
@@ -105,8 +105,8 @@ services:
       - 80
     volumes:
       - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - staticfiles:/app/static:ro
-      - mediafiles:/app/media:ro
+      - ./storage/static:/app/storage/static:ro
+      - ./storage/static:/app/storage/media:ro
     labels:
       traefik.enable: "true"
       traefik.http.routers.nginx.rule: Host(`${HOST}`) && (PathPrefix(`/static`) || PathPrefix(`/media`))
