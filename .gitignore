@@ -67,7 +67,7 @@ celerybeat.pid
 .env.dev
 venv/
 dev/
-.pdm.toml
+.pdm-python
 __pypackages__
 
 # mypy

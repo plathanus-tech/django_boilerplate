@@ -10,7 +10,7 @@ RUN apt update -y
 RUN apt install -y netcat gettext
 
 RUN pip install pip setuptools wheel
-RUN pip install pdm==2.1.0
+RUN pip install pdm==2.7.4
 
 COPY pyproject.toml pdm.lock /pkgs/
 # Install prod deps
