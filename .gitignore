@@ -41,7 +41,6 @@ coverage.xml
 .pytest_cache/
 cover/
 
-
 # Django stuff:
 *.log
 *.mo
@@ -56,10 +55,8 @@ test_media/
 # Scrapy stuff:
 .scrapy
 
-
 # Jupyter Notebook
 .ipynb_checkpoints
-
 
 # Celery stuff
 celerybeat-schedule
@@ -68,7 +65,6 @@ celerybeat.pid
 # Environments
 .env.prod
 .env.dev
-.env.qa
 venv/
 dev/
 .pdm.toml
