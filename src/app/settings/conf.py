@@ -187,7 +187,7 @@ STORAGES = {
     "staticfiles": {"BACKEND": STATICFILES_STORAGE_BACKEND},
     "public_media": {"BACKEND": PUBLIC_MEDIA_STORAGE_BACKEND},
 }
-if DEFAULT_FILE_STORAGE_BACKEND == "app.ext.storage.aws_s3.PrivateMediaStorage":
+if DEFAULT_FILE_STORAGE_BACKEND == "app.storage.aws_s3.PrivateMediaStorage":
     INSTALLED_APPS.append("storages")
     from .third_party.aws_s3 import *
 
