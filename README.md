@@ -57,9 +57,9 @@ It may not work on MacOs or Windows.
 
 2.1. Setting up Environment Variables
 
-    Now let's configure the environment variables. First of all copy the `.env.dev.example` to the root of your project with the name `.env.dev`. The following command should do the job:
+    Now let's configure the environment variables. First of all copy the `.env_files/.env.dev.example` to the root of your project with the name `.env.dev`. The following command should do the job:
 
-    > cp .env.dev.example .env.dev
+    > cp .env_files/.env.dev.example .env.dev
 
     When deploying to production do the same for the `.env.prod.example`, copying it to the root with the name `.env.prod`.
 
