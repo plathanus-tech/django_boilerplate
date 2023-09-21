@@ -1,6 +1,15 @@
+import logging
+
 from environ import Env
 
 env = Env()
+
+
+class HealthCheckFilter:
+    def filter(self, record: logging.LogRecord):
+        msg = record.getMessage()
+        should_display = "/health-check" not in msg and "Broken pipe from" not in msg
+        return should_display
 
 
 LOGGING_LEVEL: str = env("DJANGO_LOGGING_LEVEL", default="INFO")
@@ -20,7 +29,7 @@ LOGGING = {
         },
     },
     "filters": {
-        "health_check_filter": {"()": "app.logging.filters.HealthCheckFilter"},
+        "health_check_filter": {"()": "app.settings.infra.log.HealthCheckFilter"},
     },
     "root": {"handlers": ["console"], "level": LOGGING_LEVEL},
     "loggers": {
