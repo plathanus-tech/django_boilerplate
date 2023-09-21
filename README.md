@@ -67,10 +67,6 @@ It may not work on MacOs or Windows.
 
     Some important variables:
 
-    - HOST: This will define where the project will be reachable when you build in the next step. If you leave the default, `dev.boilerplate.com` then all you need to do is add it to `/etc/hosts` like:
-
-      `127.0.0.1 dev.boilerplate.com`
-
     - DJANGO_SECRET_KEY: For development this can be any value, changing this value after having users registered will break their passwords.
     - DJANGO_DEBUG: When set to True (1) will display Tracebacks and will add a debug toolbar in the site.
     - SQL_HOST: Leaving this value to `localhost` allows you to externally access the database while the docker-compose services are running.
@@ -80,19 +76,11 @@ It may not work on MacOs or Windows.
     Make sure you have [docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed into your machine. It's used to build and run the project.
     So to build the project you can:
 
-    > docker-compose --env-file .env.dev build
-
-    or, use the shortcut using _Make_ that comes installed on Ubuntu:
-
-    > make build
+    > docker compose --env-file .env.dev -f local.yml build
 
     After that you can get the project running using:
 
-    > docker-compose --env-file .env.dev up
-
-    or, use the shortcut using _Make_:
-
-    > make up
+    > docker compose --env-file .env.dev -f local.yml up
 
     To create a user to access the admin panel, run:
 
@@ -100,18 +88,10 @@ It may not work on MacOs or Windows.
 
     or, if you don't have pdm on your machine:
 
-    > docker-compose --env-file .env.dev exec app python manage.py createsuperuser
-
-    If you want you can also debug inside vscode.
-    For that you're going to need the [Remote Explorer](https://github.com/Microsoft/vscode-remote-release) extension. After installing the extension run:
-
-    > make debug
-
-    This will get the project running on debug configurations. After, connect to the running api container with Remote Explorer, and from there you can run the Debug mode.
+    > docker compose --env-file .env.dev -f local.yml exec app python manage.py createsuperuser
 
 After all these steps, you will end up with the following components running in your machine:
 
-- Traefik: A Reverse-Proxy Server that will serve the services over Http(s)
 - Django App: Available at the `HOST` variable set in the .env.dev.
 - PostgreSQL Server: Available at the `SQL_HOST` variable. You can then use PGAdmin4 or DBeaver to connect.
 - Celery Worker: A single thread worker that will execute tasks sent to celery.
