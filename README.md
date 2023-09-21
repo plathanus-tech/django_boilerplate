@@ -100,7 +100,7 @@ After all these steps, you will end up with the following components running in 
 
 ## Going Live:
 
-For production environments you most likely will be using a AWS EC2 instance for a MVP product. The project is configured so you just need to git clone it in the virtual machine, setup the `.env.prod` file, build the `docker-compose-prod.yml` file and run the `up` command.
+For production environments you most likely will be using a AWS EC2 instance for a MVP product. The project is configured so you just need to git clone it in the virtual machine, setup the `.env.prod` file, build the `production.yml` file and run the `up` command.
 For production we don't use some of the docker services that are present on development, they are:
 
 - db:
