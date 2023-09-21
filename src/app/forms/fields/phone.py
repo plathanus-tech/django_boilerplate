@@ -1,13 +1,6 @@
 from typing import Optional
 
-try:
-    import phonenumbers
-except ImportError as e:
-    raise ImportError(
-        "`phonenumbers` is not installed. This is an optional dependency.",
-        "Did your forgot to install all the dependencies using: `pdm install -G :all`?"
-        "Or maybe if you only want to add this dependency, run `pdm install -G phonenumbers`",
-    ) from e
+import phonenumbers
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
