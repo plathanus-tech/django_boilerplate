@@ -22,7 +22,7 @@ env: environ.Env = environ.Env()
 
 # Security
 SECRET_KEY: str = env("DJANGO_SECRET_KEY")
-ALLOWED_HOSTS: List[str] = env.list("DJANGO_ALLOWED_HOSTS", default=[])
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 DEBUG: bool = env("DJANGO_DEBUG", cast=bool, default=False)
 USE_DEBUG_TOOLBAR = env("USE_DEBUG_TOOLBAR", cast=bool, default=False)
 IS_TESTING = env("IS_TESTING", cast=bool, default=False)
@@ -34,11 +34,6 @@ SECURE_HSTS_SECONDS = env("SECURE_HSTS_SECONDS", int, default=0)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env("SECURE_HSTS_INCLUDE_SUBDOMAINS", bool, default=False)
 SECURE_HSTS_PRELOAD = env("SECURE_HSTS_PRELOAD", bool, default=False)
 SESSION_COOKIE_SECURE = env("SESSION_COOKIE_SECURE", bool, default=False)
-
-# Security - CORS
-CORS_ORIGIN_ALLOW_ALL: bool = env("CORS_ORIGIN_ALLOW_ALL", cast=bool, default=False)
-if not CORS_ORIGIN_ALLOW_ALL:
-    CORS_ORIGIN_WHITELIST: List[str] = env.list("CORS_ORIGIN_WHITELIST", default=[])
 
 # Security - CSRF
 CSRF_TRUSTED_ORIGINS = env.list(
@@ -124,15 +119,6 @@ TEMPLATES: List[Dict[str, Any]] = [
 WSGI_APPLICATION: str = "app.wsgi.application"
 ASGI_APPLICATION: str = "app.asgi.application"
 
-REDIS_HOST = env("REDIS_HOST")
-REDIS_PORT = env("REDIS_PORT", cast=int)
-REDIS_PASSWORD = env("REDIS_PASSWORD", default=None)
-REDIS_DB = env("REDIS_DB", default="0")
-if REDIS_PASSWORD is None:
-    REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
-else:
-    REDIS_URL = f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
-
 # Database
 DATABASES = {
     "default": {
@@ -181,135 +167,29 @@ STATICFILES_FINDERS: List[str] = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE: str = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 # Media files
 MEDIA_ROOT = os.path.join(ROOT_DIR, env("MEDIA_ROOT", default="storage/media/"))
 MEDIA_URL = "/media/"
 
 # Storages
-DEFAULT_FILE_STORAGE = env(
+DEFAULT_FILE_STORAGE_BACKEND = env(
     "DEFAULT_FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
 )
-if DEFAULT_FILE_STORAGE == "app.ext.storage.aws_s3.PrivateMediaStorage":
-    INSTALLED_APPS.append("storages")
-    AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", str)
-    AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", str)
-    AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", str)
-    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-
-    AWS_S3_OBJECT_PARAMETERS = {
-        "CacheControl": "max-age=86400",
-    }
-    AWS_MEDIA_LOCATION = "media/"
-
-# Logging
-LOGGING_LEVEL: str = env("DJANGO_LOGGING_LEVEL", default="INFO")
-SENDGRID_LOGGING_LEVEL: str = env("SENDGRID_LOGGING_LEVEL", default="WARNING")
-TWILIO_LOGGING_LEVEL: str = env("TWILIO_LOGGING_LEVEL", default="INFO")
-
-LOGGING: Dict[str, Any] = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
-    },
-    "formatters": {
-        "verbose": {
-            "format": "{levelname} {module} {asctime}: {message}",
-            "style": "{",
-        },
-    },
-    "filters": {
-        "health_check_filter": {"()": "app.logging.filters.HealthCheckFilter"},
-    },
-    "root": {"handlers": ["console"], "level": LOGGING_LEVEL},
-    "loggers": {
-        "django.server": {
-            "handlers": ["console"],
-            "level": LOGGING_LEVEL,
-            "propagate": False,
-            "filters": ["health_check_filter"],
-        },
-        "send_grid": {
-            "handlers": ["console"],
-            "level": SENDGRID_LOGGING_LEVEL,
-        },
-        "twilio": {
-            "handlers": ["console"],
-            "level": TWILIO_LOGGING_LEVEL,
-        },
-        "users.tasks": {
-            "handlers": ["console"],
-            "level": "INFO",
-        },
-    },
-}
-
-
-JAZZMIN_SETTINGS = {
-    "site_logo_classes": "img-circle",
-    "site_icon": None,
-    "site_title": "Admin",
-    "site_brand": "Boilerplate",
-    "site_header": "Admin",
-    "welcome_sign": "Boilerplate",
-    "user_avatar": None,
-    "show_sidebar": True,
-    "navigation_expanded": True,
-    # https://fontawesome.com/v5/search?m=free
-    "icons": {
-        "users": "fas fa-users-cog",
-        "users.user": "fas fa-user",
-        "users.Group": "fas fa-users",
-    },
-    "default_icon_parents": "fas fa-chevron-circle-right",
-    "default_icon_children": "fas fa-circle",
-    "show_ui_builder": False,
-    "language_chooser": True,
-}
-JAZZMIN_UI_TWEAKS = {
-    "actions_sticky_top": True,
-    "navbar_fixed": True,
-}
-
-
-DEFAULT_QUEUE_NAME: Optional[str] = env("DEFAULT_QUEUE_NAME", default="default")
-CELERY_ACKS_LATE: Optional[bool] = env("CELERY_ACKS_LATE", default=True)
-CELERY_TRACK_STARTED: Optional[bool] = env("CELERY_TRACK_STARTED", default=False)
-CELERY_WORKER_PREFETCH_MULTIPLIER: Optional[int] = env(
-    "CELERY_WORKER_PREFETCH_MULTIPLIER", default=1
+STATICFILES_STORAGE_BACKEND = env(
+    "STATICFILES_STORAGE_BACKEND", default="django.contrib.staticfiles.storage.StaticFilesStorage"
 )
-CELERY_BEAT_EXPIRES_IN_N_DAYS: Optional[int] = env("CELERY_BEAT_EXPIRES_IN_N_DAYS", default=3)
-CELERY_ALWAYS_EAGER: Optional[bool] = env("CELERY_ALWAYS_EAGER", default=False)
-BROKER_URL = REDIS_URL
-
-REST_FRAMEWORK = {
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-    ],
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
-    ),
+PUBLIC_MEDIA_STORAGE_BACKEND = env(
+    "PUBLIC_MEDIA_STORAGE_BACKEND", default=DEFAULT_FILE_STORAGE_BACKEND
+)
+STORAGES = {
+    "default": {"BACKEND": DEFAULT_FILE_STORAGE_BACKEND},
+    "staticfiles": {"BACKEND": STATICFILES_STORAGE_BACKEND},
+    "public_media": {"BACKEND": PUBLIC_MEDIA_STORAGE_BACKEND},
 }
-SPECTACULAR_SETTINGS = {
-    "TITLE": _("BoilerPlate"),
-    "DESCRIPTION": _("The BoilerPlate's API"),
-    "VERSION": "1.0.0",
-    "SWAGGER_UI_DIST": "SIDECAR",
-    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
-    "REDOC_DIST": "SIDECAR",
-    "SERVE_PUBLIC": False,
-}
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=env("ACCESS_TOKEN_LIFETIME_MINUTES", cast=int)),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=env("REFRESH_TOKEN_LIFETIME_DAYS", cast=int)),
-    "UPDATE_LAST_LOGIN": True,
-    "ROTATE_REFRESH_TOKENS": True,
-}
+if DEFAULT_FILE_STORAGE_BACKEND == "app.ext.storage.aws_s3.PrivateMediaStorage":
+    INSTALLED_APPS.append("storages")
+    from .third_party.aws_s3 import *
 
 # External Services
 EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
@@ -327,9 +207,8 @@ PUSH_NOTIFICATION_SERVICE_ADAPTER = env("PUSH_NOTIFICATION_SERVICE_ADAPTER", def
 if DEBUG and USE_DEBUG_TOOLBAR:
     INSTALLED_APPS.append("debug_toolbar")
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
-    INTERNAL_IPS = ["127.0.0.1", os.environ.get("HOST", "localhost")]
-    DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
     ROOT_URLCONF = "app.urls_dev"
+    from .third_party.dj_debug_toolbar import *
 
 if IS_TESTING:
     DATABASES = {
@@ -338,3 +217,13 @@ if IS_TESTING:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+
+
+from .infra.log import *
+from .third_party.celery import *
+from .third_party.dj_cors_headers import *
+from .third_party.drf import *
+from .third_party.drf_simple_jwt import *
+from .third_party.drf_spectacular import *
+from .third_party.jazzmin import *
+from .third_party.redis import *
