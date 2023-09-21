@@ -25,42 +25,42 @@ class BrazilianDocBaseValidator:
 class CertificateValidator(BrazilianDocBaseValidator):
     """Validator for birth/marriage/death Certificate(Certidão) document"""
 
-    message = _("Invalid Certificate number")
+    message = _("Invalid Certificate")
     validator = Certidao()
 
 
 class CnhValidator(BrazilianDocBaseValidator):
     """Validator for the CNH document"""
 
-    message = _("Invalid CNH number")
+    message = _("Invalid CNH")
     validator = CNH()
 
 
 class CnpjValidator(BrazilianDocBaseValidator):
     """Validator for the CNPJ document"""
 
-    message = _("Invalid CNPJ number")
+    message = _("Invalid CNPJ")
     validator = CNPJ()
 
 
 class CnsValidator(BrazilianDocBaseValidator):
     """Validator for the CNH document"""
 
-    message = _("Invalid CNS number")
+    message = _("Invalid CNS")
     validator = CNS()
 
 
 class CpfValidator(BrazilianDocBaseValidator):
     """Validator for the CPF document"""
 
-    message = _("Invalid CPF number")
+    message = _("Invalid CPF")
     validator = CPF()
 
 
 class CpfCnpjValidator(BrazilianDocBaseValidator):
     """Validator for the CPF or CNPJ document"""
 
-    message = _("Invalid CPF/CNPJ number")
+    message = _("Invalid CPF/CNPJ")
 
     def __call__(self, value):
         if not any([CPF().validate(value), CNPJ().validate(value)]):
@@ -70,19 +70,19 @@ class CpfCnpjValidator(BrazilianDocBaseValidator):
 class PisValidator(BrazilianDocBaseValidator):
     """Validator for the PIS document"""
 
-    message = _("Invalid PIS number")
+    message = _("Invalid PIS")
     validator = PIS()
 
 
 class RenavamValidator(BrazilianDocBaseValidator):
     """Validator for the Renavam document"""
 
-    message = _("Invalid RENAVAM number")
+    message = _("Invalid RENAVAM")
     validator = RENAVAM()
 
 
 class VoterRegistrationValidator(BrazilianDocBaseValidator):
     """Validator for the Voter Registration(Titulo Eleitor) document"""
 
-    message = _("Invalid Voter Registration number")
+    message = _("Invalid Voter Registration")
     validator = TituloEleitoral()

@@ -138,7 +138,7 @@ LANGUAGES: List[Tuple[str, str]] = [
     ("en-us", _("English")),
 ]
 LOCALE_PATHS = [
-    BASE_DIR / "app" / "locale",
+    ROOT_DIR / "locale",
 ]
 USE_I18N: bool = True
 
