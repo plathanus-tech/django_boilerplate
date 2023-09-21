@@ -10,7 +10,7 @@ except ImportError as e:
     ) from e
 from django.db.models import CharField
 
-from app import fields
+from app.forms import fields
 
 
 class InternationalPhoneNumberField(CharField):

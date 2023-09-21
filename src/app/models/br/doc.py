@@ -2,7 +2,7 @@ from typing import Type
 
 from django.db.models import CharField
 
-from app import fields
+from app.forms import fields
 
 
 class BrazilianDocBaseField(CharField):
