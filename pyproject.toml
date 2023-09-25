@@ -26,7 +26,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [tool.pdm.scripts]
-_.env_file = ".env.dev"
+_.env_file = ".env"
 collectstatic.cmd = "python manage.py collectstatic --noinput"
 makemigrations.cmd = "python manage.py makemigrations"
 migrate.cmd = "python manage.py migrate"

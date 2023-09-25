@@ -61,8 +61,7 @@ celerybeat-schedule
 celerybeat.pid
 
 # Environments
-.env.prod
-.env.dev
+.env
 venv/
 dev/
 .pdm-python

@@ -11,7 +11,7 @@ services:
     labels:
       traefik.enable: "false"
     env_file:
-      - .env.prod
+      - .env
 
   traefik:
     build:
@@ -45,7 +45,7 @@ services:
     ports:
       - 80
     env_file:
-      - .env.prod
+      - .env
     environment:
       - REDIS_HOST=redis
     labels:

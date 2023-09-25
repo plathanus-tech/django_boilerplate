@@ -19,7 +19,7 @@ services:
     ports:
       - ${DJANGO_HTTP_PORT:-8000}:${DJANGO_HTTP_PORT:-8000}
     env_file:
-      - .env.dev
+      - .env
 
     command: python3 manage.py runserver_plus 0.0.0.0:${DJANGO_HTTP_PORT:-8000}
     depends_on:

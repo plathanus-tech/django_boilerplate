@@ -57,13 +57,11 @@ It may not work on MacOs or Windows.
 
 2.1. Setting up Environment Variables
 
-    Now let's configure the environment variables. First of all copy the `.env_files/.env.dev.example` to the root of your project with the name `.env.dev`. The following command should do the job:
+    Now let's configure the environment variables. First of all copy the `.env_files/.env.example` to the root of your project with the name `.env`. The following command should do the job:
 
-    > cp .env_files/.env.dev.example .env.dev
+    > cp .env_files/.env.example .env
 
-    When deploying to production do the same for the `.env.prod.example`, copying it to the root with the name `.env.prod`.
-
-    Now inside `.env.dev` are defined your project environment variables, tweak, change them to whatever value you want.
+    Now inside `.env` are defined your project environment variables, tweak, change them to whatever value you want.
 
     Some important variables:
 
@@ -76,11 +74,11 @@ It may not work on MacOs or Windows.
     Make sure you have [docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed into your machine. It's used to build and run the project.
     So to build the project you can:
 
-    > docker compose --env-file .env.dev -f local.yml build
+    > docker compose --env-file .env -f local.yml build
 
     After that you can get the project running using:
 
-    > docker compose --env-file .env.dev -f local.yml up
+    > docker compose --env-file .env -f local.yml up
 
     To create a user to access the admin panel, run:
 
@@ -88,11 +86,11 @@ It may not work on MacOs or Windows.
 
     or, if you don't have pdm on your machine:
 
-    > docker compose --env-file .env.dev -f local.yml exec app python manage.py createsuperuser
+    > docker compose --env-file .env -f local.yml exec app python manage.py createsuperuser
 
 After all these steps, you will end up with the following components running in your machine:
 
-- Django App: Available at the `HOST` variable set in the .env.dev.
+- Django App: Available at the `HOST` variable set in the .env.
 - PostgreSQL Server: Available at the `SQL_HOST` variable. You can then use PGAdmin4 or DBeaver to connect.
 - Celery Worker: A single thread worker that will execute tasks sent to celery.
 - Celery Scheduler: Produces messages (tasks) periodically to workers consume.
@@ -100,11 +98,11 @@ After all these steps, you will end up with the following components running in 
 
 ## Going Live:
 
-For production environments you most likely will be using a AWS EC2 instance for a MVP product. The project is configured so you just need to git clone it in the virtual machine, setup the `.env.prod` file, build the `production.yml` file and run the `up` command.
+For production environments you most likely will be using a AWS EC2 instance for a MVP product. The project is configured so you just need to git clone it in the virtual machine, setup the `.env` file, build the `production.yml` file and run the `up` command.
 For production we don't use some of the docker services that are present on development, they are:
 
 - db:
-  You will need to setup a AWS RDS instance for the PostgreSQL Database, then set the proper environment variables in the .env.prod file: `SQL_ENGINE`, `SQL_DATABASE`, `SQL_USER`, `SQL_PASSWORD`, `SQL_HOST`, `SQL_PORT`.
+  You will need to setup a AWS RDS instance for the PostgreSQL Database, then set the proper environment variables in the .env file: `SQL_ENGINE`, `SQL_DATABASE`, `SQL_USER`, `SQL_PASSWORD`, `SQL_HOST`, `SQL_PORT`.
 - media storage:
   On development we store media on the local machine, but in production you should setup a S3 Bucket to receive the images. Then, you must configure the following environment variables: `AWS_ACCESS_KEY_ID`,`AWS_SECRET_ACCESS_KEY`,`AWS_STORAGE_BUCKET_NAME`.
 - sms:
