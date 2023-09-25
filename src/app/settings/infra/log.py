@@ -13,7 +13,6 @@ class HealthCheckFilter:
 
 
 LOGGING_LEVEL: str = env("DJANGO_LOGGING_LEVEL", default="INFO")
-SENDGRID_LOGGING_LEVEL: str = env("SENDGRID_LOGGING_LEVEL", default="WARNING")
 TWILIO_LOGGING_LEVEL: str = env("TWILIO_LOGGING_LEVEL", default="INFO")
 
 LOGGING = {
@@ -38,10 +37,6 @@ LOGGING = {
             "level": LOGGING_LEVEL,
             "propagate": False,
             "filters": ["health_check_filter"],
-        },
-        "send_grid": {
-            "handlers": ["console"],
-            "level": SENDGRID_LOGGING_LEVEL,
         },
         "twilio": {
             "handlers": ["console"],

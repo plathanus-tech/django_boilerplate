@@ -30,9 +30,7 @@ omit =
 
     # prod-only services
     src/app/ext/sms/backends/twilio.py
-    src/app/ext/email/send_grid.py
-    src/app/ext/storage/aws_s3.py
-    src/app/ext/storage/fields.py
+    src/app/storage/aws_s3.py
 
 [report]
 exclude_lines =

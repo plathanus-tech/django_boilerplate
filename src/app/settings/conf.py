@@ -190,8 +190,6 @@ if DEFAULT_FILE_STORAGE_BACKEND == "app.storage.aws_s3.PrivateMediaStorage":
 
 # External Services
 EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
-if EMAIL_BACKEND == "app.ext.email.send_grid.SendGridEmailBackend":
-    SENDGRID_API_KEY = env("SENDGRID_API_KEY")
 
 
 if DEBUG and USE_DEBUG_TOOLBAR:

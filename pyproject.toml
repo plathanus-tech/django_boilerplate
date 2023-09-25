@@ -80,7 +80,6 @@ dependencies = [
     "Pillow==9.5.0",
     "validate-docbr==1.10.0",
     "phonenumbers==8.13.21",
-    "sendgrid==6.9.7",
     "django-storages==1.13.2",
     "boto3==1.26.152",
     "gunicorn==20.1.0",
