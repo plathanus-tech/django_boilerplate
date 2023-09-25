@@ -206,6 +206,7 @@ if IS_TESTING:
         }
     }
 
+from .external_services.geolocation import *
 from .external_services.push_notification import *
 from .external_services.sms import *
 from .external_services.zipcode import *
