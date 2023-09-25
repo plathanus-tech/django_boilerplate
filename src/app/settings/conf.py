@@ -208,6 +208,7 @@ if IS_TESTING:
 
 from .external_services.push_notification import *
 from .external_services.sms import *
+from .external_services.zipcode import *
 from .infra.log import *
 from .third_party.celery import *
 from .third_party.dj_cors_headers import *
