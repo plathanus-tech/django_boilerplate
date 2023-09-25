@@ -12,18 +12,14 @@ RUN apt install -y gettext
 RUN pip install pip setuptools wheel
 RUN pip install pdm==2.7.4
 
-# Install dev deps
 COPY pyproject.toml pdm.lock /pkgs/
-RUN pdm install -G :all
+RUN pdm install --prod --no-lock --no-editable
 
 WORKDIR /app
-COPY infra/app/entrypoint.api.sh /app/entrypoint.api.sh
-RUN sed -i 's/\r$//g' /app/entrypoint.api.sh
-RUN chmod +x  /app/entrypoint.api.sh
 
 ENV PYTHONPATH=/app/src:/pkgs/.venv/lib/python3.11/site-packages
 COPY src /app/src
 COPY locale /app/locale
 COPY manage.py gunicorn.conf.py /app/
-
-ENTRYPOINT [ "sh", "/app/entrypoint.api.sh" ]
+RUN python manage.py collectstatic --noinput
+RUN python manage.py compilemessages

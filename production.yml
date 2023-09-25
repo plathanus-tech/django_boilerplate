@@ -1,4 +1,4 @@
-version: '3.3'
+version: "3.3"
 
 services:
   redis:
@@ -31,11 +31,15 @@ services:
   django: &django
     command: python3 -m gunicorn --bind 0.0.0.0:80 app.wsgi:application
     depends_on:
-      - traefik
-      - redis
+      traefik:
+        condition: service_started
+      redis:
+        condition: service_started
+      db_migration:
+        condition: service_completed_successfully
     build:
       context: .
-      dockerfile: infra/app/Dockerfile.prod
+      dockerfile: infra/app/Dockerfile
     volumes:
       - staticfiles:/app/storage/static
     ports:
@@ -59,18 +63,22 @@ services:
       traefik.http.services.django-service.loadbalancer.healthcheck.interval: 5s
       traefik.http.services.django-service.loadbalancer.healthcheck.hostname: ${HOST}
 
+  db_migration:
+    <<: *django
+    command: python manage.py migrate
+    ports: []
+    depends_on: []
+
   celery-scheduler:
     <<: *django
     command: python -m celery -A app beat
     ports: []
-    entrypoint: []
     labels:
       - "traefik.enable=false"
 
   celery-worker:
     <<: *django
     command: python -m celery -A app worker --events
-    entrypoint: []
     ports: []
     labels:
       - "traefik.enable=false"

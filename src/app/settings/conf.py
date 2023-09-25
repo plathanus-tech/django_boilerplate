@@ -1,7 +1,6 @@
 import os
-from datetime import timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 import environ
 from django.utils.translation import gettext_lazy as _
@@ -22,7 +21,7 @@ env: environ.Env = environ.Env()
 
 # Security
 ON_PRODUCTION = env.bool("DJANGO_ON_PRODUCTION", default=False)
-SECRET_KEY: str = env("DJANGO_SECRET_KEY")
+SECRET_KEY: str = env("DJANGO_SECRET_KEY", default="django-insecure-foo-123")
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 DEBUG: bool = env("DJANGO_DEBUG", cast=bool, default=False)
 USE_DEBUG_TOOLBAR = env("USE_DEBUG_TOOLBAR", cast=bool, default=False)
@@ -75,7 +74,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "drf_spectacular_sidecar",
     "corsheaders",
-    "app",
+    "app.apps.RootAppConfig",
     "users.apps.UsersConfig",
     "push_notifications.apps.PushNotificationsConfig",
 ]
