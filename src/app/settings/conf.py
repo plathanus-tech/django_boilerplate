@@ -188,9 +188,6 @@ if DEFAULT_FILE_STORAGE_BACKEND == "app.storage.aws_s3.PrivateMediaStorage":
     INSTALLED_APPS.append("storages")
     from .third_party.aws_s3 import *
 
-# External Services
-EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
-
 
 if DEBUG and USE_DEBUG_TOOLBAR:
     INSTALLED_APPS.append("debug_toolbar")
@@ -216,5 +213,6 @@ from .third_party.dj_cors_headers import *
 from .third_party.drf import *
 from .third_party.drf_simple_jwt import *
 from .third_party.drf_spectacular import *
+from .third_party.email import *
 from .third_party.jazzmin import *
 from .third_party.redis import *

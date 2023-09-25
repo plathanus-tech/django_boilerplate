@@ -25,6 +25,7 @@ services:
     depends_on:
       - db
       - redis
+      - mailpit
     environment:
       - SQL_HOST=db
       - REDIS_HOST=redis
@@ -53,6 +54,11 @@ services:
     command: python -m celery -A app worker -P solo --concurrency 1 --events
     entrypoint: []
     ports: []
+
+  mailpit:
+    image: axllent/mailpit:v1.8
+    ports:
+      - "8025:8025"
 
 volumes:
   staticfiles:
