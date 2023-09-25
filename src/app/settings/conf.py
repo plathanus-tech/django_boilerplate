@@ -21,6 +21,7 @@ env: environ.Env = environ.Env()
 
 
 # Security
+ON_PRODUCTION = env.bool("DJANGO_ON_PRODUCTION", default=False)
 SECRET_KEY: str = env("DJANGO_SECRET_KEY")
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 DEBUG: bool = env("DJANGO_DEBUG", cast=bool, default=False)
@@ -196,11 +197,6 @@ EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.
 if EMAIL_BACKEND == "app.ext.email.send_grid.SendGridEmailBackend":
     SENDGRID_API_KEY = env("SENDGRID_API_KEY")
 
-SMS_BACKEND = env("SMS_BACKEND", default="app.ext.sms.backends.stdout.StdOutSmsBackend")
-if SMS_BACKEND == "app.ext.sms.backends.twilio.TwilioSmsBackend":
-    TWILIO_ACCOUNT_SID = env("TWILIO_ACCOUNT_SID")
-    TWILIO_AUTH_TOKEN = env("TWILIO_AUTH_TOKEN")
-    TWILIO_SERVICE_PHONE = env("TWILIO_SERVICE_PHONE")
 
 PUSH_NOTIFICATION_SERVICE_ADAPTER = env("PUSH_NOTIFICATION_SERVICE_ADAPTER", default="expo")
 
@@ -219,6 +215,7 @@ if IS_TESTING:
     }
 
 
+from .external_services.sms import *
 from .infra.log import *
 from .third_party.celery import *
 from .third_party.dj_cors_headers import *
