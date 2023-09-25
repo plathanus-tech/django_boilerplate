@@ -11,7 +11,6 @@ http {
   include mime.types;
   # fallback in case we can't determine a type
   default_type application/octet-stream;
-  access_log /dev/null;
   sendfile on;
 
 
@@ -25,7 +24,7 @@ http {
     listen 80;
     client_max_body_size 4G;
 
-    server_name dev.boilerplate.com;
+    server_name ${SERVER_NAME};
 
     keepalive_timeout 5;
 
