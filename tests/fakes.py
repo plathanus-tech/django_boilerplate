@@ -1,19 +1,26 @@
-from typing import List
+import uuid
+from typing import Iterable
 
-from app.ext.push_notifications.base import PushNotification, PushNotificationService
+from app.ext.push_notifications.abc import (
+    PushNotificationExternalService,
+    PushReceipt,
+    PushTicket,
+)
+from push_notifications.models import PushNotification
 
 
-class FakePushNotificationService(PushNotificationService):
+class FakePushNotificationExternalService(PushNotificationExternalService):
+    def __init__(
+        self, result_ticket: PushTicket | None = None, receipt_result: PushReceipt | None = None
+    ):
+        self.result_ticket = result_ticket or {"status": "ok", "id": str(uuid.uuid4())}
+        self.receipt_result = receipt_result or {"status": "ok", "id": str(uuid.uuid4())}
 
-    calls: List[PushNotification]
+    def send(self, push: PushNotification) -> PushTicket:
+        return self.result_ticket
 
-    def __init__(self):
-        self.calls = []
+    def bulk_send(self, pushes: Iterable[PushNotification]) -> dict[str, PushTicket]:
+        return {str(push.id): self.result_ticket for push in pushes}
 
-    def send(self, push: PushNotification) -> None:
-        if not self.calls:
-            self.calls = []
-        self.calls.append(push)
-
-    def bulk_send(self, notifications: List[PushNotification]) -> None:
-        self.calls.extend(notifications)
+    def get_receipts(self, ticket_ids: Iterable[str]) -> dict[str, PushReceipt]:
+        return {ticket_id: self.receipt_result for ticket_id in ticket_ids}

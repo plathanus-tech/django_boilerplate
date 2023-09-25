@@ -2,7 +2,7 @@ from typing import Optional
 
 import pytest
 
-from app.fields import phone
+from app.forms.fields import phone
 
 
 def test_international_phone_number_field_widget_attrs():

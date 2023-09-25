@@ -1,5 +1,5 @@
 from app import validators
-from app.fields.br import doc
+from app.forms.fields.br import doc
 
 
 class DummyField(doc.BrazilianDocBaseField):

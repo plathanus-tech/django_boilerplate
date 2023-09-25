@@ -29,6 +29,13 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     username = None  # Removes username field
     email = models.EmailField(_("Email address"), unique=True)
     full_name = models.CharField(_("Full name"), max_length=255)
+    notification_token = models.CharField(
+        verbose_name=_("Notification token"),
+        help_text=_("The token used to send push notifications to the user's phone"),
+        max_length=128,
+        null=True,
+        blank=True,
+    )
 
     # Permissions
     is_active = models.BooleanField(

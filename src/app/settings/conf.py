@@ -60,7 +60,7 @@ AUTH_USER_MODEL = "users.User"
 
 
 # Application definition
-DJANGO_APPS: List[str] = [
+INSTALLED_APPS = [
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -68,20 +68,16 @@ DJANGO_APPS: List[str] = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-]
-THIRD_PARTY_APPS: List[str] = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework.authtoken",
     "drf_spectacular",
     "drf_spectacular_sidecar",
     "corsheaders",
-]
-YOUR_PROJECT_APPS: List[str] = [
     "app",
     "users.apps.UsersConfig",
+    "push_notifications.apps.PushNotificationsConfig",
 ]
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + YOUR_PROJECT_APPS
 
 
 ADMIN_URL_PREFIX = "a"
@@ -198,8 +194,6 @@ if EMAIL_BACKEND == "app.ext.email.send_grid.SendGridEmailBackend":
     SENDGRID_API_KEY = env("SENDGRID_API_KEY")
 
 
-PUSH_NOTIFICATION_SERVICE_ADAPTER = env("PUSH_NOTIFICATION_SERVICE_ADAPTER", default="expo")
-
 if DEBUG and USE_DEBUG_TOOLBAR:
     INSTALLED_APPS.append("debug_toolbar")
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
@@ -214,7 +208,7 @@ if IS_TESTING:
         }
     }
 
-
+from .external_services.push_notification import *
 from .external_services.sms import *
 from .infra.log import *
 from .third_party.celery import *

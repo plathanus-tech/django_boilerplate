@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-21 19:39+0000\n"
+"POT-Creation-Date: 2023-09-25 12:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,124 +18,294 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app/forms/fields/phone.py:37
+#: src/app/consts/push_notification.py:20
+msgid "Created"
+msgstr "Criado"
+
+#: src/app/consts/push_notification.py:21
+msgid "Enqueued"
+msgstr "Na fila"
+
+#: src/app/consts/push_notification.py:22
+msgid "Sent"
+msgstr "Enviado(a)"
+
+#: src/app/consts/push_notification.py:23
+msgid "Delivered"
+msgstr "Entregue"
+
+#: src/app/consts/push_notification.py:24
+msgid "Read"
+msgstr "Lido(a)"
+
+#: src/app/consts/push_notification.py:25
+msgid "Failed"
+msgstr "Falhou"
+
+#: src/app/consts/push_notification.py:42
+msgid "Device not registered"
+msgstr "Dispositivo não registrado"
+
+#: src/app/consts/push_notification.py:43
+msgid "Message too big"
+msgstr "Mensagem muito grande"
+
+#: src/app/consts/push_notification.py:44
+msgid "Message rate exceeded"
+msgstr "Limite de mensagens excedido"
+
+#: src/app/consts/push_notification.py:45
+msgid "Mismatch sender ID"
+msgstr "ID remetente não confere"
+
+#: src/app/consts/push_notification.py:46
+msgid "Invalid credentials"
+msgstr "Credenciais inválidas"
+
+#: src/app/consts/push_notification.py:47
+msgid "Not opted-in"
+msgstr "Não permitiu"
+
+#: src/app/consts/push_notification.py:48
+msgid "Too many delivery attempts"
+msgstr "Muitas tentativas de entrega"
+
+#: src/app/consts/push_notification.py:57
+msgid "Internal communication"
+msgstr "Comunicação interna"
+
+#: src/app/forms/fields/phone.py:37
 #, python-format
 msgid "Invalid phone number. Original error message was: %s"
 msgstr "Número telefone inválido. Mensagem de erro original: %s"
 
-#: app/models/base.py:14
+#: src/app/models/base.py:14
 msgid "created at"
 msgstr "criado em"
 
-#: app/models/base.py:17
+#: src/app/models/base.py:17
 msgid "updated at"
 msgstr "atualizado em"
 
-#: app/settings/conf.py:137
+#: src/app/settings/conf.py:134
 msgid "Brazilian Portuguese"
 msgstr "Português Brasileiro"
 
-#: app/settings/conf.py:138
+#: src/app/settings/conf.py:135
 msgid "English"
 msgstr "Inglês"
 
-#: app/validators/br/doc.py:28
+#: src/app/validators/br/doc.py:28
 msgid "Invalid Certificate"
 msgstr "certificado inválido"
 
-#: app/validators/br/doc.py:35
-
+#: src/app/validators/br/doc.py:35
 msgid "Invalid CNH"
 msgstr "CNH inválida"
 
-#: app/validators/br/doc.py:42
+#: src/app/validators/br/doc.py:42
 msgid "Invalid CNPJ"
 msgstr "CNPJ inválido"
 
-#: app/validators/br/doc.py:49
+#: src/app/validators/br/doc.py:49
 msgid "Invalid CNS"
 msgstr "CNS inválido"
 
-#: app/validators/br/doc.py:56
+#: src/app/validators/br/doc.py:56
 msgid "Invalid CPF"
 msgstr "CPF inválido"
 
-#: app/validators/br/doc.py:63
+#: src/app/validators/br/doc.py:63
 msgid "Invalid CPF/CNPJ"
 msgstr "CPF/CNPJ inválido"
 
-#: app/validators/br/doc.py:73
+#: src/app/validators/br/doc.py:73
 msgid "Invalid PIS"
 msgstr "PIS inválido"
 
-#: app/validators/br/doc.py:80
+#: src/app/validators/br/doc.py:80
 msgid "Invalid RENAVAM"
 msgstr "RENAVAM inválido"
 
-#: app/validators/br/doc.py:87
+#: src/app/validators/br/doc.py:87
 msgid "Invalid Voter Registration"
 msgstr "Título Eleitoral inválido"
 
-#: users/admin.py:32
-msgid "Permissions"
-msgstr "Permissões"
+#: src/push_notifications/admin.py:47 src/push_notifications/models.py:40
+msgid "Title"
+msgstr "Título"
 
-#: users/admin.py:43
+#: src/push_notifications/admin.py:59
+msgid "Failure reason"
+msgstr "Motivo de falha"
+
+#: src/push_notifications/admin.py:72
+msgid "Delivery"
+msgstr "Entrega"
+
+#: src/push_notifications/admin.py:75 src/users/admin.py:43
 msgid "Metadata"
 msgstr "Meta-dados"
 
-#: users/api/v1/serializers.py:17
-msgid "Unable to login with the given credentials"
-msgstr "Impossível logar com as credenciais informadas"
+#: src/push_notifications/apps.py:8 src/push_notifications/models.py:105
+msgid "Push Notification"
+msgstr "Notificação Push"
 
-#: users/apps.py:8 users/models.py:67
+#: src/push_notifications/apps.py:9 src/push_notifications/models.py:106
+msgid "Push Notifications"
+msgstr "Notificações Push"
+
+#: src/push_notifications/models.py:17 src/users/apps.py:8
+#: src/users/models.py:67
 msgid "User"
 msgstr "Usuário"
 
-#: users/apps.py:9 users/models.py:68
+#: src/push_notifications/models.py:35
+msgid "Kind"
+msgstr "Espécie"
+
+#: src/push_notifications/models.py:36
+msgid "The kind of notification"
+msgstr "A espécie de notificação"
+
+#: src/push_notifications/models.py:41
+msgid "This is the text that shows on the top of the notification"
+msgstr "Este é o texto que aparece no topo da notificação"
+
+#: src/push_notifications/models.py:45
+msgid "Description"
+msgstr "Descrição"
+
+#: src/push_notifications/models.py:46
+msgid "This is the text that contains the details of the notification"
+msgstr "Este é o texto que contém os detalhes da notificação"
+
+#: src/push_notifications/models.py:50
+msgid "Additional data"
+msgstr "Dados adicionais"
+
+#: src/push_notifications/models.py:51
+msgid "The additional data that is sent with the notification"
+msgstr "Os dados adicionais enviados com esta notificação"
+
+#: src/push_notifications/models.py:55
+msgid "Status"
+msgstr "Situação"
+
+#: src/push_notifications/models.py:56
+msgid "The current status of this notification"
+msgstr "A situação atual desta notificação"
+
+#: src/push_notifications/models.py:60
+msgid "Receipt ID"
+msgstr "ID Recibo"
+
+#: src/push_notifications/models.py:62
+msgid ""
+"The notification service ID for this notification, with this receipt ID we "
+"can check if the message was delivered"
+msgstr ""
+"O ID da notificação no serviço de notificação, com este ID do recibo podemos "
+"verificar se a mensagem foi entregue"
+
+#: src/push_notifications/models.py:69
+msgid "Delivery attempts"
+msgstr "Tentativas de entrega"
+
+#: src/push_notifications/models.py:70
+msgid "How many times we tried to deliver this notification"
+msgstr "Quantas vezes tentamos entregar esta notificação"
+
+#: src/push_notifications/models.py:75
+msgid "Failure kind"
+msgstr "Espécie falha"
+
+#: src/push_notifications/models.py:76
+msgid "When the notification fails this was the reason provided"
+msgstr "Quando esta notificação falhou esse o motivo fornecido"
+
+#: src/push_notifications/models.py:83
+msgid "Failure message"
+msgstr "Mensagem de falha"
+
+#: src/push_notifications/models.py:84
+msgid "The message provided of the cause of the failure"
+msgstr "A mensagem fornecida com a causa da falha"
+
+#: src/push_notifications/models.py:90
+msgid "Read at"
+msgstr "Lido(a) em"
+
+#: src/push_notifications/models.py:91
+msgid ""
+"The exact time that this notification was marked as read by the end-user"
+msgstr ""
+"O momento exato que esta notificação foi marcada como lida pelo usuário final"
+
+#: src/push_notifications/models.py:96
+msgid "Delivery confirmation received at"
+msgstr "Confirmação de entrega recebida em"
+
+#: src/push_notifications/models.py:98
+msgid ""
+"When the provider of this notification confirmed the delivery of this "
+"notification"
+msgstr ""
+"Quando o fornecedor desta notificação confirmou a entrega desta notificação"
+
+#: src/users/admin.py:32
+msgid "Permissions"
+msgstr "Permissões"
+
+#: src/users/api/v1/serializers.py:17
+msgid "Unable to login with the given credentials"
+msgstr "Impossível logar com as credenciais informadas"
+
+#: src/users/apps.py:9 src/users/models.py:68
 msgid "Users"
 msgstr "Usuários"
 
-#: users/models.py:30
+#: src/users/models.py:30
 msgid "Email address"
 msgstr "Endereço email"
 
-#: users/models.py:31
+#: src/users/models.py:31
 msgid "Full name"
 msgstr "Nome completo"
 
-#: users/models.py:35
+#: src/users/models.py:35
 msgid "Is active"
 msgstr "Está ativo"
 
-#: users/models.py:36
+#: src/users/models.py:36
 msgid "Inactive users can't login. Use this instead of deleting the user."
-msgstr "Usuário inativos não podem fazer login. Use isto em vez de excluir o usuário."
+msgstr ""
+"Usuário inativos não podem fazer login. Use isto em vez de excluir o usuário."
 
-#: users/models.py:40
+#: src/users/models.py:40
 msgid "Is staff"
 msgstr "É da equipe interna"
 
-#: users/models.py:41
+#: src/users/models.py:41
 msgid "Only staff users can access the admin"
 msgstr "Apenas usuários da equipe interna podem acessar o admin"
 
-#: users/models.py:45
+#: src/users/models.py:45
 msgid "Is admin"
 msgstr "É super usuário"
 
-#: users/models.py:46
+#: src/users/models.py:46
 msgid "Super users have all permissions"
 msgstr "Super usuários tem todas as permissões"
 
-#: users/models.py:51
+#: src/users/models.py:51
 msgid "Date joined"
 msgstr "Data inscrição"
 
-#: users/models.py:77
+#: src/users/models.py:77
 msgid "User Group"
 msgstr "Grupo de Usuário"
 
-#: users/models.py:78
+#: src/users/models.py:78
 msgid "User Groups"
 msgstr "Grupo de Usuários"

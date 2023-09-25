@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 from celery import Celery
 from django.conf import settings
@@ -21,10 +22,17 @@ CELERY_CONFIG = {
     "track_started": settings.CELERY_TRACK_STARTED,
     "prefetch_multiplier": settings.CELERY_WORKER_PREFETCH_MULTIPLIER,
     "task_always_eager": settings.CELERY_ALWAYS_EAGER,
-    "beat_schedule": {},
+    "beat_schedule": {
+        "push_notification_confirm_delivery_of_sent_notifications_every_15_minutes": {
+            "task": "push_notifications.tasks.push_notification_confirm_delivery_periodically",
+            "schedule": timedelta(minutes=15),
+            "args": (),
+            "options": {"expires": timedelta(minutes=10).total_seconds()},
+        },
+    },
     "broker_url": settings.BROKER_URL,
     "broker_connection_retry_on_startup": True,
 }
 
-app.autodiscover_tasks(["users"])
+app.autodiscover_tasks(["push_notifications"])
 app.conf.update(**CELERY_CONFIG)
