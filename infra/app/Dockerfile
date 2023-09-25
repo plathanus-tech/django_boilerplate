@@ -23,6 +23,7 @@ RUN chmod +x  /app/entrypoint.api.sh
 
 ENV PYTHONPATH=/app/src:/pkgs/.venv/lib/python3.11/site-packages
 COPY src /app/src
+COPY locale /app/locale
 COPY manage.py gunicorn.conf.py /app/
 
 ENTRYPOINT [ "sh", "/app/entrypoint.api.sh" ]
