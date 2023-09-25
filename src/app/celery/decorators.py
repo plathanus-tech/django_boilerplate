@@ -1,8 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any, Dict, Protocol, Tuple, Union
 
 from celery import Task
 from celery.canvas import Signature
+from django.conf import settings
+from django.utils import timezone
 
 
 class DecoratedTaskFunction(Protocol):
@@ -36,17 +38,34 @@ class DecoratedTaskFunction(Protocol):
         ...
 
 
+class BaseTask(Task):
+    @property
+    def scheduled_at(self) -> datetime:
+        """The exact time that this task was sent to the queue, this means that this task can be retried and this time will always be the same"""
+        if not self.request.expires:
+            if settings.IS_TESTING:
+                return timezone.now()  # type: ignore
+            raise ValueError(
+                "Missing `expires` option, this task was not scheduled or the `expires` option was not given on BEAT_SCHEDULE"
+            )
+        # The amount of miliseconds this task will take to expire, with this, we can go back in time
+        # per-task basis, because each task can be set with different expires times
+        task_expiration = int(self.request.properties["expiration"]) / 1000
+        dt = datetime.fromisoformat(self.request.expires).astimezone()
+        return dt - timedelta(seconds=task_expiration)
+
+
 def task(
     bind: bool = False,
     *,
-    autoretry_for: Tuple[Exception, ...] = None,  # type: ignore
+    autoretry_for: Tuple[type[Exception], ...] | None = None,
     max_retries: int = 3,
-    retry_backoff: bool = False,  # type: ignore
-    rate_limit: str = None,  # type: ignore
-    time_limit: int = None,  # type: ignore
-    soft_time_limit: int = None,  # type: ignore
-    throws: Tuple[Exception, ...] = None,  # type: ignore
-    base: Task = None,
+    retry_backoff: bool = False,
+    rate_limit: str | None = None,
+    time_limit: int | None = None,
+    soft_time_limit: int | None = None,
+    throws: Tuple[Exception, ...] | None = None,
+    base: Task = BaseTask,
     **options,
 ):
     """A wrapper around celery.shared_task decorator.
