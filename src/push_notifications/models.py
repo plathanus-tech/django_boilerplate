@@ -14,7 +14,7 @@ class PushNotification(AutoTimeStampModel):
     user = models.ForeignKey(
         to="users.User",
         on_delete=models.PROTECT,
-        verbose_name=_("User"),
+        verbose_name=_("user"),
         related_name="push_notifications",
     )
     source_content_type = models.ForeignKey(
@@ -32,34 +32,34 @@ class PushNotification(AutoTimeStampModel):
         fk_field="source_object_id",
     )
     kind = models.CharField(
-        verbose_name=_("Kind"),
+        verbose_name=_("kind"),
         help_text=_("The kind of notification"),
         choices=consts.push_notification.Kind.choices,
         max_length=16,
     )
     title = models.CharField(
-        verbose_name=_("Title"),
+        verbose_name=_("title"),
         help_text=_("This is the text that shows on the top of the notification"),
         max_length=consts.push_notification.MaxSize.TITLE_MAX_SIZE_ANDROID,
     )
     description = models.CharField(
-        verbose_name=_("Description"),
+        verbose_name=_("description"),
         help_text=_("This is the text that contains the details of the notification"),
         max_length=consts.push_notification.MaxSize.DESCRIPTION_MAX_SIZE_ANDROID,
     )
     data = models.JSONField(
-        verbose_name=_("Additional data"),
+        verbose_name=_("additional data"),
         help_text=_("The additional data that is sent with the notification"),
         blank=True,
     )
     status = models.CharField(
-        verbose_name=_("Status"),
+        verbose_name=_("status"),
         help_text=_("The current status of this notification"),
         choices=consts.push_notification.Status.choices,
         max_length=1,
     )
     push_ticket_id = models.CharField(
-        verbose_name=_("Receipt ID"),
+        verbose_name=_("receipt ID"),
         help_text=_(
             "The notification service ID for this notification, "
             "with this receipt ID we can check if the message was delivered"
@@ -69,13 +69,13 @@ class PushNotification(AutoTimeStampModel):
         max_length=36,
     )
     delivery_attempts = models.SmallIntegerField(
-        verbose_name=_("Delivery attempts"),
+        verbose_name=_("delivery attempts"),
         help_text=_("How many times we tried to deliver this notification"),
         default=1,
         blank=True,
     )
     failure_kind = models.CharField(
-        verbose_name=_("Failure kind"),
+        verbose_name=_("failure kind"),
         help_text=_("When the notification fails this was the reason provided"),
         max_length=32,
         choices=consts.push_notification.FailureKind.choices,
@@ -83,20 +83,20 @@ class PushNotification(AutoTimeStampModel):
         blank=True,
     )
     failure_message = models.CharField(
-        verbose_name=_("Failure message"),
+        verbose_name=_("failure message"),
         help_text=_("The message provided of the cause of the failure"),
         null=True,
         blank=True,
         max_length=256,
     )
     read_at = models.DateTimeField(
-        verbose_name=_("Read at"),
+        verbose_name=_("read at"),
         help_text=_("The exact time that this notification was marked as read by the end-user"),
         null=True,
         blank=True,
     )
     delivery_confirmation_received_at = models.DateTimeField(
-        verbose_name=_("Delivery confirmation received at"),
+        verbose_name=_("delivery confirmation received at"),
         help_text=_(
             "When the provider of this notification confirmed the delivery of this notification"
         ),
@@ -105,8 +105,8 @@ class PushNotification(AutoTimeStampModel):
     )
 
     class Meta:
-        verbose_name = _("Push Notification")
-        verbose_name_plural = _("Push Notifications")
+        verbose_name = _("push notification")
+        verbose_name_plural = _("push notifications")
 
     def __str__(self):
         return self.title

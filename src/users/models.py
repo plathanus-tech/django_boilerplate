@@ -27,8 +27,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     username = None  # Removes username field
-    email = models.EmailField(_("Email address"), unique=True)
-    full_name = models.CharField(_("Full name"), max_length=255)
+    email = models.EmailField(_("email address"), unique=True)
+    full_name = models.CharField(_("full name"), max_length=255)
     notification_token = models.CharField(
         verbose_name=_("Notification token"),
         help_text=_("The token used to send push notifications to the user's phone"),
@@ -39,23 +39,23 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
 
     # Permissions
     is_active = models.BooleanField(
-        _("Is active"),
+        _("is active"),
         help_text=_("Inactive users can't login. Use this instead of deleting the user."),
         default=True,
     )
     is_staff = models.BooleanField(
-        _("Is staff"),
+        _("is staff"),
         help_text=_("Only staff users can access the admin"),
         default=False,
     )
     is_superuser = models.BooleanField(
-        _("Is admin"),
+        _("is admin"),
         help_text=_("Super users have all permissions"),
         default=False,
     )
 
     # Meta
-    date_joined = models.DateTimeField(_("Date joined"), auto_now_add=True)
+    date_joined = models.DateTimeField(_("date joined"), auto_now_add=True)
 
     objects = UserManager()
 
@@ -71,8 +71,8 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         return self.full_name.split(" ")[0]
 
     class Meta:
-        verbose_name = _("User")
-        verbose_name_plural = _("Users")
+        verbose_name = _("user")
+        verbose_name_plural = _("users")
 
 
 class Group(DjangoGroup):
@@ -81,5 +81,5 @@ class Group(DjangoGroup):
 
     class Meta:
         proxy = True
-        verbose_name = _("User Group")
-        verbose_name_plural = _("User Groups")
+        verbose_name = _("user group")
+        verbose_name_plural = _("user groups")
