@@ -1,9 +1,7 @@
 {
   "python.analysis.typeCheckingMode": "off",
   "python.languageServer": "Pylance",
-  "python.linting.enabled": true,
-  "python.linting.mypyEnabled": true,
-  "python.linting.mypyArgs": [
+  "mypy-type-checker.args": [
     "--follow-imports=silent",
     "--ignore-missing-imports",
     "--show-column-numbers",
@@ -11,9 +9,22 @@
     "--no-pretty",
     "--exclude='.py$'"
   ],
-  "python.formatting.provider": "black",
-  "python.autoComplete.extraPaths": [".venv/lib/python3.9/site-packages"],
-  "python.analysis.extraPaths": [".venv/lib/python3.9/site-packages"],
+  "python.formatting.provider": "none",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "black-formatter.args": [
+    "--config",
+    "pyproject.toml"
+  ],
+  "isort.args": [
+    "--profile",
+    "black"
+  ],
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -24,14 +35,13 @@
     "**/django.log": true,
     ".coverage": true,
     ".pdm.toml": true,
-    "manage.py": true,
     "**/*.mo": true,
     ".tox/": true,
     "**/.mypy_cache": true,
     ".pytest_cache": true,
     "letsencrypt": true,
-    "src/static": true,
     "htmlcov": true,
-    "celerybeat-schedule": true
-  }
+    "celerybeat-schedule": true,
+    ".pdm-python": true,
+  },
 }
