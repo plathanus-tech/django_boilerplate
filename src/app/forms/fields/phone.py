@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 class InternationalPhoneNumberField(forms.CharField):
     region: Optional[str]
     output_format: int
+    max_length: int
 
     def __init__(
         self,

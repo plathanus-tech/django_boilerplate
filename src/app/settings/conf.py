@@ -130,7 +130,7 @@ DATABASES = {
 
 # Internationalization
 LANGUAGE_CODE: str = "pt-br"
-LANGUAGES: List[Tuple[str, str]] = [
+LANGUAGES = [
     ("pt-br", _("Brazilian Portuguese")),
     ("en-us", _("English")),
 ]

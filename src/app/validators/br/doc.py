@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from validate_docbr import (
@@ -12,9 +14,12 @@ from validate_docbr import (
     TituloEleitoral,
 )
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
 
 class BrazilianDocBaseValidator:
-    message: str
+    message: "StrOrPromise"
     validator: BaseDoc
 
     def __call__(self, value):

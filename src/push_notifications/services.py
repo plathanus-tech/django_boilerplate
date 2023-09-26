@@ -167,19 +167,17 @@ def push_notification_confirm_delivery(
     notifications = models.PushNotification.objects.filter(
         status=consts.push_notification.Status.SENT,
         created_at__date__gte=yesterday.date(),
+        push_ticket_id__isnull=False,
     ).select_related("user")
-    available_notifications = [
-        notification for notification in notifications if notification.push_ticket_id is not None
-    ]
-    if not available_notifications:
+    if not notifications:
         # No need to send no tickets to the notification service
         return
     receipts = notification_service.get_receipts(
-        [notification.push_ticket_id for notification in notifications]
+        [notification.push_ticket_id for notification in notifications]  # type: ignore
     )
 
     for notification in notifications:
-        receipt = receipts.get(notification.push_ticket_id)
+        receipt = receipts.get(notification.push_ticket_id)  # type: ignore
         if receipt is None:
             continue
         push_notification_handle_push_receipt(
