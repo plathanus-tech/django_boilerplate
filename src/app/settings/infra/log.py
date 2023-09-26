@@ -13,6 +13,7 @@ class HealthCheckFilter:
 
 
 LOGGING_LEVEL: str = env("DJANGO_LOGGING_LEVEL", default="INFO")
+API_BAD_REQUESTS_LOGGING_LEVEL = env("API_BAD_REQUESTS_LOGGING_LEVEL", default="DEBUG")
 TWILIO_LOGGING_LEVEL: str = env("TWILIO_LOGGING_LEVEL", default="INFO")
 
 LOGGING = {
@@ -38,13 +39,14 @@ LOGGING = {
             "propagate": False,
             "filters": ["health_check_filter"],
         },
+        "api.bad_requests": {
+            "handlers": ["console"],
+            "level": API_BAD_REQUESTS_LOGGING_LEVEL,
+            "propagate:": False,
+        },
         "twilio": {
             "handlers": ["console"],
             "level": TWILIO_LOGGING_LEVEL,
-        },
-        "users.tasks": {
-            "handlers": ["console"],
-            "level": "INFO",
         },
     },
 }

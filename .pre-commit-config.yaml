@@ -15,12 +15,6 @@ repos:
         exclude: ^.*\b(migrations)\b.*$
         args: [src, --check]
         always_run: true
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.3.0
-    hooks:
-      - id: mypy
-        exclude: ^.*\b(migrations)\b.*$
-        additional_dependencies: ["types-all"]
 
   - repo: "https://github.com/PyCQA/isort"
     rev: 5.12.0

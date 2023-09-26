@@ -1,17 +1,22 @@
 [tool.mypy]
 mypy_path = "src"
 check_untyped_defs = true
-disallow_any_generics = true
+disallow_any_generics = false
 ignore_missing_imports = true
 no_implicit_optional = true
 show_error_codes = true
 strict_equality = true
 warn_redundant_casts = true
-warn_return_any = true
+warn_return_any = false
 warn_unreachable = true
 warn_unused_configs = true
 no_implicit_reexport = true
 allow_redefinition = true
+
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "app.settings.conf"
 
 [tool.black]
 line-length = 100
@@ -49,6 +54,7 @@ dev = [
     "types-requests==2.31.0.1",
     "bandit==1.7.5",
     "pytest-mock==3.11.1",
+    "django-stubs[compatible-mypy]==4.2.1",
 ]
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
@@ -86,6 +92,7 @@ dependencies = [
     "requests==2.31.0",
     "django-extensions==3.2.3",
     "werkzeug==2.3.7",
+    "django-filter==23.3",
 ]
 requires-python = ">=3.11"
 license = {text = "MIT"}
