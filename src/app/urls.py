@@ -39,7 +39,6 @@ translated_patterns = i18n_patterns(
     path("api/schema/", auth_decorators.login_required(schema_view), name="schema"),
     path("api/docs/", auth_decorators.login_required(swagger_view), name="docs"),
     path("api/redoc/", auth_decorators.login_required(redoc_view), name="redoc"),
-    path("", include("users.urls", namespace="users")),
     prefix_default_language=True,
 )
 

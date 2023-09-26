@@ -9,17 +9,10 @@ omit =
     *manage.py
     *asgi.py
     *wsgi.py
-    *tests.py
 
     ; Django settings
     *settings/*
     */urls_dev.py
-
-    ; DRF Auto Docs
-    *docs.py
-
-    ; Celery App Config
-    *celery.py
 
     ; Test files
     *tests/*
@@ -28,9 +21,11 @@ omit =
     ; python module boilerplate
     *__init__.py
 
-    # prod-only services
-    src/app/ext/sms/backends/twilio.py
-    src/app/storage/aws_s3.py
+    src/app/celery/app.py
+    src/app/drf/*
+    src/app/ext/*
+    src/app/settings/*
+    src/app/storage/*
 
 [report]
 exclude_lines =
