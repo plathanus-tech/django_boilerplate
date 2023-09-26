@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Union
 
 from django.utils.translation import gettext_lazy as _
 
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 class ApplicationError(Exception):
     http_status_code: int = 400
-    error_message: str | "StrPromise" = _("Unexpected failure")
+    error_message: Union[str, "StrPromise"] = _("Unexpected failure")
 
     def __init__(
         self,
