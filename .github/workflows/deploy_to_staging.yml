@@ -1,0 +1,36 @@
+name: Deploy to Staging/Development
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - "**.py"
+
+jobs:
+  deploy_to_staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build & Deploy
+        env:
+          PRIVATE_KEY: ${{ secrets.STAGING_SSH_PRIVATE_KEY }}
+          HOSTNAME: ${{secrets.STAGING_SSH_HOSTNAME}}
+          USERNAME: ${{secrets.STAGING_USER_NAME}}
+          PROJECT_ROOT: ${{github.event.repository.name}}
+
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USERNAME}@${HOSTNAME} '
+
+              # Now we have got the access of EC2 and we will start the deploy .
+              cd ${PROJECT_ROOT} &&
+              git checkout dev &&
+              git fetch --all &&
+              git reset --hard origin/dev &&
+              git pull origin dev &&
+              docker compose -f staging.yml --env-file .env build &&
+              docker compose -f staging.yml --env-file .env up db_migration --no-deps -d &&
+              docker compose -f staging.yml --env-file .env up django celery-scheduler celery-worker --no-deps -d
+              '
