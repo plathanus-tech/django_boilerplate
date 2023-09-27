@@ -93,6 +93,7 @@ dependencies = [
     "django-extensions==3.2.3",
     "werkzeug==2.3.7",
     "django-filter==23.3",
+    "structlog==23.1.0",
 ]
 requires-python = ">=3.11"
 license = {text = "MIT"}

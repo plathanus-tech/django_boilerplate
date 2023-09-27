@@ -1,7 +1,7 @@
 import os
 from datetime import timedelta
 
-from celery import Celery
+from celery import Celery, signals
 from django.conf import settings
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings.conf")
@@ -36,3 +36,23 @@ CELERY_CONFIG = {
 
 app.autodiscover_tasks(["push_notifications"])
 app.conf.update(**CELERY_CONFIG)
+
+
+@signals.task_prerun.connect
+def bind_contextvars_before_task_run(sender, task_id, task, args, kwargs, **_):
+    import structlog
+
+    from app.logging.utils import _log_events
+
+    _log_events.set([])
+    structlog.contextvars.bind_contextvars(task_id=task_id)
+
+
+@signals.task_failure.connect
+def report_error_after_task_failure(sender, **kwargs):
+    from app import services
+
+    if settings.SEND_ERROR_REPORT_ON_FAILURES:
+        services.send_task_error_report(
+            task=sender, exception=kwargs["exception"], einfo=kwargs["einfo"]
+        )
