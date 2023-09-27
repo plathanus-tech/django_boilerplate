@@ -10,6 +10,7 @@ from app.ext.push_notifications.abc import (
     PushReceipt,
     PushTicket,
 )
+from app.logging.utils import get_logger
 from app.models import BaseModel
 from users.models import User
 
@@ -127,15 +128,28 @@ def push_notification_delivery_failed(notification: models.PushNotification):
     It expects that failure_kind is populated, meaning that is on the failed status"""
     from . import tasks
 
+    logger = get_logger(
+        __name__,
+        notification_id=notification.id,
+        notification_failure_kind=notification.failure_kind,
+        user_id=notification.user_id,
+        delivery_attempts=notification.delivery_attempts,
+    )
+    logger.debug("Push notification delivery failed")
+
     if notification.failure_kind == consts.push_notification.FailureKind.DEVICE_NOT_REGISTERED:
         # we're recommended to not keep trying sending notifications to non-registered devices
+        logger.warning("User device is no longer registered, removing his token")
         user: User = notification.user
         user.notification_token = None
         user.save()
         return
 
     if notification.failure_kind == consts.push_notification.FailureKind.MESSAGE_RATE_EXCEEDED:
+        logger.warning("Looks like we're sending to many messages")
+
         if notification.delivery_attempts > notification.MAX_DELIVERY_ATTEMPTS:
+            logger.warning(f"Reached {notification.MAX_DELIVERY_ATTEMPTS=} failing")
             notification.status = consts.push_notification.Status.FAILED
             notification.failure_kind = (
                 consts.push_notification.FailureKind.TOO_MANY_DELIVERY_ATTEMPTS
@@ -143,16 +157,19 @@ def push_notification_delivery_failed(notification: models.PushNotification):
             notification.failure_message = "Too many attempts to deliver the notification failed"
             notification.save()
             return
+        logger.warning("Enqueueing message again")
         notification.status = consts.push_notification.Status.ENQUEUED
         notification.delivery_attempts += 1
         notification.failure_kind = None
         notification.failure_message = None
         notification.save()
         tasks.push_notification_handle_resend.apply_async(
-            kwargs={"notification_id": notification.id}
+            kwargs={"notification_id": notification.id},
+            countdown=5,
         )
+        return
 
-    # TODO: Log that we can't handle this
+    logger.critical(f"Unable to handle the {notification.failure_kind=}")
 
 
 @di.inject_service_at_runtime(PushNotificationExternalService)
@@ -164,6 +181,9 @@ def push_notification_confirm_delivery(
     """Tries to confirm the delivery of sent notifications that
     were created after dt - 1 days. This is called periodically by celery"""
     yesterday = dt - timedelta(days=1)
+    logger = get_logger(__name__, dt=dt, notification_service=notification_service)
+    logger.info("Starting to confirm the delivery of push notifications")
+
     notifications = models.PushNotification.objects.filter(
         status=consts.push_notification.Status.SENT,
         created_at__date__gte=yesterday.date(),
@@ -171,7 +191,9 @@ def push_notification_confirm_delivery(
     ).select_related("user")
     if not notifications:
         # No need to send no tickets to the notification service
+        logger.info("All good no notifications to confirm delivery")
         return
+    logger.debug("Found some notifications to confirm delivery, getting receipts")
     receipts = notification_service.get_receipts(
         [notification.push_ticket_id for notification in notifications]  # type: ignore
     )
@@ -179,7 +201,9 @@ def push_notification_confirm_delivery(
     for notification in notifications:
         receipt = receipts.get(notification.push_ticket_id)  # type: ignore
         if receipt is None:
+            logger.warning(f"Unable to find receipt for {notification=}")
             continue
+        logger.debug(f"Handling push {receipt=}")
         push_notification_handle_push_receipt(
             notification=notification,
             receipt=receipt,
