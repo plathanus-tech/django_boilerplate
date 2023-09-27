@@ -23,3 +23,10 @@ def visitor_user():
     user.full_clean()
     user.save()
     return user
+
+
+@pytest.fixture(autouse=True)
+def set_log_events_context():
+    from app.logging.utils import _log_events
+
+    _log_events.set([])
