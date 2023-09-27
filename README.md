@@ -111,7 +111,7 @@ from django.db import models
 
 
 class Person(BaseModel):
-  name = models.CharField(verbose_name=_("Name"), null=True)
+  name = models.CharField(verbose_name=_("name"), null=True)
 
   def __str__(self):
     # BAD
@@ -131,7 +131,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 class Person(BaseModel):
-  name = models.CharField(verbose_name=_("Name"), null=True)
+  name = models.CharField(verbose_name=_("name"), null=True)
 
   class Meta:
     verbose_name = _("person")
@@ -159,14 +159,14 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 class Person(BaseModel):
-  name = models.CharField(verbose_name=_("Name"), null=True)
+  name = models.CharField(verbose_name=_("name"), null=True)
 
   # Typed the reverse acessor (one-to-many)
   pets: models.QuerySet["Animal"]
 
   class Meta:
-    verbose_name = _("Person")
-    verbose_name_plural = _("People")
+    verbose_name = _("person")
+    verbose_name_plural = _("people")
 
   def __str__(self):
     return self.name or "Unknown"
@@ -211,13 +211,13 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 class Person(BaseModel):
-  name = models.CharField(verbose_name=_("Name"), null=True)
+  name = models.CharField(verbose_name=_("name"), null=True)
   # new field
-  date_joined = models.DateField(verbose_name=_("Date joined"))
+  date_joined = models.DateField(verbose_name=_("date joined"))
 
   class Meta:
-    verbose_name = _("Person")
-    verbose_name_plural = _("People")
+    verbose_name = _("person")
+    verbose_name_plural = _("people")
 
   def __str__(self):
     return self.name or "Unknown"
@@ -272,8 +272,8 @@ from datetime import timedelta
 from django.utils import timezone
 
 class Person(BaseModel):
-  name = models.CharField(verbose_name=_("Name"), null=True)
-  date_joined = models.DateField(verbose_name=_("Date joined"))
+  name = models.CharField(verbose_name=_("name"), null=True)
+  date_joined = models.DateField(verbose_name=_("date joined"))
 
   class Meta:
     ...
