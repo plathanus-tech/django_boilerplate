@@ -30,7 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     email = models.EmailField(_("email address"), unique=True)
     full_name = models.CharField(_("full name"), max_length=255)
     notification_token = models.CharField(
-        verbose_name=_("Notification token"),
+        verbose_name=_("notification token"),
         help_text=_("The token used to send push notifications to the user's phone"),
         max_length=128,
         null=True,

@@ -416,6 +416,14 @@ def person_spam(*, person, sms_service: SMSExternalService):
 ```
 Este decorator irá encontrar o parâmetro que tem a mesma tipagem que o serviço que deve ser injetado e quando a função for chamada, injetará uma instância do objeto daquela classe na função, se a função foi chamada sem o argumento que deve ser injetado.
 
+
+### Logs
+
+Nesta camada da aplicação é importante ter logs "razoáveis", por isso aproveite ao máximo as funcionalidades builtin do python, como os níveis de log, que são facilmente configurados via variáveis de ambiente.
+
+> Caso algum erro aconteça em seu serviço, o melhor a fazer é reportar este erro. Veja a seção [Report de erros](#loggingreport-de-erros)
+
+
 ### Testes
 
 Como aqui será a parte mais importante da sua aplicação, onde todas as regras de negócio estarão, escreva testes extensivos para esta camada. Cada exceção que for levantada, deve ter um teste correspondente. Cada ramificação `if`, e assim por diante. Se você seguir as diretrizes deste style guide, testar esta camada será simples!
@@ -493,6 +501,67 @@ Algumas considerações:
 * O nome da configuração para o serviço externo **deve sempre** ser `<funcionalidade>_EXTERNAL_SERVICE_BACKEND`.
 
 As configurações dos serviços externos estão definidas na seção [Configurações](#configurações)
+
+
+## Logging/Report de erros
+
+Este boilerplate já vem integrado com um report de erro, que envia uma mensagem com alguns dados da requisição/tarefa que falhou, bem como todos os logs vinculados, e o traceback.
+
+Por isso para aproveitar ao máximo o report de erros, **sempre utilize** o logger vindo da função de utilidade `get_logger` disponível no módulo `app.logging.utils`. Isso garante que todos os logs estejam disponíveis nos reports de erros.
+
+É possível criar uma variável a nível de módulo, como no exemplo abaixo:
+```python
+from app.logging.utils import get_logger
+
+LOGGER = get_logger(__name__)
+
+def some_service():
+  logger = LOGGER.new(foo="bar")
+```
+
+Ou por função:
+```python
+from app.logging.utils import get_logger
+
+def some_service():
+  logger = get_logger(__name__, foo="bar")
+```
+
+Perceba que é possível passar variáveis de contexto, isso facilita o debug em casos de erro. Isso é possível por que por baixo dos panos estamos utilizando a lib [struclog](https://www.structlog.org/) com algumas modificações importantes.
+
+Utilizamos [variáveis de contexto](https://docs.python.org/3/library/contextvars.html) para armazenar todas as chamadas de logs que se encaixam nos filtros de nível (level) de logging.
+
+* A cada requisição essas chamadas de logs que ficaram armazenadas na memória são resetadas por um [middleware](./src/app/middlewares/log.py).
+* A cada tarefa recebida essas chamadas de logs que ficaram armazenadas na memórias são resetadas por um [signal](./src/app/celery/app.py).
+
+ > Isso garante que apenas as chamadas de logs da requisição/tarefa atual sejam reportados (ContextVars são thread-safe).
+
+Portanto, para configurar o report de erros, siga os seguintes passos:
+
+* Defina o valor da variável de ambiente `SEND_ERROR_REPORT_ON_FAILURES` para um valor verdadeiro (`1`, `y`, `Yes`)
+* Defina o valor da variável de ambiente `MESSAGING_EXTERNAL_SERVICE_BACKEND` para o fornecedor de preferência (atualmente apenas o `discord` pode ser utilizado em produção).
+
+De acordo com cada fornecedor, será necessário seguir passos diferentes. Abaixo estão os guias para cada um dos fornecedores.
+
+* `discord`: Será necessário [criar uma conta de BOT](https://discord.com/developers/docs/getting-started) no e convidá-lo ao servidor que serão enviadas as mensagens. Após a criação da conta, será necessário que você inclua o Token de autenticação do Bot na variável de ambiente `MESSAGING_EXTERNAL_SERVICE_DISCORD_OAUTH_TOKEN`, **não prefixe** esta variável de ambiente com `Bot`.
+
+Após a configuração do seu fornecedor de preferência, defina as variáveis de ambiente:
+
+* `ERROR_REPORT_REQUEST_CHANNEL_ID` Para o ID do canal/usuário que irá receber a mensagem quando uma requisição falhar;
+* `ERROR_REPORT_TASK_CHANNEL_ID` Para o ID do canal/usuário que irá receber a mensagem quando uma tarefa falhar;
+
+
+Por último tenha certeza de que a configuração `DEBUG` está desativada (`False`), essa configuração é definida pela variável de ambiente `DJANGO_DEBUG`.
+
+Opcionalmente é possível definir o idioma de envio dos reports de erro através da variável de ambiente: `SEND_ERROR_REPORT_ON_LANGUAGE`.
+
+Após tudo configurado, as mensagem irão se parecer com isto.
+
+Falha em uma requisição:
+![Falha requisição](docs/request_failed_error_report.png)
+
+Falha em uma tarefa:
+![Falha tarefa](docs/task_failed_error_report.png)
 
 ## APIs
 

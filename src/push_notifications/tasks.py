@@ -1,5 +1,3 @@
-import uuid
-
 from django.utils.translation import gettext as _
 
 from app.celery.decorators import BaseTask, task

@@ -62,7 +62,7 @@ services:
 
   celery-worker:
     <<: *django
-    command: python -m celery -A app worker -P solo --concurrency 1 --events
+    command: python -m celery -A app worker -P solo --concurrency 1 --events -l ${CELERY_WORKER_LOGGING_LEVEL:-INFO}
     ports: []
 
   mailpit:

@@ -73,7 +73,9 @@ def test_push_notification_delivery_failed_dispatches_a_resend_task_when_failure
         "push_notifications.tasks.push_notification_handle_resend.apply_async"
     )
     services.push_notification_delivery_failed(push_notification)
-    resend_task.assert_called_once_with(kwargs={"notification_id": push_notification.id})
+    resend_task.assert_called_once_with(
+        kwargs={"notification_id": push_notification.id}, countdown=5
+    )
 
     # we're not using refresh_from_db because mypy complains on asserts
     notification = models.PushNotification.objects.get(pk=push_notification.pk)

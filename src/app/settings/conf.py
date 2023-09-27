@@ -95,6 +95,7 @@ MIDDLEWARE: List[str] = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "app.middlewares.tz.TimezoneMiddleware",
+    "app.middlewares.log.LogContextMiddleware",
 ]
 ROOT_URLCONF: str = "app.urls"
 TEMPLATES: List[Dict[str, Any]] = [
@@ -204,10 +205,12 @@ if IS_TESTING:
     }
 
 from .external_services.geolocation import *
+from .external_services.messaging import *
 from .external_services.push_notification import *
 from .external_services.sms import *
 from .external_services.zipcode import *
 from .infra.log import *
+from .infra.reporting import *
 from .third_party.celery import *
 from .third_party.dj_cors_headers import *
 from .third_party.drf import *
