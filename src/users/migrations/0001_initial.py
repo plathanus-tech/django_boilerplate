@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                         help_text="The token used to send push notifications to the user's phone",
                         max_length=128,
                         null=True,
-                        verbose_name="Notification token",
+                        verbose_name="notification token",
                     ),
                 ),
                 (
