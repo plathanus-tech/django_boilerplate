@@ -5,6 +5,8 @@ from typing import Any, Dict, List, Tuple
 import environ
 from django.utils.translation import gettext_lazy as _
 
+from app.consts.i18n import Language
+
 # Build paths from src directory
 BASE_DIR: Path = Path(__file__).resolve()
 for x in range(10):
@@ -93,8 +95,8 @@ MIDDLEWARE: List[str] = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
-    "app.middlewares.tz.TimezoneMiddleware",
+    "app.middlewares.i18n.TimezoneMiddleware",
+    "app.middlewares.i18n.LanguageMiddleware",
     "app.middlewares.log.LogContextMiddleware",
 ]
 ROOT_URLCONF: str = "app.urls"
@@ -130,11 +132,8 @@ DATABASES = {
 }
 
 # Internationalization
-LANGUAGE_CODE: str = "pt-br"
-LANGUAGES = [
-    ("pt-br", _("Brazilian Portuguese")),
-    ("en-us", _("English")),
-]
+LANGUAGE_CODE = Language.PT_BR
+LANGUAGES = Language.choices
 LOCALE_PATHS = [
     ROOT_DIR / "locale",
 ]
@@ -150,10 +149,6 @@ FORMAT_MODULE_PATH: List[str] = [
 # Time Zone
 TIME_ZONE: str = "UTC"
 USE_TZ: bool = True
-TIMEZONE_FOR_LANGUAGE = {
-    "pt-br": "America/Sao_Paulo",
-    "en": "UTC",
-}
 
 # Static Files
 STATIC_URL: str = "/static/"
