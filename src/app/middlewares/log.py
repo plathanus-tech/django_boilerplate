@@ -5,11 +5,10 @@ from django.http import HttpRequest
 from app import services
 from app.logging.utils import _log_events
 
+from .base import BaseMiddleware
 
-class LogContextMiddleware:
-    def __init__(self, get_response) -> None:
-        self.get_response = get_response
 
+class LogContextMiddleware(BaseMiddleware):
     def __call__(self, request: HttpRequest):
         _log_events.set([])
         if request.user.is_authenticated:

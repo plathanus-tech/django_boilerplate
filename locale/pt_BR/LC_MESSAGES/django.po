@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 18:28+0000\n"
+"POT-Creation-Date: 2023-10-17 15:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/app/consts/i18n.py:9
+msgid "Brazilian Portuguese"
+msgstr "Português Brasileiro"
+
+#: src/app/consts/i18n.py:10
+msgid "English"
+msgstr "Inglês"
+
+#: src/app/consts/i18n.py:19
+msgid "São Paulo - Brazil (-03:00)"
+msgstr "São Paulo - Brasil (-03:00)"
+
+#: src/app/consts/i18n.py:20
+msgid "Universal Coordinated Time"
+msgstr "Tempo Coordenado Universal (UTC)"
 
 #: src/app/consts/push_notification.py:21
 msgid "Created"
@@ -76,7 +92,7 @@ msgstr "Comunicação interna"
 
 #: src/app/exceptions.py:11
 msgid "Unexpected failure"
-msgstr ""
+msgstr "Falha inesperada"
 
 #: src/app/forms/fields/phone.py:38
 #, python-format
@@ -122,14 +138,6 @@ msgstr "Args tarefa"
 #: src/app/services.py:91
 msgid "Task kwargs"
 msgstr "Kwargs tarefa"
-
-#: src/app/settings/conf.py:135
-msgid "Brazilian Portuguese"
-msgstr "Português Brasileiro"
-
-#: src/app/settings/conf.py:136
-msgid "English"
-msgstr "Inglês"
 
 #: src/app/validators/br/doc.py:33
 msgid "Invalid Certificate"
@@ -179,7 +187,7 @@ msgstr "Motivo de falha"
 msgid "Delivery"
 msgstr "Entrega"
 
-#: src/push_notifications/admin.py:76 src/users/admin.py:43
+#: src/push_notifications/admin.py:76 src/users/admin.py:44
 msgid "Metadata"
 msgstr "Meta-dados"
 
@@ -191,7 +199,7 @@ msgstr "Notificação Push"
 msgid "Push Notifications"
 msgstr "Notificações Push"
 
-#: src/push_notifications/models.py:17 src/users/models.py:74
+#: src/push_notifications/models.py:17 src/users/models.py:87
 msgid "user"
 msgstr "usuário"
 
@@ -304,6 +312,10 @@ msgstr "notificações Push"
 msgid "Permissions"
 msgstr "Permissões"
 
+#: src/users/admin.py:43
+msgid "Preferences"
+msgstr "Preferências"
+
 #: src/users/apps.py:8
 msgid "User"
 msgstr "Usuário"
@@ -312,59 +324,67 @@ msgstr "Usuário"
 msgid "Users"
 msgstr "Usuários"
 
-#: src/users/models.py:30
+#: src/users/models.py:31
 msgid "email address"
 msgstr "endereço email"
 
-#: src/users/models.py:31
+#: src/users/models.py:32
 msgid "full name"
 msgstr "nome completo"
 
-#: src/users/models.py:33
+#: src/users/models.py:34
 msgid "notification token"
 msgstr "token notificação"
 
-#: src/users/models.py:34
+#: src/users/models.py:35
 msgid "The token used to send push notifications to the user's phone"
 msgstr "O token utilizado para enviar notificações push ao telefone do usuário"
 
-#: src/users/models.py:42
+#: src/users/models.py:41
+msgid "preference language"
+msgstr "idioma preferência"
+
+#: src/users/models.py:47
+msgid "preference time zone"
+msgstr "fuso horário preferência"
+
+#: src/users/models.py:55
 msgid "is active"
 msgstr "Está ativo"
 
-#: src/users/models.py:43
+#: src/users/models.py:56
 msgid "Inactive users can't login. Use this instead of deleting the user."
 msgstr ""
 "Usuário inativos não podem fazer login. Use isto em vez de excluir o usuário."
 
-#: src/users/models.py:47
+#: src/users/models.py:60
 msgid "is staff"
 msgstr "é da equipe interna"
 
-#: src/users/models.py:48
+#: src/users/models.py:61
 msgid "Only staff users can access the admin"
 msgstr "Apenas usuários da equipe interna podem acessar o admin"
 
-#: src/users/models.py:52
+#: src/users/models.py:65
 msgid "is admin"
 msgstr "é super usuário"
 
-#: src/users/models.py:53
+#: src/users/models.py:66
 msgid "Super users have all permissions"
 msgstr "Super usuários tem todas as permissões"
 
-#: src/users/models.py:58
+#: src/users/models.py:71
 msgid "date joined"
 msgstr "data inscrição"
 
-#: src/users/models.py:75
+#: src/users/models.py:88
 msgid "users"
 msgstr "usuários"
 
-#: src/users/models.py:84
+#: src/users/models.py:97
 msgid "user group"
 msgstr "grupo de Usuário"
 
-#: src/users/models.py:85
+#: src/users/models.py:98
 msgid "user groups"
 msgstr "grupo de Usuários"

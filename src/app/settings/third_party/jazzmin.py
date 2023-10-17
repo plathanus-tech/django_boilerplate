@@ -17,7 +17,7 @@ JAZZMIN_SETTINGS = {
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
     "show_ui_builder": False,
-    "language_chooser": True,
+    "language_chooser": False,
 }
 JAZZMIN_UI_TWEAKS = {
     "actions_sticky_top": True,

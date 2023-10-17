@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.auth import decorators as auth_decorators
 from django.contrib.auth import views as auth_views
@@ -12,7 +11,9 @@ schema_view = drf_views.SpectacularAPIView.as_view()
 swagger_view = drf_views.SpectacularSwaggerView.as_view(url_name="schema")
 redoc_view = drf_views.SpectacularRedocView.as_view(url_name="schema")
 
-translated_patterns = i18n_patterns(
+
+urlpatterns = [
+    path("health-check", lambda r: HttpResponse("Ok")),
     path("", lambda r: redirect(reverse("admin:login"))),
     path(f"{settings.ADMIN_URL_PREFIX}/", admin.site.urls),
     path(
@@ -39,9 +40,4 @@ translated_patterns = i18n_patterns(
     path("api/schema/", auth_decorators.login_required(schema_view), name="schema"),
     path("api/docs/", auth_decorators.login_required(swagger_view), name="docs"),
     path("api/redoc/", auth_decorators.login_required(redoc_view), name="redoc"),
-    prefix_default_language=True,
-)
-
-urlpatterns = [
-    path("health-check", lambda r: HttpResponse("Ok")),
-] + translated_patterns
+]

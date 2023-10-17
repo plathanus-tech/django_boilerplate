@@ -5,6 +5,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from app.consts.i18n import Language, TimeZoneName
 from app.models import BaseModel
 
 
@@ -35,6 +36,18 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         max_length=128,
         null=True,
         blank=True,
+    )
+    language_code = models.CharField(
+        verbose_name=_("preference language"),
+        default=Language.PT_BR,
+        choices=Language.choices,
+        max_length=8,
+    )
+    time_zone = models.CharField(
+        verbose_name=_("preference time zone"),
+        default=TimeZoneName.AMERICA_SAO_PAULO,
+        choices=TimeZoneName.choices,
+        max_length=32,
     )
 
     # Permissions

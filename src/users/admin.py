@@ -40,6 +40,7 @@ class UserAdmin(DjangoUserAdmin):
                 )
             },
         ),
+        (_("Preferences"), {"fields": ("language_code", "time_zone")}),
         (_("Metadata"), {"fields": ("date_joined", "last_login")}),
     )
     add_fieldsets = ((None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),)
