@@ -781,15 +781,32 @@ Para iniciar a aplicação, vamos precisar criar um arquivo com as variáveis de
 cp .env_files/.env.example .env
 ```
 
-Com isso já é possível subir a aplicação, com o docker compose. Caso ainda não o tenha instalado, siga [estas instruções](https://docs.docker.com/compose/install/linux/). Caso já tenha instalado, basta executar o comando: `docker compose -f local.yml --env-file .env up --build`
+Com isso já é possível subir a aplicação, com o docker compose. Caso ainda não o tenha instalado, siga [estas instruções](https://docs.docker.com/compose/install/linux/).
+
+Caso já tenha instalado, basta executar o comando: `docker compose -f local.yml --env-file .env up --build`
+
+> Outra maneira de executar a aplicação é iniciar a Task definida no VSCode "Start Local Compose". Para isso, pressione `F1` e selecione a opção `Tasks: Run Task` e selecione a task "Start Local Compose".
 
 Após isso, a aplicação e suas dependências estarão disponíveis.
 
 > Caso você tenha um servidor de postgreSQL rodando em sua máquina, talvez seja necessário alterar a variável de ambiente SQL_PORT para não coincidir com a porta do servidor da sua máquina.
 
-Para visitar o Django, acesse [localhost:8000](http://localhost:8000)
+Para visitar o Django, acesse [localhost:8000](http://localhost:8000) ou caso tenha definido uma variável de ambiente `DJANGO_HTTP_PORT` acesse na porta correspondente.
 Para visitar o MailPit, acesse [localhost:8025](http://localhost:8025)
 Você talvez queira conectar o PgAdmin no banco da aplicação, para isso verifique as credencias nas suas variáveis de ambiente, o postgreSQL estará disponível em localhost na porta definida na variável SQL_PORT.
+
+
+### Debugging
+
+Muitas vezes é necessário debugar o projeto, por isso foi adicionado ao boilerplate algumas facilidades para debugar o projeto (principalmente a aplicação Django). Para iniciar a aplicação em modo de Debug, vá até a aba de "Run & Debug" utilizando o atalho `CTRL + Shift + D`, selecione a configuração "Django Debug" após isso pressione o botão de play ou pressione `F5`.
+
+> É importante citar que este comando irá subir os serviços definidos no compose `local.yml`, caso estes serviços já estejam em execução não há efeitos colaterais. Isso acontece por que antes de iniciar a configuração de debug, a tarefa "Start Local Compose" é iniciada.
+
+Após alguns segundos você terá duas instâncias da aplicação Django rodando em sua máquina.
+* Uma na porta `8000` (Ou na porta definida pela variável de ambiente `DJANGO_HTTP_PORT`): A aplicação que subiu junto com o compose, acessar esta instância da aplicação **não irá parar** nos breakpoints definidos no VSCode.
+* Outra na porta `8888`: A aplicação que foi iniciada pelo debugger do VSCode, por isso para debugar a aplicação, acesse através desta porta.
+
+🐛 Happy debugging! 🐛
 
 
 ## Deploy
