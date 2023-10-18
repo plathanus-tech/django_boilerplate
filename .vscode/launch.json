@@ -8,8 +8,12 @@
       "name": "Pytest",
       "type": "python",
       "request": "launch",
-      "module": "pdm",
-      "args": ["run", "pytest"]
+      "module": "pytest",
+      "args": [
+        "-x",
+        "-vv"
+      ],
+      "envFile": "${workspaceFolder}/.env.test"
     },
     {
       "name": "Django Debug",
