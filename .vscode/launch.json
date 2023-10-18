@@ -8,28 +8,34 @@
       "name": "Pytest",
       "type": "python",
       "request": "launch",
-      "module": "pdm",
-      "args": ["run", "pytest"]
+      "module": "pytest",
+      "args": [
+        "-x",
+        "-vv"
+      ],
+      "envFile": "${workspaceFolder}/.env.test"
     },
     {
-      "name": "Python: Django",
-      "type": "python",
-      "request": "launch",
-      "module": "pdm",
-      "args": ["run", "python", "manage.py", "runserver"],
-      "django": true,
-      "envFile": "${workspaceFolder}/src/app/settings/.env"
-    },
-    {
-      "name": "Python: Django - Docker",
+      "name": "Django Debug",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/manage.py",
-      "args": ["runserver", "0.0.0.0:80"],
+      "args": [
+        "runserver_plus",
+        "0.0.0.0:8888"
+      ],
       "django": true,
+      "envFile": "${workspaceFolder}/.env",
       "env": {
-        "PYTHONPATH": "__pypackages__/3.9/lib"
-      }
+        // Override these settings, since docker will be running
+        // and the services will be mapped to the host machine
+        "SQL_HOST": "127.0.0.1",
+        "REDIS_HOST": "127.0.0.1",
+        // "CELERY_ALWAYS_EAGER": "1"
+        // Uncomment the above line so tasks aren't dispatched to a worker
+        // with that you can debug it, does not work for periodic tasks
+      },
+      "preLaunchTask": "Start Local Compose"
     }
   ]
 }

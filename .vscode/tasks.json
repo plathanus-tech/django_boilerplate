@@ -1,0 +1,20 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Local Compose",
+      "type": "shell",
+      "command": "docker compose -f local.yml --env-file .env up --build",
+      "isBackground": true,
+      "problemMatcher": {
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "django_boilerplate-db_migration-1 exited with code 0",
+          "endsPattern": "Development server is running at"
+        }
+      }
+    }
+  ]
+}
