@@ -36,8 +36,8 @@ jobs:
             echo "Deploying branch $TAG_NAME"
             git fetch origin && git checkout $TAG_NAME
             echo "Building images..."
-            docker compose -f production.yml --env-file .env.prod build --build-arg="PDM_INSTALL_ARGS=--prod --no-lock --no-editable"
+            docker compose -f production.yml --env-file .env build --build-arg="PDM_INSTALL_ARGS=--prod --no-lock --no-editable"
             echo "Running database migrations"
-            docker compose -f production.yml --env-file .env.prod up db_migration --no-deps -d
+            docker compose -f production.yml --env-file .env up db_migration --no-deps -d
             echo "Restarting services"
-            docker compose -f production.yml --env-file .env.prod up celery-worker celery-scheduler app --no-deps -d
+            docker compose -f production.yml --env-file .env up celery-worker celery-scheduler django --no-deps -d
