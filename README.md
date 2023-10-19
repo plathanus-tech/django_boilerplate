@@ -811,9 +811,9 @@ Após alguns segundos você terá duas instâncias da aplicação Django rodando
 
 ## Deploy
 
-Normalmente o deploy das aplicações são realizados em uma VPS, como a Amazon EC2. O Boilerplate já vem configurado com CI/CD para o ambiente de Staging, porém é simples copiar e criar um outro worfklow para o ambiente de produção.
+Normalmente o deploy das aplicações são realizados em uma VPS, como a Amazon EC2. O Boilerplate já vem configurado com CI/CD para o ambiente de Staging e Produção. Porém o primeiro deploy é necessário a configuração pelo usuário.
 
-> Apesar de apenas copiar e colar o workflow seja o suficiente para o ambiente de produção, perceba que o deploy atual possui downtime de cerca de 30 segundos.
+> O formato de deploy atual possui downtime de cerca de 5 segundos.
 
 Antes do primeiro deploy por CI/CD será necessário:
 - Criar a máquina virtual;
@@ -821,13 +821,63 @@ Antes do primeiro deploy por CI/CD será necessário:
 - Instalar as dependências (git, docker compose) na máquina;
 - Configurar o acesso via SSH ao Github (quando criar sua chave SSH não coloque um passphrase, caso contrário o processo de CD irá falhar);
 - Configurar as variáveis de ambiente;
-- Subir a aplicação manualmente.
+- [Subir a aplicação manualmente](#subir-a-aplicação-pela-primeira-vez).
 
 Após estes passos, o fluxo de CI/CD fará deploys automaticamente, após a configuração das Secrets no Github (Dentro do repositório -> `Settings` -> `Secrets`).
-Vá até o arquivo [deploy_to_staging.yml](./.github/workflows/deploy_to_staging.yml) e verifique as variáveis de ambiente necessárias. Elas provavelmente são:
+Vá até o arquivo [deploy_to_staging.yml](./.github/workflows/deploy_to_staging.yml) e verifique as variáveis de ambiente necessárias. Elas são:
 
 - `STAGING_SSH_PRIVATE_KEY`: Chave SSH Privada utilizada para conectar na máquina
 - `STAGING_SSH_HOSTNAME`: Nome do HOST para acesso SSH
 - `STAGING_USER_NAME`: Nome do usuário da máquina para acesso SSH
 
 > Perceba que os valores das variáveis de ambiente são prefixados para o ambiente de deploy, caso esteja criando um novo arquivo de deploy para outro ambiente, garanta que as variáveis estarão prefixadas com o nome do ambiente. Exemplo: `PRODUCTION_SSH_PRIVATE_KEY`.
+
+Para o ambiente de produção, o fluxo é praticamente o mesmo, porém as variáveis de ambiente são:
+- `PRODUCTION_SSH_PRIVATE_KEY`: Chave SSH Privada utilizada para conectar na máquina
+- `PRODUCTION_SSH_HOSTNAME`: Nome do HOST para acesso SSH
+- `PRODUCTION_USER_NAME`: Nome do usuário da máquina para acesso SSH
+
+
+### Subir a aplicação pela primeira vez
+
+Para subir a aplicação pela primeira vez será necessário subir alguns serviços na máquina, porém já existem scripts que fazem a maior parte do trabalho.
+Primeiro passo é rodar o script [start_nginx_acme.sh](./infra/server/start_nginx_acme.sh) a partir do root do repositório:
+```sh
+./infra/server/start_nginx_acme.sh
+```
+Esse comando irá iniciar dois containers: o [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) e [nginx-proxy-acme](https://github.com/nginx-proxy/acme-companion). Que tem como objetivo:
+- nginx-proxy: Reverse-proxy que ficará na frente da aplicação Django e demais serviços;
+- nginx-proxy-acme: Configura automaticamente HTTPs;
+
+Após isso, será necessário subir a infraestrutura de serviços de terceiros, dependendo do ambiente.
+
+Para o ambiente de staging, utilize o compose [infra/server/3rd_party/staging.yml](./infra/server/3rd_party/staging.yml), com o comando:
+```sh
+docker compose -f ./infra/server/3rd_party/staging.yml --env-file .env up -d
+```
+
+Para o ambiente de produção, utilize o compose [infra/server/3rd_party/production.yml](./infra/server/3rd_party/production.yml), com o comando:
+```sh
+docker compose -f ./infra/server/3rd_party/production.yml --env-file .env up -d
+```
+
+Após isso é possível subir o compose da aplicação de acordo com o ambiente.
+
+Para o ambiente de staging, utilize o compose [staging.yml](./staging.yml), com o comando:
+```sh
+docker compose -f staging.yml --env-file .env build --no-cache
+docker compose -f staging.yml --env-file .env up -d
+```
+
+Para o ambiente de produção, utilize o compose [production.yml](./production.yml), com o comando:
+```sh
+docker compose -f production.yml --env-file .env build --no-cache
+docker compose -f production.yml --env-file .env up -d
+```
+
+Feito! A aplicação estará no ar. Após isso o processo de CI/CD irá fazer deploys automaticamente na máquina.
+
+
+### Detalhes sobre os ambientes de staging/produção
+
+Os arquivos estáticos são servidos pelo nginx em qualquer domínio! Não encontramos um jeito melhor de servir os arquivos estáticos sem ser configurando um fallback para quando não é possível se conectar com um container. Essa configuração está definida no arquivo [infra/nginx/conf.d/fallback_server.conf](./infra/nginx/conf.d/fallback_server.conf).
