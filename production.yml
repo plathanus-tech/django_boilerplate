@@ -67,6 +67,7 @@ services:
   db_migration:
     <<: *django
     command: python manage.py migrate
+    entrypoint: ["sh", "/app/before_migrate.sh"]
     ports: []
     depends_on: []
 

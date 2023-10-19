@@ -1,0 +1,43 @@
+name: Deploy to Production
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  test_and_lint:
+    uses: ./.github/workflows/tests.yml
+
+  deploy_to_production:
+    needs: test_and_lint
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Dump event
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+
+      - name: Deploy new changes
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          TAG_NAME: ${{github.event.release.tag_name}}
+          PROJECT_ROOT: ${{github.event.repository.name}}
+        with:
+          host: ${{secrets.PRODUCTION_SSH_HOSTNAME}}
+          username: ${{secrets.PRODUCTION_USER_NAME}}
+          key: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
+          envs: TAG_NAME,PROJECT_ROOT
+          script_stop: true
+          script: |
+            cd $PROJECT_ROOT
+            echo "Deploying branch $TAG_NAME"
+            git fetch origin && git checkout $TAG_NAME
+            echo "Building images..."
+            docker compose -f production.yml --env-file .env.prod build --build-arg="PDM_INSTALL_ARGS=--prod --no-lock --no-editable"
+            echo "Running database migrations"
+            docker compose -f production.yml --env-file .env.prod up db_migration --no-deps -d
+            echo "Restarting services"
+            docker compose -f production.yml --env-file .env.prod up celery-worker celery-scheduler app --no-deps -d
