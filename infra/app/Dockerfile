@@ -13,13 +13,12 @@ RUN pip install pip setuptools wheel
 RUN pip install pdm==2.7.4
 
 COPY pyproject.toml pdm.lock /pkgs/
-RUN pdm install --prod --no-lock --no-editable
+ARG PDM_INSTALL_ARGS=""
+RUN pdm install ${PDM_INSTALL_ARGS}
 
 WORKDIR /app
 
 ENV PYTHONPATH=/app/src:/pkgs/.venv/lib/python3.11/site-packages
 COPY src /app/src
 COPY locale /app/locale
-COPY manage.py gunicorn.conf.py /app/
-RUN python manage.py collectstatic --noinput
-RUN python manage.py compilemessages
+COPY manage.py gunicorn.conf.py infra/app/before_migrate.sh /app/

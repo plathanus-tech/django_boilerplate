@@ -13,24 +13,27 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Build & Deploy
+      - name: Dump event
         env:
-          PRIVATE_KEY: ${{ secrets.STAGING_SSH_PRIVATE_KEY }}
-          HOSTNAME: ${{secrets.STAGING_SSH_HOSTNAME}}
-          USERNAME: ${{secrets.STAGING_USER_NAME}}
-          PROJECT_ROOT: ${{github.event.repository.name}}
-
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USERNAME}@${HOSTNAME} '
+          echo "$GITHUB_CONTEXT"
 
-              # Now we have got the access of EC2 and we will start the deploy .
-              cd ${PROJECT_ROOT} &&
-              git checkout dev &&
-              git fetch --all &&
-              git reset --hard origin/dev &&
-              git pull origin dev &&
-              docker compose -f staging.yml --env-file .env build &&
-              docker compose -f staging.yml --env-file .env up db_migration --no-deps -d &&
-              docker compose -f staging.yml --env-file .env up django celery-scheduler celery-worker --no-deps -d
-              '
+      - name: Deploy new changes
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          PROJECT_ROOT: ${{github.event.repository.name}}
+        with:
+          host: ${{secrets.STAGING_SSH_HOSTNAME}}
+          username: ${{secrets.STAGING_USER_NAME}}
+          key: ${{ secrets.STAGING_SSH_PRIVATE_KEY }}
+          envs: PROJECT_ROOT,
+          script_stop: true
+          script: |
+            cd $PROJECT_ROOT
+            git fetch --all
+            git reset --hard origin/dev
+            git pull origin dev
+            docker compose -f staging.yml --env-file .env build --build-arg="PDM_INSTALL_ARGS=--prod --no-lock --no-editable"
+            docker compose -f staging.yml --env-file .env up db_migration --no-deps -d
+            docker compose -f staging.yml --env-file .env up django celery-scheduler celery-worker --no-deps -d
