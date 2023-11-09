@@ -6,6 +6,12 @@ from . import models, services
 
 
 @task()
+def push_notification_send(notification_ids: list[int]):
+    notifications = models.PushNotification.objects.filter(id__in=notification_ids)
+    services.push_notification_send(notifications=notifications)
+
+
+@task()
 def push_notification_handle_delivery_failure(notification_id: int):
     notification = models.PushNotification.objects.get(pk=notification_id)
     services.push_notification_delivery_failed(notification=notification)

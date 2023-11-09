@@ -14,7 +14,7 @@ from app.logging.utils import get_logger
 from app.models import BaseModel
 from users.models import User
 
-from . import models
+from . import models, selectors
 
 
 def push_notification_create(
@@ -31,8 +31,8 @@ def push_notification_create(
     push_notification = models.PushNotification(
         user=user,
         kind=kind,
-        title=title,
-        description=description,
+        title=title[: consts.push_notification.MaxSize.TITLE_MAX_SIZE_ANDROID],
+        description=description[: consts.push_notification.MaxSize.DESCRIPTION_MAX_SIZE_ANDROID],
         data=data,
         status=consts.push_notification.Status.CREATED,
         source_object=source_object,
@@ -229,3 +229,13 @@ def push_notification_read(
     push_notification.status = consts.push_notification.Status.READ
     push_notification.save()
     return push_notification
+
+
+def push_notification_read_many(*, reader: User, ids: Sequence[int]) -> int:
+    """Reads a sequence of ids visible for the given `reader`. If `ids` is empty
+    reads all unread notifications.
+    Returns the updated notification count"""
+    qs = selectors.push_notification_get_viewable_qs(user=reader).filter(read_at__isnull=True)
+    if ids:
+        qs = qs.filter(pk__in=ids)
+    return qs.update(read_at=timezone.now(), status=consts.push_notification.Status.READ)
