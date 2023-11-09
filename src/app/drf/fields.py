@@ -1,3 +1,5 @@
+from typing import Any
+
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
@@ -19,11 +21,19 @@ class ContextGetterDefault:
         return serializer_field.context[self.context_key]
 
 
-def create_choice_human_field(name: str, choices, **kwargs) -> type[serializers.ChoiceField]:
+def create_choice_human_field(
+    constant_class: type[Any],
+    choices_attr: str = "choices",
+) -> type[serializers.ChoiceField]:
     """Function that wraps the creation of a choice field.
     This is a function and not a class directly in order to
     define the choices inside the `extend_schema_field`
     this will populate the documentation correctly"""
+
+    class_name = constant_class.__name__
+    choices = getattr(constant_class, choices_attr, None)
+    if choices is None:
+        raise TypeError(f"Missing {choices_attr=} on {class_name=}")
 
     class BaseHumanField(serializers.ChoiceField):
         def __init__(self, **kwargs):
@@ -34,7 +44,7 @@ def create_choice_human_field(name: str, choices, **kwargs) -> type[serializers.
                 return None
             return {"value": value, "human": self._choices.get(value, None)}
 
-    field_name = "{}ChoiceHumanField".format(name.title())
+    field_name = "{}ChoiceHumanField".format(class_name.title())
     _ChoiceHumanField = type(field_name, (BaseHumanField,), {})
     return extend_schema_field(
         inline_serializer(
