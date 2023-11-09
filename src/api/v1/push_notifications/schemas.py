@@ -25,7 +25,7 @@ class PushNotificationOutputSchema(serializers.ModelSerializer):
             "id": serializers.CharField(),
             "createdAt": serializers.DateTimeField(),
             "readAt": serializers.DateTimeField(),
-            "timeSinceCreated": serializers.DateTimeField(),
+            "timeSinceCreated": serializers.CharField(),
             "kind": serializers.CharField(),
             "meta": serializers.JSONField(),
         },
