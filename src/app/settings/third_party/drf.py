@@ -6,9 +6,9 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "app.drf.authentication.LastLoginAwareJwtAuthentication",
+        "app.drf.authentication.LastLoginAwareTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
     ),
     "EXCEPTION_HANDLER": "app.drf.exc_handler.custom_exception_handler",
 }
