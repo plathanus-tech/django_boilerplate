@@ -23,12 +23,12 @@ def authenticate(*, username, password) -> User:
             message_format_kwargs={"username": username},
             field_errors={"username": _("Please pick another account")},
         )
+    user_check_is_valid(user=user)
     if not user.check_password(password):
         raise InvalidCredentials(
             message_format_kwargs={"username": username},
             field_errors={"username": _("Password mismatch, passwords are case-sensitive")},
         )
-    user_check_is_valid(user=user)
     user_authenticated_succesfully(user=user)
     return user
 
@@ -49,7 +49,6 @@ def user_authenticated_succesfully(user: User):
 def token_authenticate(*, username, password) -> tuple[User, Token]:
     user = authenticate(username=username, password=password)
     token, created = Token.objects.get_or_create(user=user)
-    user.auth_token = token  # sets accessor, so no additional queries are required
     return user, token
 
 
