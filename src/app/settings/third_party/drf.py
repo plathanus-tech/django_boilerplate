@@ -10,6 +10,7 @@ REST_FRAMEWORK = {
         "app.drf.authentication.LastLoginAwareTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ),
+    "DEFAULT_METADATA_CLASS": "app.drf.metadata.OpenApiMetadata",
     "EXCEPTION_HANDLER": "app.drf.exc_handler.custom_exception_handler",
 }
 API_PAGINATION_DEFAULT_LIMIT = env.int("API_PAGINATION_DEFAULT_LIMIT", 50)
