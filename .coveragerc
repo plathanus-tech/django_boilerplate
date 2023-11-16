@@ -38,3 +38,5 @@ exclude_lines =
     @(abc\.)?abstractmethod
     from abc *
     class .*\b\(ABC\):
+    if typing.TYPE_CHECKING:
+    if TYPE_CHECKING:

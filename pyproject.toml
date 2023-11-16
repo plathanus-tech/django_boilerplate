@@ -39,6 +39,7 @@ server.cmd = "python manage.py runserver"
 createsuperuser.cmd = "python manage.py createsuperuser"
 makemessages.shell = "cd src && pdm run python manage.py makemessages"
 compilemessages.shell = "cd src && pdm run python manage.py compilemessages"
+fixtures = { env_file = ".env.test", shell = "pytest --fixtures" }
 tests = { env_file = ".env.test", shell = "coverage run --source=src/ --rcfile=.coveragerc -m pytest tests/ -x -vv && coverage html && google-chrome htmlcov/index.html"}
 
 [tool.pdm.dev-dependencies]
