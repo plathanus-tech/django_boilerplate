@@ -12,7 +12,7 @@ class AuthenticationInputSchema(serializers.Serializer):
 
 class StaticTokenSchema(serializers.Serializer):
     type = serializers.CharField(default="Token")
-    access = serializers.CharField(source="key")
+    access = serializers.CharField()
     refresh = serializers.CharField(default=None)
 
 
@@ -29,7 +29,7 @@ TimeZoneNameChoiceField = create_choice_human_field(TimeZoneName)
 class _AuthenticationOutputSchema(serializers.ModelSerializer):
     language_code = LanguageChoiceField()
     time_zone = TimeZoneNameChoiceField()
-    token = StaticTokenSchema(source="auth_token")
+    token = serializers.CharField(default=None)
 
     class Meta:
         model = User
@@ -44,7 +44,7 @@ class _AuthenticationOutputSchema(serializers.ModelSerializer):
 
 
 class TokenAuthenticationOutputSchema(_AuthenticationOutputSchema):
-    token = StaticTokenSchema(source="auth_token")
+    token = StaticTokenSchema()
 
 
 class JwtTokenAuthenticationOutputSchema(_AuthenticationOutputSchema):

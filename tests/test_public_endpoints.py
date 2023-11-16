@@ -8,6 +8,7 @@ from django.urls import reverse
     [
         ("admin:login"),
         ("admin_password_reset"),
+        ("api:docs"),
     ],
 )
 def test_admin_login(client: Client, reversable: str):

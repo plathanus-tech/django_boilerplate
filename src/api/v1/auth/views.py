@@ -7,6 +7,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_simplejwt import serializers as jwt_schemas
 
+from app.consts.http import HttpStatusCode
 from app.drf.openapi import openapi_schema
 from app.drf.viewsets import AppViewSet
 from users.services import auth
@@ -29,17 +30,18 @@ class AuthenticationViewSet(AppViewSet):
         description="Authenticates and returns a static Token that can be "
         "used to access protected endpoints",
         request=schemas.AuthenticationInputSchema,
-        responses={200: schemas.TokenAuthenticationOutputSchema},
+        responses={HttpStatusCode.HTTP_200_OK: schemas.TokenAuthenticationOutputSchema},
         tags=["auth"],
         operation_id="authentication:token",
         add_bad_request_response=True,
+        add_unauthorized_response=True,
         raises=[auth.InactiveOrInexistentAccount, auth.InvalidCredentials],
     )
     @action(methods=["POST"], detail=False, url_path="token")
     def token(self, request: Request):
         data = self.get_valid_data(srlzr_class=schemas.AuthenticationInputSchema)
         user, token = auth.token_authenticate(**data)
-
+        user.token = TokenDTO(type="Token", access=token.key, refresh=None)  # type: ignore
         srlzr = schemas.TokenAuthenticationOutputSchema(instance=user)
         return Response(data=srlzr.data, status=200)
 
@@ -48,10 +50,11 @@ class AuthenticationViewSet(AppViewSet):
         description="Authenticates and returns a JWT Token that can be "
         "used to access protected endpoints",
         request=schemas.AuthenticationInputSchema,
-        responses={200: schemas.JwtTokenAuthenticationOutputSchema},
+        responses={HttpStatusCode.HTTP_200_OK: schemas.JwtTokenAuthenticationOutputSchema},
         tags=["auth"],
         operation_id="authentication:jwt-token",
         add_bad_request_response=True,
+        add_unauthorized_response=True,
         raises=[auth.InactiveOrInexistentAccount, auth.InvalidCredentials],
     )
     @action(methods=["POST"], detail=False, url_path="jwt")
@@ -69,7 +72,7 @@ class AuthenticationViewSet(AppViewSet):
         summary="JWT Refresh",
         description="Refreshes the given access token",
         request=jwt_schemas.TokenRefreshSerializer,
-        responses={200: jwt_schemas.TokenRefreshSerializer},
+        responses={HttpStatusCode.HTTP_200_OK: jwt_schemas.TokenRefreshSerializer},
         tags=["auth"],
         operation_id="authentication:jwt-refresh",
         add_bad_request_response=True,
