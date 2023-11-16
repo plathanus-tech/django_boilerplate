@@ -6,6 +6,7 @@ from django.conf import settings
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import serializers, status
 
+from app.consts.http import HTTP_STATUS_NAME
 from app.exceptions import ApplicationError
 
 
@@ -138,9 +139,17 @@ def openapi_schema(
         kwargs["parameters"] = parameters
 
     if raises:
-        description += "This endpoint may raise the following errors: "
+        description += "<br>*This endpoint may raise the following errors:* <br>"
     for exc in raises:
-        description += f"<br>HTTP {exc.http_status_code} - `{exc.__name__}`: {exc.error_message}"
+        http_code = exc.http_status_code
+        if http_code not in responses:
+            raise TypeError(
+                f"Operation ID: {operation_id} ({summary}). "
+                "A exception defined inside the `raises` clause has a status code "
+                f"({http_code}) that is not documented on the `responses`"
+                "Maybe you forgot to pass a `True` value to some of the `add_<error_name>_response` flags?"
+            )
+        description += f"<br>**{http_code} - {HTTP_STATUS_NAME[http_code]}** - `{exc.__name__}`: {exc.error_message}"
 
     return extend_schema(
         operation_id=operation_id,
