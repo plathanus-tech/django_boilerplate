@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta
 from typing import Any, Sequence
 
+from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from app import consts
 from app.ext import di
@@ -14,7 +16,7 @@ from app.logging.utils import get_logger
 from app.models import BaseModel
 from users.models import User
 
-from . import models, selectors
+from . import exc, models, selectors
 
 
 def push_notification_create(
@@ -239,3 +241,21 @@ def push_notification_read_many(*, reader: User, ids: Sequence[int]) -> int:
     if ids:
         qs = qs.filter(pk__in=ids)
     return qs.update(read_at=timezone.now(), status=consts.push_notification.Status.READ)
+
+
+def push_notification_set_token(*, user: User, notification_token: str | None) -> None:
+    # We aren't calling full_clean here on User so we don't raise any other errors that
+    # aren't from this specific field
+
+    if notification_token is not None:
+        if not notification_token:
+            # Because we have blank=True, and we accept None values, raise if someone attempt
+            # to send a blank string ""
+            raise exc.InvalidNotificationToken(
+                message_format_kwargs={"reason": _("it may not be blank")}
+            )
+        max_length = User._meta.get_field("notification_token").max_length or 64
+        if len(notification_token) > max_length:
+            raise exc.InvalidNotificationToken(message_format_kwargs={"reason": _("value too big")})
+    user.notification_token = notification_token
+    user.save()

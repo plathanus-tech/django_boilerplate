@@ -3,6 +3,6 @@ from rest_framework.routers import SimpleRouter
 from . import views
 
 router = SimpleRouter(trailing_slash=False)
-router.register("notifications", views.PushNotificationViewSet, basename="push_notifications")
+router.register("", views.PushNotificationViewSet, basename="notifications")
 
 urlpatterns = router.urls

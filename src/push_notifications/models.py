@@ -115,8 +115,8 @@ class PushNotification(AutoTimeStampModel):
     def enriched_data(self):
         return {
             "id": self.id,
-            "createdAt": str(self.created_at),
-            "readAt": str(self.read_at),
+            "createdAt": self.created_at.isoformat(),
+            "readAt": self.read_at.isoformat() if self.read_at else None,
             "timeSinceCreated": timesince(self.created_at),
             "kind": self.kind,
             "meta": self.data,
