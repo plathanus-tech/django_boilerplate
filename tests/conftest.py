@@ -1,4 +1,5 @@
 import pytest
+from django.utils import timezone
 
 from tests.fakes import FakePushNotificationExternalService
 from users.models import User
@@ -22,7 +23,8 @@ def visitor_user():
     user.set_password("password")
     user.full_clean()
     user.save()
-    return user
+    timezone.activate(user.time_zone)
+    yield user
 
 
 @pytest.fixture(autouse=True)

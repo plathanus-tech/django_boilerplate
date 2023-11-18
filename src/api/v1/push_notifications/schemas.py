@@ -51,3 +51,7 @@ class PushNotificationReadManyInputSchema(serializers.Serializer):
 
 class PushNotificationReadManyOutputSchema(serializers.Serializer):
     read = serializers.IntegerField()
+
+
+class PushNotificationSetTokenInputSchema(serializers.Serializer):
+    notification_token = serializers.CharField()

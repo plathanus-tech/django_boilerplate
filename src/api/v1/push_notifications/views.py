@@ -4,9 +4,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from app.consts.http import HttpStatusCode
 from app.drf.openapi import limit_offset_openapi_schema, openapi_schema
 from app.drf.viewsets import AppViewSet
-from push_notifications import selectors, services
+from push_notifications import exc, selectors, services
 
 from . import schemas
 
@@ -35,7 +36,7 @@ class PushNotificationViewSet(AppViewSet):
         summary="Read many notifications",
         description="Reads a list of notifications",
         request=schemas.PushNotificationReadManyInputSchema,
-        responses={200: schemas.PushNotificationReadManyOutputSchema},
+        responses={HttpStatusCode.HTTP_200_OK: schemas.PushNotificationReadManyOutputSchema},
         tags=["push notifications"],
         operation_id="push-notifications-read",
         add_bad_request_response=True,
@@ -51,7 +52,7 @@ class PushNotificationViewSet(AppViewSet):
         summary="Read notification",
         description="Reads a single notification",
         request=None,
-        responses={200: schemas.PushNotificationOutputSchema},
+        responses={HttpStatusCode.HTTP_200_OK: schemas.PushNotificationOutputSchema},
         tags=["push notifications"],
         operation_id="push-notification-read",
         add_not_found_response=True,
@@ -59,11 +60,42 @@ class PushNotificationViewSet(AppViewSet):
         add_unauthorized_response=True,
     )
     @action(methods=["PATCH"], detail=True)
-    def read(self, request: Request, id: int) -> Response:
+    def read(self, request: Request, pk: int) -> Response:
         notification = get_object_or_404(
             selectors.push_notification_get_viewable_qs(user=request.user),
-            pk=id,
+            pk=pk,
         )
         notification = services.push_notification_read(push_notification=notification)
         out_srlzr = schemas.PushNotificationOutputSchema(instance=notification)
         return Response(data=out_srlzr.data)
+
+    @openapi_schema(
+        summary="Set Notification token",
+        description="Defines the notification for the current user",
+        request=schemas.PushNotificationSetTokenInputSchema,
+        responses={HttpStatusCode.HTTP_200_OK: None},
+        tags=["push notifications"],
+        operation_id="push-notification-set-token",
+        add_unauthorized_response=True,
+        add_bad_request_response=True,
+        raises=[exc.InvalidNotificationToken],
+    )
+    @action(methods=["PUT"], detail=False)
+    def token(self, request: Request) -> Response:
+        data = self.get_valid_data(schemas.PushNotificationSetTokenInputSchema)
+        services.push_notification_set_token(user=request.user, **data)
+        return Response(status=HttpStatusCode.HTTP_200_OK)
+
+    @openapi_schema(
+        summary="Delete Notification token",
+        description="Removes the notification token from the current user (Opt-out)",
+        request=None,
+        responses={HttpStatusCode.HTTP_200_OK: None},
+        tags=["push notifications"],
+        operation_id="push-notification-delete-token",
+        add_unauthorized_response=True,
+    )
+    @token.mapping.delete
+    def delete_token(self, request: Request) -> Response:
+        services.push_notification_set_token(user=request.user, notification_token=None)
+        return Response(status=HttpStatusCode.HTTP_200_OK)

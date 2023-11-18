@@ -6,10 +6,11 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "app.drf.authentication.LastLoginAwareJwtAuthentication",
+        "app.drf.authentication.LastLoginAwareTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
     ),
+    "DEFAULT_METADATA_CLASS": "app.drf.metadata.OpenApiMetadata",
     "EXCEPTION_HANDLER": "app.drf.exc_handler.custom_exception_handler",
 }
 API_PAGINATION_DEFAULT_LIMIT = env.int("API_PAGINATION_DEFAULT_LIMIT", 50)

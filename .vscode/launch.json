@@ -13,7 +13,10 @@
         "-x",
         "-vv"
       ],
-      "envFile": "${workspaceFolder}/.env.test"
+      "envFile": "${workspaceFolder}/.env.test",
+      "env": {
+        "USE_DEBUG_TOOLBAR": "0"
+      }
     },
     {
       "name": "Django Debug",

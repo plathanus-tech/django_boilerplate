@@ -39,7 +39,7 @@ SESSION_COOKIE_SECURE = env("SESSION_COOKIE_SECURE", bool, default=False)
 
 # Security - CSRF
 CSRF_TRUSTED_ORIGINS = env.list(
-    "CSRF_TRUSTED_ORIGINS", default=["http://*.com", "https://*.ngrok.io"]
+    "CSRF_TRUSTED_ORIGINS", default=["http://*.com", "https://*.ngrok-free.app"]
 )
 
 # Password Validation

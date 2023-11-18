@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group as DjangoGroup
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from rest_framework.authtoken.models import Token
 
 from app.consts.i18n import Language, TimeZoneName
 from app.models import BaseModel
@@ -76,6 +77,9 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     REQUIRED_FIELDS = [
         "full_name",
     ]
+
+    # FK Typing
+    auth_token: Token
 
     def __str__(self):
         return self.email
