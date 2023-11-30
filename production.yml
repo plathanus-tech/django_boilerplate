@@ -11,6 +11,7 @@ services:
       dockerfile: infra/app/Dockerfile
     volumes:
       - staticfiles:/app/storage/static
+      - translations:/app/locale
     ports:
       - 80
     env_file:
@@ -44,6 +45,7 @@ volumes:
   staticfiles:
     external: true
     name: staticfiles
+  translations:
 
 networks:
   shared:
