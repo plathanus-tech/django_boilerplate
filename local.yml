@@ -15,7 +15,8 @@ services:
     volumes:
       - ./src:/app/src
       - ./storage/static:/app/storage/static
-      - ./storage/static:/app/storage/media
+      - ./storage/media:/app/storage/media
+      - translations:/app/locale
     ports:
       - ${DJANGO_HTTP_PORT:-8000}:${DJANGO_HTTP_PORT:-8000}
     env_file:
@@ -73,3 +74,4 @@ volumes:
   postgres_data:
   mediafiles:
   cache:
+  translations:
