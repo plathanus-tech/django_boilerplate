@@ -18,6 +18,7 @@ from validate_docbr import (
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+
 @deconstructible
 class BrazilianDocBaseValidator:
     message: "StrOrPromise"
