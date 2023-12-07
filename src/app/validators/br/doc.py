@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from django.core.exceptions import ValidationError
+from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 from validate_docbr import (
     CNH,
@@ -17,7 +18,7 @@ from validate_docbr import (
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
-
+@deconstructible
 class BrazilianDocBaseValidator:
     message: "StrOrPromise"
     validator: BaseDoc
