@@ -11,6 +11,7 @@ services:
       dockerfile: infra/app/Dockerfile
     volumes:
       - staticfiles:/app/storage/static
+      - mediafiles:/app/storage/media
       - translations:/app/locale
     ports:
       - 80
@@ -46,6 +47,9 @@ volumes:
     external: true
     name: staticfiles
   translations:
+  mediafiles:
+    external: true
+    name: mediafiles
 
 networks:
   shared:

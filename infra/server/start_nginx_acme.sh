@@ -14,8 +14,8 @@ docker run --detach \
   --volume html:/usr/share/nginx/html \
   --volume /var/run/docker.sock:/tmp/docker.sock:ro \
   --volume ./infra/nginx/conf.d/custom_proxy.conf:/etc/nginx/conf.d/custom_proxy.conf \
-  --volume ./infra/nginx/conf.d/fallback_server.conf:/etc/nginx/conf.d/fallback_server.conf \
   --volume staticfiles:/usr/share/nginx/static \
+  --volume mediafiles:/usr/share/nginx/media \
   --volume ./infra/nginx/vhost.d/default:/etc/nginx/vhost.d/default \
   --network shared \
   nginxproxy/nginx-proxy

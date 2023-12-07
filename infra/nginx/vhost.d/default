@@ -1,3 +1,7 @@
 location /static {
     alias /usr/share/nginx/static;
 }
+
+location /media {
+    alias /usr/share/nginx/media;
+}
