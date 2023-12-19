@@ -8,6 +8,7 @@ from django.urls import include, path, reverse
 urlpatterns = [
     path("health-check", lambda r: HttpResponse("Ok")),
     path("", lambda r: redirect(reverse("admin:login"))),
+    path("jet/", include("jet.urls", "jet")),
     path(f"{settings.ADMIN_URL_PREFIX}/", admin.site.urls),
     path(
         "admin/password_reset/",
