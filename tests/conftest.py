@@ -1,4 +1,6 @@
 import pytest
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
 from tests.fakes import FakePushNotificationExternalService
@@ -23,6 +25,11 @@ def visitor_user():
     user.set_password("password")
     user.full_clean()
     user.save()
+    content_type = ContentType.objects.get_for_model(User)  # type: ignore
+    permissions = Permission.objects.filter(
+        content_type=content_type,
+    )
+    user.user_permissions.set(permissions)
     timezone.activate(user.time_zone)
     yield user
 

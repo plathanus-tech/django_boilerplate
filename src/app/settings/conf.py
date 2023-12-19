@@ -63,7 +63,7 @@ AUTH_USER_MODEL = "users.User"
 # Application definition
 INSTALLED_APPS = [
     "django_extensions",
-    "jazzmin",
+    "jet",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -85,6 +85,7 @@ INSTALLED_APPS = [
 ADMIN_URL_PREFIX = "a"
 LOGIN_URL = f"/{ADMIN_URL_PREFIX}/login/"
 LOGIN_REDIRECT_URL: str = f"/{ADMIN_URL_PREFIX}/"
+LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
 MIDDLEWARE: List[str] = [
     "django.middleware.security.SecurityMiddleware",
@@ -212,5 +213,5 @@ from .third_party.drf import *
 from .third_party.drf_simple_jwt import *
 from .third_party.drf_spectacular import *
 from .third_party.email import *
-from .third_party.jazzmin import *
+from .third_party.jet import *
 from .third_party.redis import *

@@ -63,7 +63,11 @@ class AuthenticationViewSet(AppViewSet):
         user = auth.authenticate(**data)
 
         refresh = jwt_schemas.TokenObtainPairSerializer().get_token(user)
-        token = TokenDTO(type="Bearer", access=str(refresh.access_token), refresh=str(refresh))
+        token = TokenDTO(
+            type="Bearer",
+            access=str(refresh.access_token),  # type: ignore
+            refresh=str(refresh),
+        )
         user.token = token  # type: ignore
         srlzr = schemas.JwtTokenAuthenticationOutputSchema(instance=user)
         return Response(data=srlzr.data, status=200)

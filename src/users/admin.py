@@ -5,6 +5,8 @@ from django.contrib.auth.models import Group as DjangoGroup
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import TokenProxy
 
+from app.admin.mixins import ObjectPermissionMixin
+
 from .forms import UserChangeForm, UserCreationForm
 from .models import Group, User
 
@@ -13,7 +15,7 @@ admin.site.unregister(DjangoGroup)
 
 
 @admin.register(User)
-class UserAdmin(DjangoUserAdmin):
+class UserAdmin(ObjectPermissionMixin, DjangoUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
@@ -51,5 +53,5 @@ class UserAdmin(DjangoUserAdmin):
 
 
 @admin.register(Group)
-class GroupAdmin(DjangoGroupAdmin):
+class GroupAdmin(ObjectPermissionMixin, DjangoGroupAdmin):
     pass

@@ -675,6 +675,91 @@ Todas as traduções estarão disponíveis na pasta `locale` no root do reposit�
 **Não crie** uma pasta locale para cada aplicação Django.
 
 
+## Permissões
+
+O Django já vem com um sistema de [permissões](https://docs.djangoproject.com/en/5.0/topics/auth/default/#permissions-and-authorization), este sistema de permissões é bem flexível e pode ser customizado. O sistema de permissões do Django cria permissões por Modelo, onde cada modelo recebe 4 permissões padrão: `add`, `change`, `view`, `delete`. Também é possível criar [permissões customizadas](https://docs.djangoproject.com/en/5.0/topics/auth/customizing/#custom-permissions).
+
+
+### Permissões por objeto
+Nesse boilerplate foi adicionada uma funcionalidade adicional para controle de permissões por nível de objeto, também conhecido como: `row-level-permission` ou `object-level-permission`. Essa funcionalidade utiliza das ferramentas built-in do Django para tal.
+Considere o modelo `Order` abaixo como um exemplo (simplificado para fins de exemplo):
+```python
+# orders/models.py
+from django.db import models
+from app.models import BaseModel
+
+class Order(BaseModel):
+  owner = models.ForeignKey(to="users.User")
+  shipped_at = models.DateTimeField(null=True, blank=True)
+```
+
+Seu objetivo é permitir que apenas o usuário que criou o pedido tenha a permissão de alterá-lo, excluir, etc.
+
+Portanto para verificar se um usuário logado possui permissão de excluir um determinado `Order`, você faria, no sistema built-in isso:
+```python
+from orders.models import Order
+from users.models import User
+
+def builtin_way_of_checking_perms(user: User, order: Order):
+  if user.has_perm("orders.delete_order"):
+    ...
+```
+Perceba que o objeto que será deletado (`order`) não é passado para a função `has_perm` desta forma, isso por que por padrão o Django não implementa este controle. Porém neste boilerplate é possível passar o objeto (`order`) para a função `has_perm`. Então isso seria implementado da seguinte maneira:
+```python
+from users.models import User
+
+def new_way_of_checking_perms(user: User, order: Order):
+  if user.has_perm("orders.delete_order", order):
+    ...
+```
+Desta maneira o desenvolvedor receberá um valor booleano com o resultado da verificação. Normalmente após essa verificação é possível que caso o usuário não tenha permissão para realizar determinada ação, você queira levantar um erro (`Exception`). Nesse caso seria melhor utilizar o método `require_perm` ou `require_perms`, esses métodos verificam se o usuário possui a permissão informada, e caso não possuam irão levantar um erro `InsufficientPermissions` por padrão, o tipo de erro pode ser definido pelo desenvolvedor no argumento `error_class` (seria útil no caso de ser necessário utilizar uma outra mensagem, status_code, etc.).
+
+Certo, mas como exatamente essa validação funciona?
+Existem dois jeitos de realizar a validação se o usuário (`user`) tem permissão de deletar o `Order` (`order`). O desenvolvedor deve implementar um dos métodos abaixo para realizar essa verificação:
+
+1. Criar uma função no modelo-alvo (nesse caso `Order`) que recebe a ação, e o usuário que está tentando fazer a ação. A função deve se chamar `has_obj_perm` e ter a assinatura abaixo, retornando um valor booleano com o resultado da verificação.
+```python
+# orders/models.py
+class Order(BaseModel):
+  # fields definitions
+
+  def has_obj_perm(self, action: str, user: User) -> bool:
+    return self.owner_id == user.id
+```
+A ação (`action`) será o codename da permissão, nesse caso como estamos deletando: `delete`.
+Portanto você pode utilizar este método para "unir" todas as validações num único método se assim desejar.
+
+2. Criar uma função no modelo-alvo (nesse caso `Order`) que receba o usuário que está fazendo a ação. A função deve se chamar `has_<action>_obj_perm` (onde `<action>` se refere a um dos codenames de permissão, exemplo: `has_view_obj_perm`, `has_change_obj_perm`)e ter a assinatura abaixo, retornando um valor booleano com o resultado da verificação:
+```python
+# orders/models.py
+class Order(BaseModel):
+  # fields definitions
+
+  def has_delete_obj_perm(self, user: User) -> bool:
+    return self.owner_id == user.id and self.shipped_at is not None
+```
+
+Em ambos os casos, apenas usuários que possuírem a permissão informada à nível de modelo passarão por uma das checagens definidas. Perceba que:
+* Usuário inativos (`is_active=False`) não passarão pela validação e sempre retornarão `False`;
+* Usuários super-admin (`is_superuser=True`) não passarão pela validação e sempre retornarão `True`.
+> Nestes casos as funções de verificação a nível de objeto não são chamadas.
+
+### Integração com o admin
+
+No painel admin é comum sobrescrever os métodos: `has_change_permission` e `has_delete_permission`, visto que nesses métodos o objeto era informado. Pensando nisso, uma classe mixin foi adicionada ao boilerplate para facilitar essas verificações: `ObjectPermissionMixin`. Esse mixin deve ser herdado antes da classe `admin.ModelAdmin` na sua classe Admin:
+```python
+# orders/admin.py
+from app.admin.mixins import ObjectPermissionMixin
+from django.contrib import admin
+
+from . import models
+
+@admin.register(models.Order)
+class OrderAdmin(ObjectPermissionMixin, admin.ModelAdmin):
+  ...
+```
+O que esse mixin faz é justamente sobrescrever os métodos acima citados (que recebem um objeto) para que eles passem esse objeto para o método `user.has_perm`, visto que na implementação padrão isso não é realizado. Portanto se você adicionar no seu modelo a verificação genérica ou a verificação específica, isso já estará integrado com o admin.
+
 ## Testes
 
 Testes unitários é um tópico extenso, mas como via de regra, devemos testar alguns componentes da aplicação:
