@@ -35,5 +35,5 @@ class LastLoginAwareTokenAuthentication(DrfTokenAuthentication):
 
 class LastLoginAwareJwtAuthentication(DrfJwtAuthentication):
     def authenticate(self, request):
-        auth_result: tuple[User, str] | None = super().authenticate(request)
+        auth_result: tuple[User, str] | None = super().authenticate(request)  # type: ignore
         return after_authenticate(auth_result)
