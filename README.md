@@ -700,7 +700,7 @@ Portanto para verificar se um usuário logado possui permissão de excluir um de
 from orders.models import Order
 from users.models import User
 
-def bultin_way_of_checking_perms(user: User, order: Order):
+def builtin_way_of_checking_perms(user: User, order: Order):
   if user.has_perm("orders.delete_order"):
     ...
 ```
